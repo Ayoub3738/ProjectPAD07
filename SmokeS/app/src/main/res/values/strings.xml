@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Smokeless Sarah</string>
+
+    <string name="navigation_drawer_open">Open navigatiebalk</string>
+    <string name="navigation_drawer_close">Sluit navigatiebalk</string>
+
+    <string name="action_settings">Instellingen</string>
+</resources>
