@@ -127,3 +127,5 @@ crashlytics-build.properties
 fabric.properties
 
 # End of https://www.gitignore.io/api/androidstudio
+
+SmokeS/.idea/modules.xml
