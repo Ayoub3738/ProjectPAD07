@@ -14,6 +14,8 @@ public class SelectTimeActivity extends AppCompatActivity {
     private Button btnTime;
     private TextView tSelectedTime;
 
+    //Dit is een comment voor de github test.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
