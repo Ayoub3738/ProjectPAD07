@@ -13,15 +13,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
+    public static final int DB_VERSION = 3;
 
-    public static final String TABLE_NAME = "user_table";
-    public static final String USER_COL_1 = "userID";
-    public static final String USER_COL_2 = "streak";
-    public static final String USER_COL_3 = "nietGerookteSigaretten";
-    public static final String USER_COL_4 = "aantalMeldingen";
+    public static final String PAK_TABLE_NAME = "sigarettenpak_table";
+    public static final String PAK_PAK_ID = "pakID";
+    public static final String PAK_PRIJS = "prijs";
+    public static final String PAK_MERK = "merk";
+    public static final String PAK_AANTAL_SIGARETTEN = "aantalSigaretten";
+
+    public static final String USER_TABLE_NAME = "user_table";
+    public static final String USER_USER_ID = "userID";
+    public static final String USER_PAK_ID = "pakID";
+    public static final String USER_STREAK = "streak";
+    public static final String USER_NIET_GEROOKTE_SIGARETTEN = "nietGerookteSigaretten";
+    public static final String USER_AANTAL_MELDINGEN = "aantalMeldingen";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DB_VERSION);
     }
 
     /**
@@ -30,31 +38,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //maakt tabel user_table aan
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
-                USER_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                USER_COL_2 + " INTEGER, " +
-                USER_COL_3 + " INTEGER, " +
-                USER_COL_4 + " INTEGER" +
-                ")");
+        //maakt tabel sigarettenpak_table aan
+        db.execSQL("CREATE TABLE " + PAK_TABLE_NAME + " (" +
+                PAK_PAK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                PAK_PRIJS + " REAL, " +
+                PAK_MERK + " TEXT, " +
+                PAK_AANTAL_SIGARETTEN + " INTEGER" +
+                ");");
 
-        //vult database met standaardwaardes
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(USER_COL_2, 0);
-        contentValues.put(USER_COL_3, 0);
-        contentValues.put(USER_COL_4, 0);
-        db.insert(TABLE_NAME, null, contentValues);
+        //maakt tabel user_table aan
+        db.execSQL("CREATE TABLE " + USER_TABLE_NAME + " (" +
+                USER_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                USER_PAK_ID + " INTEGER, " +
+                USER_STREAK + " INTEGER, " +
+                USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " +
+                USER_AANTAL_MELDINGEN + " INTEGER, " +
+                " FOREIGN KEY (" + USER_PAK_ID + ") REFERENCES " + PAK_TABLE_NAME + " (" + PAK_PAK_ID + ")" +
+                ");");
+
+        //vult sigarettenpak_table met standaardwaardes
+        ContentValues cvPak = new ContentValues();
+        cvPak.put(PAK_PRIJS, 5.5);
+        cvPak.put(PAK_MERK, "MARLBORO");
+        cvPak.put(PAK_AANTAL_SIGARETTEN, 21);
+
+        db.insert(PAK_TABLE_NAME, null, cvPak);
+
+        //vult user_table met standaardwaardes
+        ContentValues cvUser = new ContentValues();
+        cvUser.put(USER_PAK_ID, 1);
+        cvUser.put(USER_STREAK, 0);
+        cvUser.put(USER_NIET_GEROOKTE_SIGARETTEN, 0);
+        cvUser.put(USER_AANTAL_MELDINGEN, 0);
+
+        db.insert(USER_TABLE_NAME, null, cvUser);
     }
 
     /**
-     * Wordt uitgevoerd als er geupdate moet worden
+     * Wordt uitgevoerd als er een andere versie (DB_VERSION) in de code staat dan dat er op het apparaat runt
      * @param db de database
      * @param oldVersion oude versie
      * @param newVersion nieuwe versie
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PAK_TABLE_NAME);
         onCreate(db);
     }
 
@@ -62,15 +91,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Selecteert alles uit user_table
      * @return alles uit de tabel user_table
      */
-    public Cursor selectAll() {
+    public Cursor selectAll(String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor res = db.rawQuery("SELECT * FROM " + tableName, null);
         return res;
     }
+
+
 
     //update query test <<<TEST!!!
     public void updateStreak(int streak) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE " + TABLE_NAME + " SET " + USER_COL_2 + " = " + streak + " WHERE " + USER_COL_1 + " = 1");
+
+        //updaten kan op 2 manieren
+
+        //manier 1 - deze is het best en het netst
+        ContentValues cv = new ContentValues();
+        cv.put(USER_STREAK, streak);
+
+        db.update(USER_TABLE_NAME, cv, PAK_PAK_ID + " = 1", null);
+
+        //manier 2 - deze is wat slordiger, maar lijkt wel meer op normaal SQL
+        //db.execSQL("UPDATE " + USER_TABLE_NAME + " SET " + USER_STREAK + " = " + streak + " WHERE " + USER_USER_ID + " = 1");
     }
 }

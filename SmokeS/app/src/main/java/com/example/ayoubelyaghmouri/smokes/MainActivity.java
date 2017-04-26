@@ -69,20 +69,9 @@ public class MainActivity extends AppCompatActivity
         btnSelectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
+
                 Intent intent = new Intent(MainActivity.this, SelectTimeActivity.class);
-                startActivity(intent);*/
-
-                Cursor res = myDb.selectAll();
-                if(res.getCount() == 0 || res == null) {
-                    //hier kan je error plaatsen
-                    return;
-                }
-
-                if(res.moveToFirst()) {
-                    btnSelectTime.setText("ID = " + res.getInt(0) + " streak: " + res.getInt(1));
-
-                }
+                startActivity(intent);
             }
         });
     }
@@ -92,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         btnUpdateData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDb.updateStreak(16000);
+                //myDb.updateStreak(16000); //dit is een test, deze mag weg
             }
         });
     }
