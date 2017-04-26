@@ -1,10 +1,13 @@
 package com.example.ayoubelyaghmouri.smokes;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity
     private Button btnSelectTime;
     private Button btnUpdateData;
     DatabaseHelper myDb;
+    private int aantalSigaretten = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,27 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    public void showAlert(View view){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Rookmelding!")
+                .setMessage("Wilt u Sarah een sigaret laten roken?")
+                .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        aantalSigaretten += 1;
+                        System.out.println(aantalSigaretten);
+                    }
+                })
+                .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println(aantalSigaretten);
+                    }
+                })
+                .create();
+        alert.show();
+    }
+
     public void updateTestData() {
         btnUpdateData = (Button) findViewById(R.id.btnUpdateData);
         btnUpdateData.setOnClickListener(new View.OnClickListener() {
@@ -114,14 +139,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_status) {
             Intent statusIntent = new Intent(MainActivity.this, ProgressActivity.class);
             startActivity(statusIntent);
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_achievements) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_share) {
 
