@@ -3,6 +3,7 @@ package com.example.ayoubelyaghmouri.smokes;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button btnSelectTime;
+    private Button btnUpdateData;
+    DatabaseHelper myDb;
     private int aantalSigaretten = 1;
 
     @Override
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         onBtnSlectTimeClick();
+        updateTestData();
+
+        myDb = new DatabaseHelper(this);
     }
 
     @Override
@@ -67,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         btnSelectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MainActivity.this, SelectTimeActivity.class);
                 startActivity(intent);
             }
@@ -92,6 +99,16 @@ public class MainActivity extends AppCompatActivity
                 })
                 .create();
         alert.show();
+    }
+
+    public void updateTestData() {
+        btnUpdateData = (Button) findViewById(R.id.btnUpdateData);
+        btnUpdateData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //myDb.updateStreak(16000); //dit is een test, deze mag weg
+            }
+        });
     }
 
     @Override

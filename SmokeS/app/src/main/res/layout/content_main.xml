@@ -30,18 +30,30 @@
             android:text="Selecteer Tijd"
             tools:layout_editor_absoluteX="60dp"
             tools:layout_editor_absoluteY="48dp"
-            android:layout_marginTop="17dp"
             android:layout_below="@+id/text3"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="37dp" />
 
-    <Button
-        android:id="@+id/btnGetNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnShowTime"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:onClick="showAlert"
-        android:text="Geef Notificatie" />
+        <Button
+            android:id="@+id/btnUpdateData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="47dp"
+            android:onClick="updateTestData"
+            android:text="update test data"
+            android:layout_below="@+id/btnGetNotification"
+            android:layout_alignStart="@+id/btnGetNotification" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btnGetNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46dp"
+            android:onClick="showAlert"
+            android:text="Geef Notificatie"
+            android:layout_below="@+id/btnShowTime"
+            android:layout_alignStart="@+id/btnShowTime" />
+    </RelativeLayout>
+
+
+
