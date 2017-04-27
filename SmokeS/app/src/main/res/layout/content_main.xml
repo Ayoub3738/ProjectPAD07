@@ -8,56 +8,86 @@
     tools:context="com.example.ayoubelyaghmouri.smokes.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <ImageView
+        android:id="@+id/imageCharacter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/womancartooncharacterfull"
+        tools:ignore="ContentDescription"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
     <TextView
-        android:id="@+id/text3"
+        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:text="Hey 'Gebruiker'!"
+        android:text="@string/hey_gebruiker"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.008" />
-
-        <Button
-            android:id="@+id/btnShowTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="2"
-            android:text="Selecteer Tijd"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="409dp"
-            android:layout_below="@+id/text3"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            android:id="@+id/btnUpdateData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="updateTestData"
-            android:text="update test data"
-            android:layout_below="@+id/btnGetNotification"
-            android:layout_alignStart="@+id/btnGetNotification"
-            tools:layout_editor_absoluteY="457dp"
-            tools:layout_editor_absoluteX="5dp" />
+        app:layout_constraintVertical_bias="0.008"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <Button
         android:id="@+id/btnGetNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/geef_notificatie"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginTop="8dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.762" />
+
+    <Button
+        android:id="@+id/btnGetMelding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignStart="@+id/btnShowTime"
         android:layout_below="@+id/btnShowTime"
         android:onClick="showAlert"
-        android:text="Geef Melding"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="361dp" />
-    </android.support.constraint.ConstraintLayout>
+        android:text="@string/geef_melding"
+        tools:ignore="RtlHardcoded,UnknownIdInLayout"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetNotification"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/btnGetNotification" />
+
+    <Button
+        android:id="@+id/btnUpdateData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnGetNotification"
+        android:layout_below="@+id/btnGetNotification"
+        android:onClick="updateTestData"
+        android:text="@string/update_test_data"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/btnGetMelding"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/btnGetMelding" />
+
+</android.support.constraint.ConstraintLayout>
 
 
 

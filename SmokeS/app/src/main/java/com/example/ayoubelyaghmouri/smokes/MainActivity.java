@@ -18,11 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Button btnSelectTime;
     private Button btnUpdateData;
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        onBtnSlectTimeClick();
         updateTestData();
 
         myDb = new DatabaseHelper(this);
@@ -66,18 +65,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    public void onBtnSlectTimeClick() {
-        btnSelectTime = (Button) findViewById(R.id.btnShowTime);
-        btnSelectTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, SelectTimeActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     public void showAlert(View view){
@@ -140,14 +127,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            // Handle the camera action 
         } else if (id == R.id.nav_status) {
             Intent statusIntent = new Intent(MainActivity.this, ProgressActivity.class);
             startActivity(statusIntent);
         } else if (id == R.id.nav_achievements) {
 
         } else if (id == R.id.nav_settings) {
-
+            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
