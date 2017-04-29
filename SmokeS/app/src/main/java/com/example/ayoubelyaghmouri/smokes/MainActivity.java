@@ -28,7 +28,6 @@ import android.widget.ImageView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Button btnUpdateData;
     private Button btnGetNotification;
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        updateTestData();
 
         myDb = new DatabaseHelper(this);
     }
@@ -143,16 +141,6 @@ public class MainActivity extends AppCompatActivity
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(10, notification);
 
-    }
-
-    public void updateTestData() {
-        btnUpdateData = (Button) findViewById(R.id.btnUpdateData);
-        btnUpdateData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //myDb.updateStreak(16000); //dit is een test, deze mag weg
-            }
-        });
     }
 
     @Override
