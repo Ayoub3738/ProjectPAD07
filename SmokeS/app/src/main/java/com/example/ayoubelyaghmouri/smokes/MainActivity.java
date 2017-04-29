@@ -92,41 +92,9 @@ public class MainActivity extends AppCompatActivity
         alert.show();
     }
 
-    public void showNotification(View v){
-        NotificationCompat.Builder mBuilder =
-                (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
-                        .setContentTitle("Sarah wil gaan roken")
-                        .setContentText("Help Sarah bij haar rookkeuze.")
-                        .setAutoCancel(true);
-        // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, MainActivity.class);
-
-        // The stack builder object will contain an artificial back stack for the
-        // started Activity.
-        // This ensures that navigating backward from the Activity leads out of
-        // your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
-        // Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(0, mBuilder.build());
-
-    }
-
     public void showNotificationV2(View v){
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
-//        intent.putExtra("show_alert", );
+        //Beiden triggeren, zowel alert als notificatie.
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notification = new NotificationCompat.Builder(getBaseContext())
