@@ -1,5 +1,8 @@
 package com.example.ayoubelyaghmouri.smokes;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,7 +10,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +29,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button btnUpdateData;
+    private Button btnGetNotification;
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
 
@@ -86,6 +92,57 @@ public class MainActivity extends AppCompatActivity
                 })
                 .create();
         alert.show();
+    }
+
+    public void showNotification(View v){
+        NotificationCompat.Builder mBuilder =
+                (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
+                        .setContentTitle("Sarah wil gaan roken")
+                        .setContentText("Help Sarah bij haar rookkeuze.")
+                        .setAutoCancel(true);
+        // Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, MainActivity.class);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // mId allows you to update the notification later on.
+        mNotificationManager.notify(0, mBuilder.build());
+
+    }
+
+    public void showNotificationV2(View v){
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+//        intent.putExtra("show_alert", );
+        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notification = new NotificationCompat.Builder(getBaseContext())
+                .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
+                .setContentTitle("Sarah wil gaan roken")
+                .setContentText("Help Sarah bij haar rookkeuze.")
+                .addAction(0, "Help Sarah", pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(10, notification);
+
     }
 
     public void updateTestData() {
