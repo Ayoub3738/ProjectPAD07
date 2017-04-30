@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void showNotificationV2(View v){
+    public void showNotification(View v){
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         //Beiden triggeren, zowel alert als notificatie.
         PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
