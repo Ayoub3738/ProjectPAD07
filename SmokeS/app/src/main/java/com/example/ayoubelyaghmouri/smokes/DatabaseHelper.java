@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String USER_TABLE_NAME = "user_table";
     public static final String USER_USER_ID = "userID";
+    public static final String USER_NAAM = "naam_user";
     public static final String USER_PAK_ID = "pakID";
     public static final String USER_STREAK = "streak";
     public static final String USER_NIET_GEROOKTE_SIGARETTEN = "nietGerookteSigaretten";
@@ -50,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + USER_TABLE_NAME + " (" +
                 USER_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 USER_PAK_ID + " INTEGER, " +
+                USER_NAAM + " TEXT, " +
                 USER_STREAK + " INTEGER, " +
                 USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " +
                 USER_AANTAL_MELDINGEN + " INTEGER, " +
@@ -67,6 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //vult user_table met standaardwaardes
         ContentValues cvUser = new ContentValues();
         cvUser.put(USER_PAK_ID, 1);
+        cvUser.put(USER_NAAM, "Gebruiker");
         cvUser.put(USER_STREAK, 0);
         cvUser.put(USER_NIET_GEROOKTE_SIGARETTEN, 0);
         cvUser.put(USER_AANTAL_MELDINGEN, 0);

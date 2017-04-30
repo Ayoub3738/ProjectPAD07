@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showAlert(View view){
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Rookmelding!")
                 .setMessage("Wilt u Sarah een sigaret laten roken?")
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         aantalSigaretten += 1;
+                        //melding oeps
                         System.out.println(aantalSigaretten);
                     }
                 })
@@ -86,10 +88,13 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         System.out.println(aantalSigaretten);
+                        //opslaan niet gerookte sigaretten
                     }
                 })
                 .create();
         alert.show();
+        //aantalmeldingen +1
+
     }
 
     public void showNotificationV2(View v){
