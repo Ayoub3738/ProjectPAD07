@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void showAlertBtn(View v) {
+        showAlert();
+    }
+
     public void showNotification(View v){
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         //Beiden triggeren, zowel alert als notificatie.
