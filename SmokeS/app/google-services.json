@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "967323517881",
+    "firebase_url": "https://smokeless-sarah-50320.firebaseio.com",
+    "project_id": "smokeless-sarah-50320",
+    "storage_bucket": "smokeless-sarah-50320.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:967323517881:android:e6c8c91698f2e921",
+        "android_client_info": {
+          "package_name": "com.example.ayoubelyaghmouri.smokes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "967323517881-7qiup72vrtcdbs1ej9gh992g6ktkiqoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRwBPyTHKCg7Ow8vUL01p4cemf6LjVQIs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

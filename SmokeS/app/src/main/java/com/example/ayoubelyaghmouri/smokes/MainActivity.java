@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         myDb = new DatabaseHelper(this);
+        showAlert();
     }
 
     @Override
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void showAlert(View view){
+    public void showAlert(){
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Rookmelding!")
