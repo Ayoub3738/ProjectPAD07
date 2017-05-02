@@ -26,8 +26,7 @@ public class Status {
     }
 
     public double berekenGeldBesparingen() {
-        int gerookteSigaretten = aantalMeldingen - nietGerookteSigaretten;
-        int aantalPakjes = (int)Math.ceil((float)gerookteSigaretten / pak.getAantalSigaretten());
+        int aantalPakjes = (int)Math.ceil((float)nietGerookteSigaretten / pak.getAantalSigaretten());
         return aantalPakjes * pak.getPrijs();
     }
 
