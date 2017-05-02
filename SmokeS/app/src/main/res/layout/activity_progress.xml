@@ -62,7 +62,7 @@
                 android:background="?attr/colorButtonNormal">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/txtAantalNietGerookt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -71,12 +71,12 @@
                     android:textColor="#078700"
                     android:textSize="36sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@+id/textView4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintLeft_toLeftOf="@+id/textView10"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -90,12 +90,12 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/imageView2"
+                    app:layout_constraintRight_toLeftOf="@+id/imageView11"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/imageView11"
                     android:layout_width="77dp"
                     android:layout_height="77dp"
                     android:layout_marginEnd="8dp"
@@ -121,7 +121,7 @@
                 android:background="?attr/colorButtonNormal">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/txtStreak"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -131,12 +131,12 @@
                     android:textColor="#078700"
                     android:textSize="36sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="@+id/textView4"
+                    app:layout_constraintRight_toRightOf="@+id/textView20"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.723" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
@@ -149,13 +149,13 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintLeft_toRightOf="@+id/imageView2"
+                    app:layout_constraintLeft_toRightOf="@+id/imageView21"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/imageView21"
                     android:layout_width="77dp"
                     android:layout_height="77dp"
                     android:layout_marginEnd="8dp"
