@@ -150,7 +150,8 @@ public class MainActivity extends AppCompatActivity
             Intent statusIntent = new Intent(MainActivity.this, ProgressActivity.class);
             startActivity(statusIntent);
         } else if (id == R.id.nav_achievements) {
-
+            Intent achievementIntent = new Intent(MainActivity.this, AchievementActivity.class);
+            startActivity(achievementIntent);
         } else if (id == R.id.nav_settings) {
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);
