@@ -7,7 +7,8 @@
     <string name="action_settings">Instellingen</string>
     <string name="geef_melding">Geef Melding</string>
     <string name="geef_notificatie">Geef Notificatie</string>
-    <string name="hey_gebruiker">Hey Ginger!</string>
-    <string name="selecteer_tijd">Wijzig tijd</string>
+    <string name="hey_gebruiker">Hey Jurre!</string>
+    <string name="selecteer_tijd">Tijd Instellingen</string>
     <string name="update_test_data">update test data</string>
+    <string name="algemene_instellingen">Algemene Instellingen</string>
 </resources>
