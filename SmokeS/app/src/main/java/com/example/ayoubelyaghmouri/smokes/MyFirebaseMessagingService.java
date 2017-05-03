@@ -17,15 +17,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        notificationBuilder.setContentTitle("FCM NOTIFICATION");
-        notificationBuilder.setContentText(remoteMessage.getNotification().getBody());
-        notificationBuilder.setAutoCancel(true);
-        notificationBuilder.setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah);
-        notificationBuilder.setContentIntent(pendingIntent);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        String signaal = "Ping";
+        notificationIntent.putExtra("signaal", signaal);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
+                .setContentTitle("FCM NOTIFICATION")
+                .setContentText(remoteMessage.getNotification().getBody())
+                .addAction(0, "Help Sarah", pendingIntent)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
