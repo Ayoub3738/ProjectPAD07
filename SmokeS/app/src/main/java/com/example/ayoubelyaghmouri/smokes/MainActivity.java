@@ -24,11 +24,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Button btnGetNotification;
+    private TextView tGebruiker;
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
     public boolean jaNeeKeuze = false;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab );
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,7 +61,18 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         myDb = new DatabaseHelper(this);
-        showAlert();
+
+        String signaal = "Ping";
+
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+//            String melding = bundle.getString("signaal");
+//            tGebruiker.setText(melding + " " + signaal);
+                showAlert();
+//
+        }
+
     }
 
     @Override
@@ -74,7 +86,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showAlert(){
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Rookmelding!")
                 .setMessage("Wilt u Sarah een sigaret laten roken?")
@@ -108,21 +119,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showNotification(View v){
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        //Beiden triggeren, zowel alert als notificatie.
-        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Notification notification = new NotificationCompat.Builder(getBaseContext())
-                .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
-                .setContentTitle("Sarah wil gaan roken")
-                .setContentText("Help Sarah bij haar rookkeuze.")
-                .addAction(0, "Help Sarah", pendingIntent)
-                .setAutoCancel(true)
-                .build();
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(10, notification);
+//        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+//        //Beiden triggeren, zowel alert als notificatie.
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        Notification notification = new NotificationCompat.Builder(getBaseContext())
+//                .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
+//                .setContentTitle("Sarah wil gaan roken")
+//                .setContentText("Help Sarah bij haar rookkeuze.")
+//                .addAction(0, "Help Sarah", pendingIntent)
+//                .setAutoCancel(true)
+//                .build();
+//
+//        NotificationManager mNotificationManager =
+//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        mNotificationManager.notify(10, notification);
 
     }
 
