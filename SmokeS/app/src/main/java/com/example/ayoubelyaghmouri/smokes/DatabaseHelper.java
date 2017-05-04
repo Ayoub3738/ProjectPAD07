@@ -133,6 +133,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return status;
     }
 
+    public void updateNaMelding(Status status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "";
+
+        ContentValues cv = new ContentValues();
+        cv.put(USER_STREAK, status.getStreak());
+        cv.put(USER_AANTAL_MELDINGEN, status.getAantalMeldingen());
+        cv.put(USER_NIET_GEROOKTE_SIGARETTEN, status.getNietGerookteSigaretten());
+
+        db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
+    }
+
     //update query test <<<TEST!!!
     public void updateStreak(int streak) {
         SQLiteDatabase db = this.getWritableDatabase();

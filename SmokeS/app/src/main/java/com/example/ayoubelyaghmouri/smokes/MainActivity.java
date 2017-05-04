@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         myDb = new DatabaseHelper(this);
+        tGebruiker = (TextView)findViewById(R.id.tGebruiker);
 
         String signaal = "Ping";
 
@@ -91,16 +92,37 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        aantalSigaretten += 1;
+                        //haalt gegevens van user uit database
+                        Status newStatus = myDb.getUser();
+
+                        //reset streak, voegt 1 toe bij aantalmeldingen
+                        newStatus.setStreak(0);
+                        newStatus.setAantalMeldingen(newStatus.getAantalMeldingen() +1);
+
+                        //update database met nieuwe gegevens
+                        myDb.updateNaMelding(newStatus);
+
                         //melding oeps
-                        System.out.println(aantalSigaretten);
+                        tGebruiker.setTextSize(26);
+                        tGebruiker.setText("Ik heb spijt dat ik gerookt heb.");
                     }
                 })
                 .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        System.out.println(aantalSigaretten);
-                        //opslaan niet gerookte sigaretten
+                        //haalt gegevens van user uit database
+                        Status newStatus = myDb.getUser();
+
+                        //voegt 1 toe bij streak en bij aantalmeldingen en niet gerooktesigaretten
+                        newStatus.setStreak(newStatus.getStreak() +1);
+                        newStatus.setAantalMeldingen(newStatus.getAantalMeldingen() +1);
+                        newStatus.setNietGerookteSigaretten(newStatus.getNietGerookteSigaretten() +1);
+
+                        //update database met nieuwe gegevens
+                        myDb.updateNaMelding(newStatus);
+
+                        //melding goedzo :D
+                        tGebruiker.setText("Ik voel me stukke beter!");
                     }
                 })
                 .create();
