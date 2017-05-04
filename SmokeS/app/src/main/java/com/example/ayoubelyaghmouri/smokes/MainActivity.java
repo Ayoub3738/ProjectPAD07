@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     private Button btnGetNotification;
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
+    public boolean jaNeeKeuze = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity
                         aantalSigaretten += 1;
                         //melding oeps
                         System.out.println(aantalSigaretten);
+
+                        jaNeeKeuze = true;
                     }
                 })
                 .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
@@ -90,6 +93,8 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         System.out.println(aantalSigaretten);
                         //opslaan niet gerookte sigaretten
+
+                        jaNeeKeuze = false;
                     }
                 })
                 .create();
