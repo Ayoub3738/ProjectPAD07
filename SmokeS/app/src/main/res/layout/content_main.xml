@@ -8,24 +8,6 @@
     tools:context="com.example.ayoubelyaghmouri.smokes.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <ImageView
-        android:id="@+id/imageCharacter"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/womancartooncharacterfull"
-        tools:ignore="ContentDescription"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
     <TextView
         android:id="@+id/tGebruiker"
         android:layout_width="wrap_content"
@@ -35,6 +17,7 @@
         android:layout_marginTop="5dp"
         android:text="@string/hey_gebruiker"
         android:textSize="30sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -57,7 +40,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87"
+        app:layout_constraintVertical_bias="0.758"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
@@ -68,15 +51,25 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/btnShowTime"
         android:layout_below="@+id/btnShowTime"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="2dp"
         android:onClick="showAlertBtn"
         android:text="@string/geef_melding"
+        android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="@+id/btnGetNotification"
         app:layout_constraintTop_toBottomOf="@+id/btnGetNotification"
         tools:ignore="RtlHardcoded,UnknownIdInLayout"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
+
+    <ImageSwitcher
+        android:id="@+id/imageSwitcherHome"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
 
