@@ -15,19 +15,68 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="?android:attr/colorPrimaryDark"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_main" />
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnFloatSettings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_settings" />
 
-    <include layout="@layout/content_main" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnFloatAchievements"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_margin="@dimen/fab_margin"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        app:srcCompat="@drawable/ic_achievements" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnFloatProgress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="top|right"
+        android:layout_margin="@dimen/fab_margin"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|left"
+        app:srcCompat="@drawable/ic_progress" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnFloatMelding"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center_vertical|left"
+        app:srcCompat="@drawable/ic_alert" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnFloatNotification"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center_vertical|right"
+        app:srcCompat="@drawable/ic_notification" />
 
 </android.support.design.widget.CoordinatorLayout>
