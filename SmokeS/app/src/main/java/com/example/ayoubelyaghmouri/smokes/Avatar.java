@@ -13,7 +13,7 @@ public class Avatar extends MainActivity {
 
     public void imageStateSarah(){
         if (jaNeeKeuze){
-            imageCharacter = ;
+            ///imageCharacter = ;
         }
     }
 }

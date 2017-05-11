@@ -41,4 +41,16 @@ public class Status {
     public void setStreak(int streak) {
         this.streak = streak;
     }
+
+    public int getAantalMeldingen() {
+        return aantalMeldingen;
+    }
+
+    public void setNietGerookteSigaretten(int nietGerookteSigaretten) {
+        this.nietGerookteSigaretten = nietGerookteSigaretten;
+    }
+
+    public void setAantalMeldingen(int aantalMeldingen) {
+        this.aantalMeldingen = aantalMeldingen;
+    }
 }

@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 6;
+    public static final int DB_VERSION = 8;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -60,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //vult sigarettenpak_table met standaardwaardes
         ContentValues cvPak = new ContentValues();
-        cvPak.put(PAK_PRIJS, 8.2);
+        cvPak.put(PAK_PRIJS, 6.5);
         cvPak.put(PAK_MERK, "MARLBORO");
         cvPak.put(PAK_AANTAL_SIGARETTEN, 21);
 
@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cvUser.put(USER_PAK_ID, 1);
         cvUser.put(USER_NAAM, "Gebruiker");
         cvUser.put(USER_STREAK, 0);
-        cvUser.put(USER_NIET_GEROOKTE_SIGARETTEN, 50);
+        cvUser.put(USER_NIET_GEROOKTE_SIGARETTEN, 19);
         cvUser.put(USER_AANTAL_MELDINGEN, 50);
 
         db.insert(USER_TABLE_NAME, null, cvUser);
@@ -131,6 +131,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return status;
+    }
+
+    public void updateNaMelding(Status status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "";
+
+        ContentValues cv = new ContentValues();
+        cv.put(USER_STREAK, status.getStreak());
+        cv.put(USER_AANTAL_MELDINGEN, status.getAantalMeldingen());
+        cv.put(USER_NIET_GEROOKTE_SIGARETTEN, status.getNietGerookteSigaretten());
+
+        db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
     }
 
     //update query test <<<TEST!!!
