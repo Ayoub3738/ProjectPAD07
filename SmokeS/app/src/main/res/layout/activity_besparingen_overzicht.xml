@@ -51,7 +51,7 @@
                     android:id="@+id/sigarettenGerooktePerDagText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hoeveel sigaretten rook je per dag?"
+                    android:text="Hoeveel sigaretten rookte je per dag?"
                     android:textColor="@android:color/black" />
 
                 <EditText
