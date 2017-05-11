@@ -6,11 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.view.View;
@@ -22,9 +19,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
     public boolean jaNeeKeuze = false;
+    private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacter};
+    private int i = 0;
+    private ImageSwitcher imageSwitcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +45,6 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab );
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,6 +56,30 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         myDb = new DatabaseHelper(this);
+        tGebruiker = (TextView)findViewById(R.id.tGebruiker);
+
+        imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcherHome);
+
+        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView imageView = new ImageView(getApplicationContext());
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+                return imageView;
+            }
+        });
+
+        makeFloatButtons();
+
+        Animation animIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
+        Animation animOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
+
+        imageSwitcher.setInAnimation(animIn);
+        imageSwitcher.setOutAnimation(animOut);
+        imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
+        tGebruiker.setAnimation(animIn);
 
         String signaal = "Ping";
 
@@ -85,6 +104,63 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void makeFloatButtons(){
+        Animation animInFloatDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_float_down);
+        Animation animInFloatCenterLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_float_center_left);
+        Animation animInFloatCenterRight = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_float_center_right);
+
+        FloatingActionButton btnFloatSettings = (FloatingActionButton) findViewById(R.id.btnFloatSettings);
+        btnFloatSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+            }
+        });
+
+        FloatingActionButton btnFloatProgress = (FloatingActionButton) findViewById(R.id.btnFloatProgress );
+        btnFloatProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent statusIntent = new Intent(MainActivity.this, ProgressActivity.class);
+                startActivity(statusIntent);
+            }
+        });
+
+        FloatingActionButton btnFloatAchievements = (FloatingActionButton) findViewById(R.id.btnFloatAchievements);
+        btnFloatAchievements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent achievementsIntent = new Intent(MainActivity.this, AchievementActivity.class);
+                startActivity(achievementsIntent);
+            }
+        });
+
+        FloatingActionButton btnFloatMelding = (FloatingActionButton) findViewById(R.id.btnFloatMelding);
+        btnFloatMelding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAlert();
+            }
+        });
+
+        FloatingActionButton btnFloatNotification = (FloatingActionButton) findViewById(R.id.btnFloatNotification);
+        btnFloatNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showNotification();
+            }
+        });
+
+        btnFloatSettings.setAnimation(animInFloatDown);
+        btnFloatProgress.setAnimation(animInFloatDown);
+        btnFloatAchievements.setAnimation(animInFloatDown);
+        btnFloatMelding.setAnimation(animInFloatCenterLeft);
+        btnFloatNotification.setAnimation(animInFloatCenterRight);
+    }
+
     public void showAlert(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Rookmelding!")
@@ -92,9 +168,21 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        aantalSigaretten += 1;
+                        //haalt gegevens van user uit database
+                        Status newStatus = myDb.getUser();
+
+                        //reset streak, voegt 1 toe bij aantalmeldingen
+                        newStatus.setStreak(0);
+                        newStatus.setAantalMeldingen(newStatus.getAantalMeldingen() +1);
+
+                        //update database met nieuwe gegevens
+                        myDb.updateNaMelding(newStatus);
+
                         //melding oeps
-                        System.out.println(aantalSigaretten);
+                        tGebruiker.setTextSize(26);
+                        tGebruiker.setText("Ik heb spijt dat ik gerookt heb.");
+                        i = 1;
+                        imageSwitcher.setImageResource(images[i]);
 
                         jaNeeKeuze = true;
                     }
@@ -102,8 +190,21 @@ public class MainActivity extends AppCompatActivity
                 .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        System.out.println(aantalSigaretten);
-                        //opslaan niet gerookte sigaretten
+                        //haalt gegevens van user uit database
+                        Status newStatus = myDb.getUser();
+
+                        //voegt 1 toe bij streak en bij aantalmeldingen en niet gerooktesigaretten
+                        newStatus.setStreak(newStatus.getStreak() +1);
+                        newStatus.setAantalMeldingen(newStatus.getAantalMeldingen() +1);
+                        newStatus.setNietGerookteSigaretten(newStatus.getNietGerookteSigaretten() +1);
+
+                        //update database met nieuwe gegevens
+                        myDb.updateNaMelding(newStatus);
+
+                        //melding goedzo :D
+                        tGebruiker.setText("Ik voel me een stuk beter!");
+                        i = 0;
+                        imageSwitcher.setImageResource(images[i]);
 
                         jaNeeKeuze = false;
                     }
@@ -111,29 +212,28 @@ public class MainActivity extends AppCompatActivity
                 .create();
         alert.show();
         //aantalmeldingen +1
-
     }
 
     public void showAlertBtn(View v) {
         showAlert();
     }
 
-    public void showNotification(View v){
-//        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-//        //Beiden triggeren, zowel alert als notificatie.
-//        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        Notification notification = new NotificationCompat.Builder(getBaseContext())
-//                .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
-//                .setContentTitle("Sarah wil gaan roken")
-//                .setContentText("Help Sarah bij haar rookkeuze.")
-//                .addAction(0, "Help Sarah", pendingIntent)
-//                .setAutoCancel(true)
-//                .build();
-//
-//        NotificationManager mNotificationManager =
-//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        mNotificationManager.notify(10, notification);
+    public void showNotification(){
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        //Beiden triggeren, zowel alert als notificatie.
+        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notification = new NotificationCompat.Builder(getBaseContext())
+                .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
+                .setContentTitle("Sarah wil gaan roken")
+                .setContentText("Help Sarah bij haar rookkeuze.")
+                .addAction(0, "Help Sarah", pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(10, notification);
 
     }
 
