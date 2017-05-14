@@ -2,16 +2,18 @@ package com.example.ayoubelyaghmouri.smokes;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ProgressActivity extends AppCompatActivity {
 
-    TextView txtBespaard;
-    TextView txtAantalNietGerookteSigaretten;
-    TextView txtStreak;
+    private TextView txtBespaard;
+    private TextView txtAantalNietGerookteSigaretten;
+    private TextView txtStreak;
 
-    DatabaseHelper myDb;
-    Status status;
+    private DatabaseHelper myDb;
+    private Status status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class ProgressActivity extends AppCompatActivity {
         myDb = new DatabaseHelper(this);
         status = myDb.getUser();
         showData();
+
     }
 
     public void showData() {

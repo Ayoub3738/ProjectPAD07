@@ -7,10 +7,13 @@
     tools:context="com.example.ayoubelyaghmouri.smokes.AchievementActivity">
 
     <ScrollView
-        android:layout_width="368dp"
-        android:layout_height="600dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintHorizontal_bias="0.633"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,20 +21,131 @@
             android:orientation="vertical"
             android:weightSum="1">
 
-            <ImageView
-                android:id="@+id/imageView10"
+            <TextView
+                android:id="@+id/textView9"
                 android:layout_width="match_parent"
-                android:layout_height="374dp"
-                app:srcCompat="@drawable/achievements_lijst_2" />
+                android:layout_height="wrap_content"
+                android:text="Aantal bespaarde euro's"
+                android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/imageView9"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="568dp"
-                android:layout_weight="0.84"
-                app:srcCompat="@drawable/achievements_lijst_1"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp" />
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/btnGeldBespaard_20"
+                        android:layout_width="171dp"
+                        android:layout_height="191dp"
+                        app:srcCompat="@drawable/ach_bespaard_geld_20" />
+
+                    <ImageButton
+                        android:id="@+id/btnGeldBespaard_100"
+                        android:layout_width="171dp"
+                        android:layout_height="191dp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        app:srcCompat="@drawable/ach_bespaard_geld_100" />
+
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/btnGeldBespaard_1000"
+                        android:layout_width="171dp"
+                        android:layout_height="191dp"
+                        app:srcCompat="@drawable/ach_bespaard_geld_1000" />
+
+                    <ImageButton
+                        android:id="@+id/btnGeldBespaard_10000"
+                        android:layout_width="170dp"
+                        android:layout_height="191dp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        app:srcCompat="@drawable/ach_bespaard_geld_10000" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Niet gerookte sigaertten"
+                android:textSize="18sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/btnNietGerookt_1"
+                        android:layout_width="171dp"
+                        android:layout_height="191dp"
+                        app:srcCompat="@drawable/ach_niet_gerookt_1" />
+
+                    <ImageButton
+                        android:id="@+id/btnNietGerookt_3"
+                        android:layout_width="171dp"
+                        android:layout_height="191dp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        app:srcCompat="@drawable/ach_niet_gerookt_3" />
+
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/btnNietGerookt_7"
+                        android:layout_width="171dp"
+                        android:layout_height="191dp"
+                        app:srcCompat="@drawable/ach_niet_gerookt_7" />
+
+                    <ImageButton
+                        android:id="@+id/btnNietGerookt_10"
+                        android:layout_width="170dp"
+                        android:layout_height="191dp"
+                        android:layout_column="2"
+                        android:layout_row="0"
+                        app:srcCompat="@drawable/ach_niet_gerookt_10" />
+
+                </GridLayout>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
         </LinearLayout>
     </ScrollView>
