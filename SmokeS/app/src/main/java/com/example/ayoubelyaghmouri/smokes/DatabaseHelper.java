@@ -2,9 +2,15 @@ package com.example.ayoubelyaghmouri.smokes;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.util.Pair;
+
+import java.util.ArrayList;
 
 /**
  * Created by jerry on 25-4-2017.
@@ -13,7 +19,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 8;
+    public static final int DB_VERSION = 9;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -28,6 +34,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_STREAK = "streak";
     public static final String USER_NIET_GEROOKTE_SIGARETTEN = "nietGerookteSigaretten";
     public static final String USER_AANTAL_MELDINGEN = "aantalMeldingen";
+
+    public static final String TIME_TABLE_NAME = "rooktijd_table";
+    public static final String TIME_TIME_ID = "timeID";
+    public static final String TIME_USER_ID = "userID";
+    public static final String TIME_HOUR = "uur";
+    public static final String TIME_MINUTE = "minuut";
+
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DB_VERSION);
@@ -55,7 +69,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 USER_STREAK + " INTEGER, " +
                 USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " +
                 USER_AANTAL_MELDINGEN + " INTEGER, " +
-                " FOREIGN KEY (" + USER_PAK_ID + ") REFERENCES " + PAK_TABLE_NAME + " (" + PAK_PAK_ID + ")" +
+                "FOREIGN KEY (" + USER_PAK_ID + ") REFERENCES " + PAK_TABLE_NAME + " (" + PAK_PAK_ID + ")" +
+                ");");
+
+        //maakt tabel rooktijd_table
+        db.execSQL("CREATE TABLE " + TIME_TABLE_NAME + " (" +
+                TIME_TIME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                TIME_USER_ID + " INTEGER NOT NULL, " +
+                TIME_HOUR + " INTEGER NOT NULL, " +
+                TIME_MINUTE + " INTEGER NOT NULL, " +
+                "FOREIGN KEY (" + TIME_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
                 ");");
 
         //vult sigarettenpak_table met standaardwaardes
@@ -87,6 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PAK_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TIME_TABLE_NAME);
         onCreate(db);
     }
 
@@ -145,9 +169,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
     }
 
+    public void insertTijd(int uren, int minuten) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(TIME_USER_ID, 1);
+        cv.put(TIME_HOUR, uren);
+        cv.put(TIME_MINUTE, minuten);
+
+        db.insert(TIME_TABLE_NAME, null, cv);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
+    public ArrayList<Pair<Integer, Integer>> getTijden(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " +
+                TIME_HOUR + ", " +
+                TIME_MINUTE + " " +
+                "FROM " + TIME_TABLE_NAME + " " +
+                "WHERE " + TIME_USER_ID + " = 1;";
+
+        Cursor res = db.rawQuery(query, null);
+        ArrayList<Pair<Integer, Integer>> uren = new ArrayList<>();
+
+
+//        while (!res.isAfterLast()){
+//        res.moveToFirst();
+//        for(int i = 0; i < res.getCount(); i ++){
+//            uren.add(new Pair<>(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE))));
+//            res.moveToNext();
+//        }
+//        }
+
+        if (res.moveToFirst()) {
+            do {
+                uren.add(new Pair<>(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE))));
+            } while (res.moveToNext());
+        }
+
+        return uren;
+    }
+
+
     //update query test <<<TEST!!!
     public void updateStreak(int streak) {
         SQLiteDatabase db = this.getWritableDatabase();
+
 
         //updaten kan op 2 manieren
 
