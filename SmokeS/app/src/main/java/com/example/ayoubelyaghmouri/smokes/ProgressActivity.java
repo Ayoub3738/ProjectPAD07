@@ -37,7 +37,7 @@ public class ProgressActivity extends AppCompatActivity {
             return;
 
 
-        txtBespaard.setText(String.format("€ %.2f", status.berekenGeldBesparingen()));
+        txtBespaard.setText(String.format("€ %.2f", status.berekenBesparingenPak()));
         txtAantalNietGerookteSigaretten.setText(status.getNietGerookteSigaretten() + "");
         txtStreak.setText(status.getStreak() + " Sigaretten");
     }

@@ -38,9 +38,7 @@ public class Sigarettenpak {
     }
 
     public double berekenPrijsSigaret() {
-
-        //gekke berekening
-        return 5;
+        return prijs / aantalSigaretten;
     }
 
     public int getPakID() {

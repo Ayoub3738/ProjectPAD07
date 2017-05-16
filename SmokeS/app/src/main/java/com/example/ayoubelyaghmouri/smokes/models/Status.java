@@ -87,13 +87,20 @@ public class Status {
         dbLite.update(db.USER_TABLE_NAME, cv, db.USER_USER_ID + " = 1", null);
     }
 
-    public Date berekenTijdNietGerookt() {
-        return laatstGerookt; //date.now - laatstgerookt;
+    public double berekenBesparingenPak() {
+        return berekenAantalPak() * pak.getPrijs();
     }
 
-    public double berekenGeldBesparingen() {
-        int aantalPakjes = (int)Math.ceil((float)nietGerookteSigaretten / pak.getAantalSigaretten());
-        return aantalPakjes * pak.getPrijs();
+    public int berekenAantalPak() {
+        return (int)Math.ceil((float)nietGerookteSigaretten / pak.getAantalSigaretten());
+    }
+
+    public double berekenBesparingenSigaret() {
+        return pak.berekenPrijsSigaret() * nietGerookteSigaretten;
+    }
+
+    public Date berekenTijdNietGerookt() {
+        return laatstGerookt; //date.now - laatstgerookt;
     }
 
     public int getNietGerookteSigaretten() {
