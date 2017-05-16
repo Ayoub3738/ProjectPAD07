@@ -70,8 +70,8 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
                 } else{
                     gerooktPerDag = Integer.parseInt(etSigarettenGerooktPerDag.getText().toString());
                 }
+                    dbHelper.updatePak(prijs, inhoud);
 
-             dbHelper.updatePak(prijs, inhoud);
 
             }
         });

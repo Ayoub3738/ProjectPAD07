@@ -19,6 +19,20 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/gebruikersNaamText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wat is je naam?"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/etGebruikersNaam"
+                    android:layout_width="285dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number" />
+
+                <TextView
                     android:id="@+id/prijsSigarettenPakText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -43,20 +57,6 @@
                 <EditText
                     android:id="@+id/etSigarettenPakInhoud"
                     android:layout_width="282dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number" />
-
-                <TextView
-                    android:id="@+id/sigarettenGerooktePerDagText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hoeveel sigaretten rookte je per dag?"
-                    android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/etSigarettenGerooktPerDag"
-                    android:layout_width="285dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="number" />

@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 8;
+    public static final int DB_VERSION = 9;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -60,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //vult sigarettenpak_table met standaardwaardes
         ContentValues cvPak = new ContentValues();
-        cvPak.put(PAK_PRIJS, 6.5);
+        cvPak.put(PAK_PRIJS, 8.5);
         cvPak.put(PAK_MERK, "MARLBORO");
         cvPak.put(PAK_AANTAL_SIGARETTEN, 21);
 
@@ -145,13 +145,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
     }
 
-    public void updatePak(double prijs, int aantalSigaretten) {   
-        SQLiteDatabase db = this.getWritableDatabase();  
-        ContentValues cv = new ContentValues();  
-        cv.put(PAK_PRIJS, prijs); 
-        cv.put(PAK_AANTAL_SIGARETTEN, aantalSigaretten);  
-        db.update(PAK_TABLE_NAME, cv, PAK_PAK_ID + " = 1", null);  
-    } 
+    public void updatePak(double prijs, int aantalSigaretten){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(PAK_PRIJS, prijs);
+        cv.put(PAK_AANTAL_SIGARETTEN, aantalSigaretten);
+        db.update(PAK_TABLE_NAME, cv, PAK_PAK_ID + " = 1", null);
+    }
+
 
 //    //update query test <<<TEST!!!
 //    public void updateStreak(int streak) {
