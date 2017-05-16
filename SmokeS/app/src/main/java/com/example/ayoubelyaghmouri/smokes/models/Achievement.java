@@ -31,11 +31,11 @@ public class Achievement {
         this.beschrijving = beschrijving;
     }
 
-    public Achievement getAchievement(String naam, DatabaseHelper db) {
+    public static Achievement getAchievement(String naam, DatabaseHelper db) {
         return new Achievement(true, naam, "");
     }
 
-    public ArrayList<Achievement> getAchievements(DatabaseHelper db) {
+    public static ArrayList<Achievement> getAchievements(DatabaseHelper db) {
         return new ArrayList<>();
     }
 
@@ -44,6 +44,6 @@ public class Achievement {
     }
 
     public void update(DatabaseHelper db) {
-        
+
     }
 }
