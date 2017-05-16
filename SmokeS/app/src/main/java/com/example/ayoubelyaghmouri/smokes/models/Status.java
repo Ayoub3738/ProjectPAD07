@@ -16,6 +16,7 @@ public class Status {
 
     private int statusID;
     private Sigarettenpak pak;
+    private int characterID;
     private Gezondheid gezondheid;
     private int nietGerookteSigaretten;
     private int aantalMeldingen;
@@ -32,9 +33,10 @@ public class Status {
         this.pak = pak;
     }
 
-    public Status(int statusID, Sigarettenpak pak, Gezondheid gezondheid, int nietGerookteSigaretten, int aantalMeldingen, Date laatstGerookt, int recordStreak, int streak) {
+    public Status(int statusID, Sigarettenpak pak, int characterID, Gezondheid gezondheid, int nietGerookteSigaretten, int aantalMeldingen, Date laatstGerookt, int recordStreak, int streak) {
         this.statusID = statusID;
         this.pak = pak;
+        this.characterID = characterID;
         this.gezondheid = gezondheid;
         this.nietGerookteSigaretten = nietGerookteSigaretten;
         this.aantalMeldingen = aantalMeldingen;
@@ -44,7 +46,9 @@ public class Status {
     }
 
     public Status(Sigarettenpak pak, Gezondheid gezondheid, int nietGerookteSigaretten, int aantalMeldingen, Date laatstGerookt, int recordStreak, int streak) {
+        this.statusID = 1;
         this.pak = pak;
+        this.characterID = 1;
         this.gezondheid = gezondheid;
         this.nietGerookteSigaretten = nietGerookteSigaretten;
         this.aantalMeldingen = aantalMeldingen;
@@ -60,7 +64,21 @@ public class Status {
     }
 
     public void insert(DatabaseHelper db) {
+        SQLiteDatabase myDb = db.getDB();
+        insert(myDb);
+    }
 
+    public void insert(SQLiteDatabase db) {
+        ContentValues cvUser = new ContentValues();
+        cvUser.put(DatabaseHelper.USER_CHARACTER_ID, 1);
+        cvUser.put(DatabaseHelper.USER_PAK_ID, pak.getPakID());
+        cvUser.put(DatabaseHelper.USER_STREAK, streak);
+        cvUser.put(DatabaseHelper.USER_NIET_GEROOKTE_SIGARETTEN, nietGerookteSigaretten);
+        cvUser.put(DatabaseHelper.USER_AANTAL_MELDINGEN, aantalMeldingen);
+        cvUser.put(DatabaseHelper.USER_RECORD_STREAK, recordStreak);
+        cvUser.put(DatabaseHelper.USER_LAATST_GEROOKT, "");
+
+        db.insert(DatabaseHelper.USER_TABLE_NAME, null, cvUser);
     }
 
     public void update(DatabaseHelper db) {

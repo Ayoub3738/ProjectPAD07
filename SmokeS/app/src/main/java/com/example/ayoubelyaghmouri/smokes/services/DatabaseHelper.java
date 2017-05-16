@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Pair;
 
+import com.example.ayoubelyaghmouri.smokes.models.Character;
 import com.example.ayoubelyaghmouri.smokes.models.Sigarettenpak;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 9;
+    public static final int DB_VERSION = 12;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -118,23 +119,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (" + ACH_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
                 ");");
 
-        //vult sigarettenpak_table met standaardwaardes
-        /*ContentValues cvPak = new ContentValues();
-        cvPak.put(PAK_PRIJS, 6.5);
-        cvPak.put(PAK_MERK, "MARLBORO");
-        cvPak.put(PAK_AANTAL_SIGARETTEN, 21);
+        Sigarettenpak pak = new Sigarettenpak(6.5, "MARLBORO", 21);
+        pak.insert(db);
 
-        db.insert(PAK_TABLE_NAME, null, cvPak);*/
+        Character character = new Character("Ginger", "Blond", "Blauw");
+        character.insert(db);
 
-        //vult user_table met standaardwaardes
-        /*ContentValues cvUser = new ContentValues();
-        cvUser.put(USER_PAK_ID, 1);
-        cvUser.put(USER_NAAM, "Gebruiker");
-        cvUser.put(USER_STREAK, 0);
-        cvUser.put(USER_NIET_GEROOKTE_SIGARETTEN, 19);
-        cvUser.put(USER_AANTAL_MELDINGEN, 50);
+        Status status = new Status(pak, null, 0, 0, null, 0, 0);
+        status.insert(db);
 
-        db.insert(USER_TABLE_NAME, null, cvUser);*/
     }
 
     /**
@@ -145,9 +138,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TIME_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ACH_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PAK_TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + TIME_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CHAR_TABLE_NAME);
         onCreate(db);
     }
 

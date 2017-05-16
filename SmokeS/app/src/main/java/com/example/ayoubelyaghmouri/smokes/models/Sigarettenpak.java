@@ -1,5 +1,8 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
 /**
@@ -34,7 +37,17 @@ public class Sigarettenpak {
     }
 
     public void insert(DatabaseHelper db) {
-        //insert dit object in db
+        SQLiteDatabase myDb = db.getDB();
+        insert(myDb);
+    }
+
+    public void insert(SQLiteDatabase db) {
+        ContentValues cvPak = new ContentValues();
+        cvPak.put(DatabaseHelper.PAK_PRIJS, prijs);
+        cvPak.put(DatabaseHelper.PAK_MERK, merk);
+        cvPak.put(DatabaseHelper.PAK_AANTAL_SIGARETTEN, aantalSigaretten);
+
+        db.insert(DatabaseHelper.PAK_TABLE_NAME, null, cvPak);
     }
 
     public double berekenPrijsSigaret() {
