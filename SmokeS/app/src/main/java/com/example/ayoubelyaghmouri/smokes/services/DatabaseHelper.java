@@ -1,14 +1,17 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.services;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Pair;
+
+import com.example.ayoubelyaghmouri.smokes.models.Character;
+import com.example.ayoubelyaghmouri.smokes.models.Sigarettenpak;
+import com.example.ayoubelyaghmouri.smokes.models.Status;
 
 import java.util.ArrayList;
 
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 9;
+    public static final int DB_VERSION = 12;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -27,13 +30,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PAK_MERK = "merk";
     public static final String PAK_AANTAL_SIGARETTEN = "aantalSigaretten";
 
+    public static final String CHAR_TABLE_NAME = "character_table";
+    public static final String CHAR_CHARACTER_ID = "characterID";
+    public static final String CHAR_USER_NAAM = "userNaam";
+    public static final String CHAR_HAAR_KLEUR = "haarKleur";
+    public static final String CHAR_KLEUR_OGEN = "kleurOgen";
+
     public static final String USER_TABLE_NAME = "user_table";
     public static final String USER_USER_ID = "userID";
-    public static final String USER_NAAM = "naam_user";
+    public static final String USER_CHARACTER_ID = "characterID";
     public static final String USER_PAK_ID = "pakID";
     public static final String USER_STREAK = "streak";
     public static final String USER_NIET_GEROOKTE_SIGARETTEN = "nietGerookteSigaretten";
     public static final String USER_AANTAL_MELDINGEN = "aantalMeldingen";
+    public static final String USER_RECORD_STREAK = "recordStreak";
+    public static final String USER_LAATST_GEROOKT = "laatstGerookt";
 
     public static final String TIME_TABLE_NAME = "rooktijd_table";
     public static final String TIME_TIME_ID = "timeID";
@@ -41,6 +52,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TIME_HOUR = "uur";
     public static final String TIME_MINUTE = "minuut";
 
+    public static final String ACH_TABLE_NAME = "achievement_table";
+    public static final String ACH_ACHIEVEMENT_ID = "achievementID";
+    public static final String ACH_USER_ID = "userID";
+    public static final String ACH_BEHAALD = "behaald";
+    public static final String ACH_NAAM = "naam";
+    public static final String ACH_BESCHRIJVING = "beschrijving";
 
 
     public DatabaseHelper(Context context) {
@@ -61,14 +78,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 PAK_AANTAL_SIGARETTEN + " INTEGER" +
                 ");");
 
+        //maakt tabel character_table aan
+        db.execSQL("CREATE TABLE " + CHAR_TABLE_NAME + " (" +
+                CHAR_CHARACTER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                CHAR_USER_NAAM + " TEXT, " +
+                CHAR_HAAR_KLEUR + " TEXT, " +
+                CHAR_KLEUR_OGEN + " TEXT" +
+                ");");
+
         //maakt tabel user_table aan
         db.execSQL("CREATE TABLE " + USER_TABLE_NAME + " (" +
                 USER_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                USER_CHARACTER_ID + " INTEGER, " +
                 USER_PAK_ID + " INTEGER, " +
-                USER_NAAM + " TEXT, " +
                 USER_STREAK + " INTEGER, " +
                 USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " +
                 USER_AANTAL_MELDINGEN + " INTEGER, " +
+                USER_RECORD_STREAK + " INTEGER, " +
+                USER_LAATST_GEROOKT + " TEXT, " +
+                "FOREIGN KEY (" + USER_CHARACTER_ID + ") REFERENCES " + CHAR_TABLE_NAME + " (" + CHAR_CHARACTER_ID + "), " +
                 "FOREIGN KEY (" + USER_PAK_ID + ") REFERENCES " + PAK_TABLE_NAME + " (" + PAK_PAK_ID + ")" +
                 ");");
 
@@ -81,23 +109,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY (" + TIME_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
                 ");");
 
-        //vult sigarettenpak_table met standaardwaardes
-        ContentValues cvPak = new ContentValues();
-        cvPak.put(PAK_PRIJS, 6.5);
-        cvPak.put(PAK_MERK, "MARLBORO");
-        cvPak.put(PAK_AANTAL_SIGARETTEN, 21);
+        //maakt tabel achievement_table aan
+        db.execSQL("CREATE TABLE " + ACH_TABLE_NAME + " (" +
+                ACH_ACHIEVEMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                ACH_USER_ID + " INTEGER, " +
+                ACH_BEHAALD + " NUMERIC, " +
+                ACH_NAAM + " TEXT, " +
+                ACH_BESCHRIJVING + " TEXT, " +
+                "FOREIGN KEY (" + ACH_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
+                ");");
 
-        db.insert(PAK_TABLE_NAME, null, cvPak);
+        Sigarettenpak pak = new Sigarettenpak(6.5, "MARLBORO", 21);
+        pak.insert(db);
 
-        //vult user_table met standaardwaardes
-        ContentValues cvUser = new ContentValues();
-        cvUser.put(USER_PAK_ID, 1);
-        cvUser.put(USER_NAAM, "Gebruiker");
-        cvUser.put(USER_STREAK, 0);
-        cvUser.put(USER_NIET_GEROOKTE_SIGARETTEN, 19);
-        cvUser.put(USER_AANTAL_MELDINGEN, 50);
+        Character character = new Character("Ginger", "Blond", "Blauw");
+        character.insert(db);
 
-        db.insert(USER_TABLE_NAME, null, cvUser);
+        Status status = new Status(pak, null, 0, 0, null, 0, 0);
+        status.insert(db);
+
     }
 
     /**
@@ -108,9 +138,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TIME_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ACH_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + PAK_TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + TIME_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CHAR_TABLE_NAME);
         onCreate(db);
     }
 
@@ -192,15 +224,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(query, null);
         ArrayList<Pair<Integer, Integer>> uren = new ArrayList<>();
 
-
-//        while (!res.isAfterLast()){
-//        res.moveToFirst();
-//        for(int i = 0; i < res.getCount(); i ++){
-//            uren.add(new Pair<>(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE))));
-//            res.moveToNext();
-//        }
-//        }
-
         if (res.moveToFirst()) {
             do {
                 uren.add(new Pair<>(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE))));
@@ -210,6 +233,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return uren;
     }
 
+    public SQLiteDatabase getDB() {
+        return this.getWritableDatabase();
+    }
 
     //update query test <<<TEST!!!
     public void updateStreak(int streak) {

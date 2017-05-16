@@ -27,6 +27,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
+import com.example.ayoubelyaghmouri.smokes.models.Status;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

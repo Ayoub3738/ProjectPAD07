@@ -1,4 +1,4 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,11 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
+import com.example.ayoubelyaghmouri.smokes.MainActivity;
+import com.example.ayoubelyaghmouri.smokes.R;
+
 /**
  * Created by Ayoub el Yaghmouri on 15-5-2017.
  */
 
-class NotificationReciever extends BroadcastReceiver {
+public class NotificationReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent notificationIntent = new Intent(context, MainActivity.class);

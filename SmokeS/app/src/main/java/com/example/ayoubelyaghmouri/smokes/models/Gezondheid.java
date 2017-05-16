@@ -1,4 +1,6 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.models;
+
+import com.example.ayoubelyaghmouri.smokes.models.Orgaan;
 
 import java.util.ArrayList;
 
