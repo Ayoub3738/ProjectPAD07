@@ -1,6 +1,6 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.models;
 
-import android.provider.ContactsContract;
+import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
 /**
  * Created by jerry on 2-5-2017.

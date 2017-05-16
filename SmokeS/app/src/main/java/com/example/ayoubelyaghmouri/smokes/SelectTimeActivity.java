@@ -1,18 +1,14 @@
 package com.example.ayoubelyaghmouri.smokes;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.icu.util.GregorianCalendar;
 import android.icu.util.TimeZone;
 import android.os.Build;
-import android.os.SystemClock;
-import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,9 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.example.ayoubelyaghmouri.smokes.models.Tijd;
+import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
+import com.example.ayoubelyaghmouri.smokes.services.NotificationReciever;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,14 +1,16 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.services;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Pair;
+
+import com.example.ayoubelyaghmouri.smokes.models.Sigarettenpak;
+import com.example.ayoubelyaghmouri.smokes.models.Status;
 
 import java.util.ArrayList;
 

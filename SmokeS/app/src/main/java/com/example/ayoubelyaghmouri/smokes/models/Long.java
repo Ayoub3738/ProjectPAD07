@@ -1,4 +1,6 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.models;
+
+import com.example.ayoubelyaghmouri.smokes.models.Orgaan;
 
 /**
  * Created by jerry on 10-5-2017.

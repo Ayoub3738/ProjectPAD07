@@ -1,4 +1,4 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.models;
 
 /**
  * Created by ThomasSchool on 4/26/2017.
