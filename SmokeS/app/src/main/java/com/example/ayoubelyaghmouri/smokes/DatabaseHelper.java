@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -178,6 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TIME_TABLE_NAME, null, cv);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
     public ArrayList<Pair<Integer, Integer>> getTijden(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " +

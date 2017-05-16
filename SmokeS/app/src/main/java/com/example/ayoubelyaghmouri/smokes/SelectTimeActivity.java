@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.icu.util.GregorianCalendar;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Pair;
@@ -171,10 +173,30 @@ public class SelectTimeActivity extends AppCompatActivity {
         listViewTimes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                deleteTimeFromList(tijden.get(position));
 
             }
         });
     }
 
 
+    public void deleteTimeFromList(Pair<Integer, Integer> tijd){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Verwijderen")
+                .setMessage("Weet u zeker dat u " + tijd.first + " : " + tijd.second + " wilt verwijderen?")
+                .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton("Annuleer", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        alert.show();
+    }
 }
