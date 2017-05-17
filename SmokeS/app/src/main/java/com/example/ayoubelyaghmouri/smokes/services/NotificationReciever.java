@@ -17,6 +17,9 @@ import com.example.ayoubelyaghmouri.smokes.R;
 public class NotificationReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        long when = System.currentTimeMillis();
+
         Intent notificationIntent = new Intent(context, MainActivity.class);
         String signaal = "Ping";
         notificationIntent.putExtra("signaal", signaal);
@@ -27,6 +30,7 @@ public class NotificationReciever extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
                 .setContentTitle("test")
                 .setContentText("test")
+                .setAutoCancel(true).setWhen(when)
                 .addAction(0, "Help Sarah", pendingIntent)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);

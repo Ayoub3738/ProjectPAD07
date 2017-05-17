@@ -1,5 +1,7 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
+import android.database.sqlite.SQLiteDatabase;
+
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -37,7 +39,10 @@ public class Tijd {
     }
 
     public void delete(int uur, int minuten, DatabaseHelper db) {
-
+        SQLiteDatabase myDb = db.getDB();
+        myDb.execSQL("DELETE FROM " + db.TIME_TABLE_NAME +
+        " WHERE " + db.TIME_HOUR + " = " + uur +
+        " AND " + db.TIME_MINUTE + " = " + minuten);
     }
 
     public int getUur() {

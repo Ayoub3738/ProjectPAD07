@@ -12,6 +12,7 @@ import android.util.Pair;
 import com.example.ayoubelyaghmouri.smokes.models.Character;
 import com.example.ayoubelyaghmouri.smokes.models.Sigarettenpak;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
+import com.example.ayoubelyaghmouri.smokes.models.Tijd;
 
 import java.util.ArrayList;
 
@@ -212,8 +213,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TIME_TABLE_NAME, null, cv);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
-    public ArrayList<Pair<Integer, Integer>> getTijden(){
+
+    public ArrayList<Tijd> getTijden(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " +
                 TIME_HOUR + ", " +
@@ -222,11 +223,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "WHERE " + TIME_USER_ID + " = 1;";
 
         Cursor res = db.rawQuery(query, null);
-        ArrayList<Pair<Integer, Integer>> uren = new ArrayList<>();
+        ArrayList<Tijd> uren = new ArrayList<>();
 
         if (res.moveToFirst()) {
             do {
-                uren.add(new Pair<>(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE))));
+                Tijd t = new Tijd(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE)));
+                uren.add(t);
             } while (res.moveToNext());
         }
 
