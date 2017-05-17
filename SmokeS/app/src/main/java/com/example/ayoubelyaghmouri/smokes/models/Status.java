@@ -1,6 +1,7 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 
@@ -60,7 +61,24 @@ public class Status {
     public static Status getStatus(DatabaseHelper db) {
         Gezondheid gezondheid = new Gezondheid(1); //hier word gezondheid ook meteen berekend
 
-        return new Status(Sigarettenpak.getPak(db), gezondheid, 1, 1, null, 1, 1);
+        SQLiteDatabase myDb = db.getDB();
+        String query = "SELECT * " +
+                "FROM " + DatabaseHelper.USER_TABLE_NAME + " " +
+                "WHERE " + DatabaseHelper.USER_USER_ID + " = 1;";
+
+        Status status = null;
+        Cursor res = myDb.rawQuery(query, null);
+
+        if(res.moveToFirst()) {
+            res.moveToFirst();
+
+            Sigarettenpak pak = Sigarettenpak.getPak(db);
+            status = new Status(res.getInt(0), pak, res.getInt(1), gezondheid, res.getInt(4), res.getInt(5), new Date(res.getLong(7)), res.getInt(6), res.getInt(3));
+
+            res.close();
+        }
+
+        return status;
     }
 
     public void insert(DatabaseHelper db) {
@@ -76,7 +94,7 @@ public class Status {
         cvUser.put(DatabaseHelper.USER_NIET_GEROOKTE_SIGARETTEN, nietGerookteSigaretten);
         cvUser.put(DatabaseHelper.USER_AANTAL_MELDINGEN, aantalMeldingen);
         cvUser.put(DatabaseHelper.USER_RECORD_STREAK, recordStreak);
-        cvUser.put(DatabaseHelper.USER_LAATST_GEROOKT, "");
+        cvUser.put(DatabaseHelper.USER_LAATST_GEROOKT, laatstGerookt.getTime());
 
         db.insert(DatabaseHelper.USER_TABLE_NAME, null, cvUser);
     }
@@ -143,5 +161,9 @@ public class Status {
 
     public void setAantalMeldingen(int aantalMeldingen) {
         this.aantalMeldingen = aantalMeldingen;
+    }
+
+    public Date getLaatstGerookt() {
+        return laatstGerookt;
     }
 }
