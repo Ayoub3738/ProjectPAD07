@@ -8,6 +8,7 @@ import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProgressActivity extends AppCompatActivity {
 
@@ -45,7 +46,29 @@ public class ProgressActivity extends AppCompatActivity {
         txtAantalNietGerookteSigaretten.setText(status.getNietGerookteSigaretten() + "");
         txtStreak.setText(status.getStreak() + " Sigaretten");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd:HH:mm");
-        txtRookvrij.setText(sdf.format(status.getLaatstGerookt()));
+        Date datumNu = new Date();
+        txtRookvrij.setText(berekenDatumVerschil(status.getLaatstGerookt(), datumNu));
+    }
+
+    public String berekenDatumVerschil(Date date1, Date date2) {
+        //deze berekening komt van: http://stackoverflow.com/questions/21285161/android-difference-between-two-dates
+
+        //milliseconds
+        long different = date2.getTime() - date1.getTime();
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+
+        return String.format("%d:%02d:%02d", elapsedDays, elapsedHours, elapsedMinutes);
     }
 }
