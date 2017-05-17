@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class BesparingenOverzichtActivity extends AppCompatActivity {
 
-    private EditText etPrijsSigarettenPak, etSigarettenPakInhoud, etSigarettenGerooktPerDag;
+    private EditText etPrijsSigarettenPak, etSigarettenPakInhoud, etGebruikersNaam;
     private Button saveBtn;
     private TextView tvWeekUitslag, tvMaandUitslag, tvJaarUitslag;
 
@@ -31,9 +31,10 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
     private final double aantalWekenInMaand = 4.3;
     private final int aantalMaandenInJaar = 12;
     private final int aantalDagenInJaar = 365;
+    private String gebruikersNaam = "";
     private double prijs = 0;
     private int inhoud = 0;
-    private int gerooktPerDag = 0;
+
 
 
     @Override
@@ -64,13 +65,13 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
                     inhoud = Integer.parseInt(etSigarettenPakInhoud.getText().toString());
                 }
 
-                String gerooktPerDagStr = etSigarettenGerooktPerDag.getText().toString();
-                if (gerooktPerDagStr == null || gerooktPerDagStr.isEmpty()){
+                String gebruikersNaamStr = etGebruikersNaam.getText().toString();
+                if (gebruikersNaamStr == null || gebruikersNaamStr.isEmpty()){
                     return;
                 } else{
-                    gerooktPerDag = Integer.parseInt(etSigarettenGerooktPerDag.getText().toString());
+                    gebruikersNaam = etGebruikersNaam.getText().toString();
                 }
-                    dbHelper.updatePak(prijs, inhoud);
+                    dbHelper.updatePak(gebruikersNaam, prijs, inhoud);
 
 
             }
@@ -83,7 +84,7 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
 
         etPrijsSigarettenPak = (EditText) findViewById(R.id.etPrijsSigarettenPak);
         etSigarettenPakInhoud = (EditText) findViewById(R.id.etSigarettenPakInhoud);
-        etSigarettenGerooktPerDag = (EditText) findViewById(R.id.etSigarettenGerooktPerDag);
+        etGebruikersNaam = (EditText) findViewById(R.id.etGebruikersNaam);
         saveBtn = (Button) findViewById(R.id.saveBtn);
 
     }

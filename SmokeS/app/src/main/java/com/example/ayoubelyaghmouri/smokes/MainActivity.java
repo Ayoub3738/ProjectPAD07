@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacter};
     private int i = 0;
     private ImageSwitcher imageSwitcher;
+//    private Character gebruiker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity
 
         myDb = new DatabaseHelper(this);
         tGebruiker = (TextView)findViewById(R.id.tGebruiker);
+//        gebruiker = myDb.getUserName();
 
         imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcherHome);
 
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity
         imageSwitcher.setOutAnimation(animOut);
         imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
         tGebruiker.setAnimation(animIn);
+//        tGebruiker.setText("Hey " + gebruiker.getGebruikersNaam() + " !" );
 
         String signaal = "Ping";
 

@@ -133,6 +133,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return status;
     }
 
+
+
     public void updateNaMelding(Status status) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "";
@@ -145,28 +147,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
     }
 
-    public void updatePak(double prijs, int aantalSigaretten){
+    public void updatePak(String naam, double prijs, int aantalSigaretten){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(USER_NAAM, naam);
         cv.put(PAK_PRIJS, prijs);
         cv.put(PAK_AANTAL_SIGARETTEN, aantalSigaretten);
         db.update(PAK_TABLE_NAME, cv, PAK_PAK_ID + " = 1", null);
     }
 
 
-//    //update query test <<<TEST!!!
-//    public void updateStreak(int streak) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        //updaten kan op 2 manieren
-//
-//        //manier 1 - deze is het best en het netst
-//        ContentValues cv = new ContentValues();
-//        cv.put(USER_STREAK, streak);
-//
-//        db.update(USER_TABLE_NAME, cv, PAK_PAK_ID + " = 1", null);
-//
-//        //manier 2 - deze is wat slordiger, maar lijkt wel meer op normaal SQL
-//        //db.execSQL("UPDATE " + USER_TABLE_NAME + " SET " + USER_STREAK + " = " + streak + " WHERE " + USER_USER_ID + " = 1");
-//    }
 }
