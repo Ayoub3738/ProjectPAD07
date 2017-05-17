@@ -6,9 +6,9 @@ import com.example.ayoubelyaghmouri.smokes.models.Orgaan;
  * Created by jerry on 10-5-2017.
  */
 
-public class Long extends Orgaan {
+public class Longen extends Orgaan {
 
-    public Long(String naam, int percentage) {
+    public Longen(String naam, int percentage) {
         super(naam, percentage);
     }
 

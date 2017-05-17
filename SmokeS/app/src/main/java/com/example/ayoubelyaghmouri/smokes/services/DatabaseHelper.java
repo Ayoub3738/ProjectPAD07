@@ -15,6 +15,7 @@ import com.example.ayoubelyaghmouri.smokes.models.Status;
 import com.example.ayoubelyaghmouri.smokes.models.Tijd;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by jerry on 25-4-2017.
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 12;
+    public static final int DB_VERSION = 13;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -89,14 +90,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //maakt tabel user_table aan
         db.execSQL("CREATE TABLE " + USER_TABLE_NAME + " (" +
-                USER_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                USER_CHARACTER_ID + " INTEGER, " +
-                USER_PAK_ID + " INTEGER, " +
-                USER_STREAK + " INTEGER, " +
-                USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " +
-                USER_AANTAL_MELDINGEN + " INTEGER, " +
-                USER_RECORD_STREAK + " INTEGER, " +
-                USER_LAATST_GEROOKT + " TEXT, " +
+                USER_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + //0
+                USER_CHARACTER_ID + " INTEGER, " + //1
+                USER_PAK_ID + " INTEGER, " + //2
+                USER_STREAK + " INTEGER, " + //3
+                USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " + //4
+                USER_AANTAL_MELDINGEN + " INTEGER, " + //5
+                USER_RECORD_STREAK + " INTEGER, " + //6
+                USER_LAATST_GEROOKT + " INTEGER, " + //7, om een of andere reden stored sqlite datums in INTEGER
                 "FOREIGN KEY (" + USER_CHARACTER_ID + ") REFERENCES " + CHAR_TABLE_NAME + " (" + CHAR_CHARACTER_ID + "), " +
                 "FOREIGN KEY (" + USER_PAK_ID + ") REFERENCES " + PAK_TABLE_NAME + " (" + PAK_PAK_ID + ")" +
                 ");");
@@ -126,7 +127,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Character character = new Character("Ginger", "Blond", "Blauw");
         character.insert(db);
 
-        Status status = new Status(pak, null, 0, 0, null, 0, 0);
+        Date datumNu = new Date();
+        Status status = new Status(pak, null, 0, 0, datumNu, 0, 0);
         status.insert(db);
 
     }
