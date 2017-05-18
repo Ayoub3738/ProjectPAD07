@@ -1,4 +1,4 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.models;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

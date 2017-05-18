@@ -11,4 +11,23 @@
     <string name="selecteer_tijd">Tijd Instellingen</string>
     <string name="update_test_data">update test data</string>
     <string name="algemene_instellingen">Algemene Instellingen</string>
+    <!--<string name="weekdag_maandag">Maandag</string>-->
+    <!--<string name="weekdag_dinsdag">Dinsdag</string>-->
+    <!--<string name="weekdag_woensdag">Woensdag</string>-->
+    <!--<string name="weekdag_donderdag">Donderdag</string>-->
+    <!--<string name="weekdag_vrijdag">Vrijdag</string>-->
+    <!--<string name="weekdag_zaterdag">Zaterdag</string>-->
+    <!--<string name="weekdag_zondag">Zondag</string>-->
+
+    <!--<string-array name="days_of_week">-->
+        <!--<item>Maandag</item>-->
+        <!--<item>Dinsdag</item>-->
+        <!--<item>Woensdag</item>-->
+        <!--<item>Donderdag</item>-->
+        <!--<item>Vrijdag</item>-->
+        <!--<item>Zaterdag</item>-->
+        <!--<item>Zondag</item>-->
+    <!--</string-array>-->
+
+
 </resources>

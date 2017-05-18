@@ -1,4 +1,4 @@
-package com.example.ayoubelyaghmouri.smokes;
+package com.example.ayoubelyaghmouri.smokes.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
+import com.example.ayoubelyaghmouri.smokes.MainActivity;
+import com.example.ayoubelyaghmouri.smokes.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

@@ -4,14 +4,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
+import com.example.ayoubelyaghmouri.smokes.models.Status;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ProgressActivity extends AppCompatActivity {
 
-    TextView txtBespaard;
-    TextView txtAantalNietGerookteSigaretten;
-    TextView txtStreak;
+    private TextView txtBespaard;
+    private TextView txtAantalNietGerookteSigaretten;
+    private TextView txtStreak;
+    private TextView txtRookvrij;
 
-    DatabaseHelper myDb;
-    Status status;
+    private DatabaseHelper myDb;
+    private Status status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,19 +28,23 @@ public class ProgressActivity extends AppCompatActivity {
         txtBespaard = (TextView)findViewById(R.id.textView2);
         txtAantalNietGerookteSigaretten = (TextView)findViewById(R.id.txtAantalNietGerookt);
         txtStreak = (TextView)findViewById(R.id.txtStreak);
+        txtRookvrij = (TextView)findViewById(R.id.txtRookvrij);
 
 
         myDb = new DatabaseHelper(this);
-        status = myDb.getUser();
+        status = Status.getStatus(myDb);
         showData();
+
     }
 
     public void showData() {
         if(status == null)
             return;
 
-        txtBespaard.setText(String.format("€ %.2f", status.berekenGeldBesparingen()));
+
+        txtBespaard.setText(String.format("€ %.2f", status.berekenBesparingenPak()));
         txtAantalNietGerookteSigaretten.setText(status.getNietGerookteSigaretten() + "");
         txtStreak.setText(status.getStreak() + " Sigaretten");
+        txtRookvrij.setText(status.berekenTijdNietGerookt());
     }
 }
