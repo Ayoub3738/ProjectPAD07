@@ -11,6 +11,9 @@
     <string name="selecteer_tijd">Tijd Instellingen</string>
     <string name="update_test_data">update test data</string>
     <string name="algemene_instellingen">Algemene Instellingen</string>
+    <string name="avatar_customisation">Avatar Customisation</string>
+    <string name="avatar_haar_kleur">Haarkleur</string>
+    <string name="avatar_oog_kleur">Oogkleur</string>
     <!--<string name="weekdag_maandag">Maandag</string>-->
     <!--<string name="weekdag_dinsdag">Dinsdag</string>-->
     <!--<string name="weekdag_woensdag">Woensdag</string>-->

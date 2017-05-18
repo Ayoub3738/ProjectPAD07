@@ -31,7 +31,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".AchievementActivity" />
 
-        <service android:name=".MyFirebaseInstanceIdService">
+        <service android:name=".services.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
