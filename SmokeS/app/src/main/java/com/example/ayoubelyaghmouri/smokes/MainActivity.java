@@ -31,6 +31,8 @@ import com.example.ayoubelyaghmouri.smokes.models.Character;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -185,14 +187,16 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //haalt gegevens van user uit database
-                        Status newStatus = myDb.getUser();
+                        Status newStatus = Status.getStatus(myDb);
 
                         //reset streak, voegt 1 toe bij aantalmeldingen
                         newStatus.setStreak(0);
                         newStatus.setAantalMeldingen(newStatus.getAantalMeldingen() +1);
+                        Date datumNu = new Date();
+                        newStatus.setLaatstGerookt(datumNu);
 
                         //update database met nieuwe gegevens
-                        myDb.updateNaMelding(newStatus);
+                        newStatus.update(myDb);
 
                         //melding oeps
                         tGebruiker.setTextSize(26);
@@ -205,15 +209,19 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //haalt gegevens van user uit database
-                        Status newStatus = myDb.getUser();
+                        Status newStatus = Status.getStatus(myDb);
 
                         //voegt 1 toe bij streak en bij aantalmeldingen en niet gerooktesigaretten
                         newStatus.setStreak(newStatus.getStreak() +1);
                         newStatus.setAantalMeldingen(newStatus.getAantalMeldingen() +1);
                         newStatus.setNietGerookteSigaretten(newStatus.getNietGerookteSigaretten() +1);
 
+                        if (newStatus.getStreak() > newStatus.getRecordStreak()) {
+                            newStatus.setRecordStreak(newStatus.getStreak());
+                        }
+
                         //update database met nieuwe gegevens
-                        myDb.updateNaMelding(newStatus);
+                        newStatus.update(myDb);
 
                         //melding goedzo :D
                         tGebruiker.setText("Ik voel me een stuk beter!");
@@ -223,7 +231,6 @@ public class MainActivity extends AppCompatActivity
                 })
                 .create();
         alert.show();
-        //aantalmeldingen +1
     }
 
     public void showAlertBtn(View v) {
