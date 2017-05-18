@@ -116,11 +116,18 @@ public class Status {
     }
 
     public void update(DatabaseHelper db) {
+        SQLiteDatabase myDb = db.getDB();
 
-    }
+        ContentValues cvUser = new ContentValues();
+        cvUser.put(DatabaseHelper.USER_CHARACTER_ID, 1);
+        cvUser.put(DatabaseHelper.USER_PAK_ID, pak.getPakID());
+        cvUser.put(DatabaseHelper.USER_STREAK, streak);
+        cvUser.put(DatabaseHelper.USER_NIET_GEROOKTE_SIGARETTEN, nietGerookteSigaretten);
+        cvUser.put(DatabaseHelper.USER_AANTAL_MELDINGEN, aantalMeldingen);
+        cvUser.put(DatabaseHelper.USER_RECORD_STREAK, recordStreak);
+        cvUser.put(DatabaseHelper.USER_LAATST_GEROOKT, laatstGerookt.getTime());
 
-    public static void update(Sigarettenpak pak, DatabaseHelper db) {
-
+        myDb.update(db.USER_TABLE_NAME, cvUser, db.USER_USER_ID + " = 1", null);
     }
 
     public static <G> void update(String kolomnaam, G gegeven, DatabaseHelper db) {
@@ -220,5 +227,29 @@ public class Status {
 
     public int getRecordStreak() {
         return recordStreak;
+    }
+
+    public void setStatusID(int statusID) {
+        this.statusID = statusID;
+    }
+
+    public void setPak(Sigarettenpak pak) {
+        this.pak = pak;
+    }
+
+    public void setCharacterID(int characterID) {
+        this.characterID = characterID;
+    }
+
+    public void setGezondheid(Gezondheid gezondheid) {
+        this.gezondheid = gezondheid;
+    }
+
+    public void setLaatstGerookt(Date laatstGerookt) {
+        this.laatstGerookt = laatstGerookt;
+    }
+
+    public void setRecordStreak(int recordStreak) {
+        this.recordStreak = recordStreak;
     }
 }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/gebruikersNaamText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wat is je naam?"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/etGebruikersNaam"
+                    android:layout_width="285dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text" />
+
+                <TextView
+                    android:id="@+id/prijsSigarettenPakText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Hoeveel gaf je meestal uit voor een pak sigaretten?"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/etPrijsSigarettenPak"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number|numberDecimal" />
+
+                <TextView
+                    android:id="@+id/sigarettenPakInhoudText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hoeveel sigaretten zaten er in een pak?"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/etSigarettenPakInhoud"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/sigarettenPakMerkText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Welk merk rookte je meestal?"
+                    android:textColor="@android:color/black" />
+
+                <EditText
+                    android:id="@+id/etSigarettenPakMerk"
+                    android:layout_width="283dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="text" />
+
+                <Button
+                    android:id="@+id/saveBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="200dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Opslaan" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

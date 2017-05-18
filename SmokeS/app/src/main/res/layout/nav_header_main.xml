@@ -21,16 +21,15 @@
         app:srcCompat="@drawable/womancartooncharacterfull" />
 
     <TextView
+        android:id="@+id/tvNavBarNaam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Jurre"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvNavBarMail"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="jurre@hva.nl" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

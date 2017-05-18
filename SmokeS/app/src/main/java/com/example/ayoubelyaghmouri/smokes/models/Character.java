@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
+import java.util.Date;
+
 /**
  * Created by jerry on 16-5-2017.
  */
@@ -13,9 +15,9 @@ import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 public class Character {
 
     private int characterID;
-    private String userNaam;
-    private String haarKleur;
-    private String kleurOgen;
+    private String userNaam = "";
+    private String haarKleur = "";
+    private String kleurOgen = "";
 
     public Character(int characterID, String userNaam, String haarKleur, String kleurOgen) {
         this.characterID = characterID;
@@ -69,7 +71,37 @@ public class Character {
         db.insert(DatabaseHelper.CHAR_TABLE_NAME, null, cv);
     }
 
-    public void update(DatabaseHelper db) {
+    public static void update(String userNaam, DatabaseHelper db) {
+        SQLiteDatabase dbLite = db.getDB();
+        ContentValues cv = new ContentValues();
 
+        cv.put(db.CHAR_USER_NAAM, userNaam);
+
+        dbLite.update(db.CHAR_TABLE_NAME, cv, db.CHAR_CHARACTER_ID + " = 1", null);
     }
+
+    public static void update(String haarKleur, String oogKleur, DatabaseHelper db) {
+        SQLiteDatabase dbLite = db.getDB();
+        ContentValues cv = new ContentValues();
+
+        cv.put(db.CHAR_HAAR_KLEUR, haarKleur);
+        cv.put(db.CHAR_KLEUR_OGEN, oogKleur);
+
+        dbLite.update(db.CHAR_TABLE_NAME, cv, db.CHAR_CHARACTER_ID + " = 1", null);
+    }
+
+
+    public String getUserNaam(){
+
+        return userNaam;
+    }
+
+    public String getHaarKleur(){
+        return haarKleur;
+    }
+
+    public String getKleurOgen(){
+        return kleurOgen;
+    }
+
 }

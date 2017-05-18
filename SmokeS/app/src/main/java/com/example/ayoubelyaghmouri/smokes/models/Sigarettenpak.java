@@ -70,6 +70,17 @@ public class Sigarettenpak {
         db.insert(DatabaseHelper.PAK_TABLE_NAME, null, cvPak);
     }
 
+    public static void update(double prijs, int aantalSigaretten, String merk, DatabaseHelper db) {
+        SQLiteDatabase dbLite = db.getDB();
+        ContentValues cv = new ContentValues();
+
+        cv.put(db.PAK_PRIJS, prijs);
+        cv.put(db.PAK_AANTAL_SIGARETTEN, aantalSigaretten);
+        cv.put(db.PAK_MERK, merk);
+
+        dbLite.update(db.PAK_TABLE_NAME, cv, db.PAK_PAK_ID + " = 1", null);
+    }
+
     public double berekenPrijsSigaret() {
         return prijs / aantalSigaretten;
     }
@@ -89,4 +100,7 @@ public class Sigarettenpak {
     public int getAantalSigaretten() {
         return aantalSigaretten;
     }
+
+
+
 }
