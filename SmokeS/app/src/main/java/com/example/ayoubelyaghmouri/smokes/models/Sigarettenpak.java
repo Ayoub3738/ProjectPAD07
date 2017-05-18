@@ -1,6 +1,7 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
@@ -30,8 +31,27 @@ public class Sigarettenpak {
     }
 
     public static Sigarettenpak getPak(DatabaseHelper db) {
-        Sigarettenpak pak = new Sigarettenpak(8.5, "Malborro", 21);
-        //haalt pak uit database
+
+        SQLiteDatabase myDb = db.getDB();
+        String query = "SELECT * " +
+                "FROM " + db.PAK_TABLE_NAME + " " +
+                "WHERE " + db.PAK_PAK_ID + " = 1;";
+
+        Sigarettenpak pak = null;
+        Cursor res = myDb.rawQuery(query, null);
+
+        if(res.moveToFirst()) {
+            res.moveToFirst();
+
+            pak = new Sigarettenpak(
+                    res.getInt(res.getColumnIndex(db.PAK_PAK_ID)),
+                    res.getDouble(res.getColumnIndex(db.PAK_PRIJS)),
+                    res.getString(res.getColumnIndex(db.PAK_MERK)),
+                    res.getInt(res.getColumnIndex(db.PAK_AANTAL_SIGARETTEN))
+            );
+
+            res.close();
+        }
 
         return pak;
     }

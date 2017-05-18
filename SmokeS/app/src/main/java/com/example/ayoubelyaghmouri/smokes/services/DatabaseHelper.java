@@ -24,7 +24,7 @@ import java.util.Date;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 13;
+    public static final int DB_VERSION = 15;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + ACH_TABLE_NAME + " (" +
                 ACH_ACHIEVEMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ACH_USER_ID + " INTEGER, " +
-                ACH_BEHAALD + " NUMERIC, " +
+                ACH_BEHAALD + " INTEGER, " +
                 ACH_NAAM + " TEXT, " +
                 ACH_BESCHRIJVING + " TEXT, " +
                 "FOREIGN KEY (" + ACH_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
