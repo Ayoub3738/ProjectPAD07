@@ -31,23 +31,29 @@ public class Sigarettenpak {
     }
 
     public static Sigarettenpak getPak(DatabaseHelper db) {
+
         SQLiteDatabase myDb = db.getDB();
         String query = "SELECT * " +
-                "FROM " + DatabaseHelper.PAK_TABLE_NAME + " " +
-                "WHERE " + DatabaseHelper.PAK_PAK_ID + " = 1;";
+                "FROM " + db.PAK_TABLE_NAME + " " +
+                "WHERE " + db.PAK_PAK_ID + " = 1;";
 
-        Sigarettenpak sigarettenpak = null;
+        Sigarettenpak pak = null;
         Cursor res = myDb.rawQuery(query, null);
 
         if(res.moveToFirst()) {
             res.moveToFirst();
 
-            sigarettenpak = new Sigarettenpak(res.getDouble(1), res.getString(2), res.getInt(3));
+            pak = new Sigarettenpak(
+                    res.getInt(res.getColumnIndex(db.PAK_PAK_ID)),
+                    res.getDouble(res.getColumnIndex(db.PAK_PRIJS)),
+                    res.getString(res.getColumnIndex(db.PAK_MERK)),
+                    res.getInt(res.getColumnIndex(db.PAK_AANTAL_SIGARETTEN))
+            );
 
             res.close();
         }
 
-        return sigarettenpak;
+        return pak;
     }
 
     public void insert(DatabaseHelper db) {

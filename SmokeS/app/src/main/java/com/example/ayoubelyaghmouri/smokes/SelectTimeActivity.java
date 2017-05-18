@@ -1,10 +1,12 @@
 package com.example.ayoubelyaghmouri.smokes;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.icu.util.Calendar;
 import android.icu.util.GregorianCalendar;
 import android.icu.util.TimeZone;
@@ -13,20 +15,21 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.ayoubelyaghmouri.smokes.models.Tijd;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.services.NotificationReciever;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +40,7 @@ public class SelectTimeActivity extends AppCompatActivity {
     private DatabaseHelper myDb;
     private Button btnSelectTime;
     private Button btnSlaOp;
-    private EditText tTime;
+    private TextView tTime;
     private int uur, minuten, selectedUur, selectedMinute;
     private TimeZone timeZone = TimeZone.getTimeZone("Europe/Amsterdam");
     private Calendar calendar = GregorianCalendar.getInstance(timeZone);
@@ -47,7 +50,8 @@ public class SelectTimeActivity extends AppCompatActivity {
     private ArrayAdapter adapterTimes;
     private ListView listViewTimes;
     private Spinner spinDays;
-    private ArrayList<Pair<Integer, Integer>> tijden;
+    private ArrayList<Tijd> tijden;
+    private AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +70,10 @@ public class SelectTimeActivity extends AppCompatActivity {
 
         btnSlaOp = (Button) findViewById(R.id.btnSlaOp);
         btnSelectTime = (Button) findViewById(R.id.btnSelectTime);
-        tTime = (EditText) findViewById(R.id.tTime);
+        tTime = (TextView) findViewById(R.id.tTime);
 
         tTime.setText(stringCurrHour + " : " + stringCurrMin);
+        setButtonDisabled();
 
         btnSelectTime.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -84,6 +89,8 @@ public class SelectTimeActivity extends AppCompatActivity {
                         tTime.setText(hourOfDay + " : " + minute);
                         selectedUur = hourOfDay;
                         selectedMinute = minute;
+                        setButtonEnabled();
+
                     }
                 }, uur, minuten, true);
                 timePickerDialog.show();
@@ -103,65 +110,69 @@ public class SelectTimeActivity extends AppCompatActivity {
 
                 switch (selectedDay){
                     case 0:
-                        btnSlaOp.setText("Dagelijks");
-                        alarmMethod2();
-                        myDb.insertTijd(selectedUur, selectedMinute);
+//                        registerAlarm();
+                        registerAlarm(selectedUur, selectedMinute);
+                        Tijd insertTijd = new Tijd(selectedUur, selectedMinute);
+                        insertTijd.insert(myDb);
                         break;
-
                 }
-
+                setButtonDisabled();
                 haalTijdenOp();
             }
         });
-
         haalTijdenOp();
-
     }
 
-    public void fillArrayWeekDays(ArrayList arrayList){
+    public void fillArrayWeekDays(ArrayList<String> arrayList){
         arrayList.add("Dagelijks");
     }
 
-    public void alarmMethod(){
+    // Register the alarm and set it at 7am everyday (repeating mode)
+    public void registerAlarm(int uur, int minuten) {
         Intent myIntent = new Intent(this, NotificationReciever.class);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 15);
-        calendar.set(Calendar.MINUTE, 51);
-//        calendar.set(Calendar.AM_PM, Calendar.AM);
-//        calendar.add(Calendar.DAY_OF_MONTH, 1);
+    // Set the alarm to start at approximately 2:00 p.m.
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.HOUR_OF_DAY, uur);
+        cal.set(Calendar.MINUTE, minuten);
+        cal.set(Calendar.SECOND, 0);
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
+    // With setInexactRepeating(), you have to use one of the AlarmManager interval
+    // constants--in this case, AlarmManager.INTERVAL_DAY.
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        Toast.makeText(SelectTimeActivity.this, "Start Alarm", Toast.LENGTH_LONG).show();
+        Toast.makeText(SelectTimeActivity.this, "Alarm gestart ", Toast.LENGTH_LONG).show();
     }
 
-    public void alarmMethod2(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
-        calendar.set(Calendar.MINUTE, 24);
-        Intent intent = new Intent(getApplicationContext(), NotificationReciever.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),alarmManager.INTERVAL_DAY,pendingIntent);
+    private void handleNotification(int uur, int minuten) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, uur);
+        cal.set(Calendar.MINUTE, minuten);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
-        Toast.makeText(SelectTimeActivity.this, "Start Alarm", Toast.LENGTH_LONG).show();
+        Intent alarmIntent = new Intent(this, NotificationReciever.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                cal.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
+
+        Toast.makeText(SelectTimeActivity.this, "Alarm gestart ", Toast.LENGTH_LONG).show();
+
     }
-
-
 
     public void haalTijdenOp(){
         tijden = myDb.getTijden();
         List<String> test = new ArrayList<>();
 
-        for (Pair<Integer, Integer> tijd : tijden) {
-            uur = tijd.first;
-            minuten = tijd.second;
-            //adapterTimes = new ArrayAdapter<Integer>(this,)
-
+        for (Tijd tijd : tijden) {
+            uur = tijd.getUur();
+            minuten = tijd.getMinuten();
             test.add(uur + " : " + minuten);
         }
 
@@ -173,29 +184,40 @@ public class SelectTimeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 deleteTimeFromList(tijden.get(position));
-
             }
         });
     }
 
 
-    public void deleteTimeFromList(Pair<Integer, Integer> tijd){
+    public void deleteTimeFromList(final Tijd tijd){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Verwijderen")
-                .setMessage("Weet u zeker dat u " + tijd.first + " : " + tijd.second + " wilt verwijderen?")
+                .setMessage("Weet u zeker dat u " + tijd.getUur() + " : " + tijd.getMinuten() + " wilt verwijderen?")
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        tijd.delete(myDb);
+                        haalTijdenOp();
                     }
                 })
                 .setNegativeButton("Annuleer", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        haalTijdenOp();
                     }
                 })
                 .create();
         alert.show();
+    }
+
+    public void setButtonDisabled(){
+        btnSlaOp.setEnabled(false);
+        btnSlaOp.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled)));
+
+    }
+
+    public void setButtonEnabled(){
+        btnSlaOp.setEnabled(true);
+        btnSlaOp.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
     }
 }

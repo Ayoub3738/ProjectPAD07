@@ -36,8 +36,8 @@ public class Character {
 
         SQLiteDatabase myDb = db.getDB();
         String query = "SELECT * " +
-                "FROM " + DatabaseHelper.CHAR_TABLE_NAME + " " +
-                "WHERE " + DatabaseHelper.CHAR_CHARACTER_ID + " = 1;";
+                "FROM " + db.CHAR_TABLE_NAME + " " +
+                "WHERE " + db.CHAR_CHARACTER_ID + " = 1;";
 
         Character character = null;
         Cursor res = myDb.rawQuery(query, null);
@@ -45,8 +45,12 @@ public class Character {
         if(res.moveToFirst()) {
             res.moveToFirst();
 
-            character = new Character(res.getString(1), res.getString(2), res.getString(3));
-
+            character = new Character(
+                    res.getInt(res.getColumnIndex(db.CHAR_CHARACTER_ID)),
+                    res.getString(res.getColumnIndex(db.CHAR_USER_NAAM)),
+                    res.getString(res.getColumnIndex(db.CHAR_HAAR_KLEUR)),
+                    res.getString(res.getColumnIndex(db.CHAR_KLEUR_OGEN))
+            );
             res.close();
         }
 

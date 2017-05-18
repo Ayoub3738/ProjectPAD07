@@ -12,6 +12,7 @@ import android.util.Pair;
 import com.example.ayoubelyaghmouri.smokes.models.Character;
 import com.example.ayoubelyaghmouri.smokes.models.Sigarettenpak;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
+import com.example.ayoubelyaghmouri.smokes.models.Tijd;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +24,7 @@ import java.util.Date;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 13;
+    public static final int DB_VERSION = 15;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -114,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + ACH_TABLE_NAME + " (" +
                 ACH_ACHIEVEMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ACH_USER_ID + " INTEGER, " +
-                ACH_BEHAALD + " NUMERIC, " +
+                ACH_BEHAALD + " INTEGER, " +
                 ACH_NAAM + " TEXT, " +
                 ACH_BESCHRIJVING + " TEXT, " +
                 "FOREIGN KEY (" + ACH_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
@@ -214,8 +215,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TIME_TABLE_NAME, null, cv);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
-    public ArrayList<Pair<Integer, Integer>> getTijden(){
+
+    public ArrayList<Tijd> getTijden(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " +
                 TIME_HOUR + ", " +
@@ -224,11 +225,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "WHERE " + TIME_USER_ID + " = 1;";
 
         Cursor res = db.rawQuery(query, null);
-        ArrayList<Pair<Integer, Integer>> uren = new ArrayList<>();
+        ArrayList<Tijd> uren = new ArrayList<>();
 
         if (res.moveToFirst()) {
             do {
-                uren.add(new Pair<>(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE))));
+                Tijd t = new Tijd(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE)));
+                uren.add(t);
             } while (res.moveToNext());
         }
 
