@@ -111,8 +111,9 @@ public class SelectTimeActivity extends AppCompatActivity {
                 switch (selectedDay){
                     case 0:
 //                        registerAlarm();
-                        handleNotification(selectedUur, selectedMinute);
-                        myDb.insertTijd(selectedUur, selectedMinute);
+                        registerAlarm(selectedUur, selectedMinute);
+                        Tijd insertTijd = new Tijd(selectedUur, selectedMinute);
+                        insertTijd.insert(myDb);
                         break;
                 }
                 setButtonDisabled();
@@ -127,7 +128,7 @@ public class SelectTimeActivity extends AppCompatActivity {
     }
 
     // Register the alarm and set it at 7am everyday (repeating mode)
-    public void registerAlarm() {
+    public void registerAlarm(int uur, int minuten) {
         Intent myIntent = new Intent(this, NotificationReciever.class);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
@@ -135,14 +136,16 @@ public class SelectTimeActivity extends AppCompatActivity {
     // Set the alarm to start at approximately 2:00 p.m.
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY, 20);
-        cal.set(Calendar.MINUTE, 18);
+        cal.set(Calendar.HOUR_OF_DAY, uur);
+        cal.set(Calendar.MINUTE, minuten);
         cal.set(Calendar.SECOND, 0);
 
     // With setInexactRepeating(), you have to use one of the AlarmManager interval
     // constants--in this case, AlarmManager.INTERVAL_DAY.
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        Toast.makeText(SelectTimeActivity.this, "Alarm gestart ", Toast.LENGTH_LONG).show();
     }
 
     private void handleNotification(int uur, int minuten) {
@@ -180,20 +183,20 @@ public class SelectTimeActivity extends AppCompatActivity {
         listViewTimes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                deleteTimeFromList(tijden.get(position), myDb);
+                deleteTimeFromList(tijden.get(position));
             }
         });
     }
 
 
-    public void deleteTimeFromList(final Tijd tijd, final DatabaseHelper db){
+    public void deleteTimeFromList(final Tijd tijd){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Verwijderen")
                 .setMessage("Weet u zeker dat u " + tijd.getUur() + " : " + tijd.getMinuten() + " wilt verwijderen?")
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        tijd.delete(tijd.getUur(), tijd.getMinuten(), db);
+                        tijd.delete(myDb);
                         haalTijdenOp();
                     }
                 })
