@@ -29,11 +29,6 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
     private Character character;
     private Sigarettenpak sigarettenPak;
     private DatabaseHelper myDb;
-    private final int weekLengte = 7;
-    private final double gemiddeldeMaand = 30.4;
-    private final double aantalWekenInMaand = 4.3;
-    private final int aantalMaandenInJaar = 12;
-    private final int aantalDagenInJaar = 365;
     private String gebruikersNaam = "";
     private double prijs = 0;
     private int inhoud = 0;
@@ -52,6 +47,11 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
         character = Character.getCharacter(myDb);
         sigarettenPak = Sigarettenpak.getPak(myDb);
         saveBtn.setText("Opslaan");
+
+        etGebruikersNaam.setText(character.getUserNaam());
+        etPrijsSigarettenPak.setText(sigarettenPak.getPrijs() + "");
+        etSigarettenPakInhoud.setText(sigarettenPak.getAantalSigaretten() + "");
+        etSigarettenPakMerk.setText(sigarettenPak.getMerk());
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
