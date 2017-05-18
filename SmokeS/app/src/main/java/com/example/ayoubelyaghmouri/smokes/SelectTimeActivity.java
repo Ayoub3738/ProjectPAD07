@@ -1,6 +1,7 @@
 package com.example.ayoubelyaghmouri.smokes;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -110,7 +111,7 @@ public class SelectTimeActivity extends AppCompatActivity {
                 switch (selectedDay){
                     case 0:
 //                        registerAlarm();
-                        alarmMethod2();
+                        handleNotification(selectedUur, selectedMinute);
                         myDb.insertTijd(selectedUur, selectedMinute);
                         break;
                 }
@@ -132,37 +133,34 @@ public class SelectTimeActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
 
     // Set the alarm to start at approximately 2:00 p.m.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 20);
-        calendar.set(Calendar.MINUTE, 18);
-        calendar.set(Calendar.SECOND, 0);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.set(Calendar.HOUR_OF_DAY, 20);
+        cal.set(Calendar.MINUTE, 18);
+        cal.set(Calendar.SECOND, 0);
 
     // With setInexactRepeating(), you have to use one of the AlarmManager interval
     // constants--in this case, AlarmManager.INTERVAL_DAY.
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
-
-        Toast.makeText(SelectTimeActivity.this, "Start Alarm", Toast.LENGTH_LONG).show();
     }
 
-    public void alarmMethod(){
+    private void handleNotification(int uur, int minuten) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, uur);
+        cal.set(Calendar.MINUTE, minuten);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
 
-    }
-
-    public void alarmMethod2(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 20);
-        calendar.set(Calendar.MINUTE, 28);
-        calendar.set(Calendar.SECOND, 0);
-
-        Intent intent = new Intent(getApplicationContext(), NotificationReciever.class);
+        Intent alarmIntent = new Intent(this, NotificationReciever.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                cal.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
 
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                alarmManager.INTERVAL_DAY, pendingIntent);
+        Toast.makeText(SelectTimeActivity.this, "Alarm gestart ", Toast.LENGTH_LONG).show();
+
     }
 
     public void haalTijdenOp(){
