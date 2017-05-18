@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.example.ayoubelyaghmouri.smokes.models.Character;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
 
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TextView tGebruiker;
+    private TextView tvNavBarNaam;
+    private TextView tvNavBarMail;
+    private String gebruikersNaam = " ";
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
     private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacter};
@@ -56,11 +60,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
 
         myDb = new DatabaseHelper(this);
-        tGebruiker = (TextView)findViewById(R.id.tGebruiker);
 
+        tGebruiker = (TextView)findViewById(R.id.tGebruiker);
+        tvNavBarNaam = (TextView) headerView.findViewById(R.id.tvNavBarNaam);
+        tvNavBarMail = (TextView) headerView.findViewById(R.id.tvNavBarMail);
         imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcherHome);
+
+        Character character = Character.getCharacter(myDb);
+        gebruikersNaam = character.getUserNaam();
 
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -82,6 +92,10 @@ public class MainActivity extends AppCompatActivity
         imageSwitcher.setOutAnimation(animOut);
         imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
         tGebruiker.setAnimation(animIn);
+        tGebruiker.setText("Hey " + gebruikersNaam + " !");
+
+        tvNavBarNaam.setText(gebruikersNaam);
+        tvNavBarMail.setText(gebruikersNaam + "@hva.nl");
 
         String signaal = "Ping";
 

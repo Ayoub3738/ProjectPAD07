@@ -1,6 +1,7 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
@@ -30,10 +31,23 @@ public class Sigarettenpak {
     }
 
     public static Sigarettenpak getPak(DatabaseHelper db) {
-        Sigarettenpak pak = new Sigarettenpak(8.5, "Malborro", 21);
-        //haalt pak uit database
+        SQLiteDatabase myDb = db.getDB();
+        String query = "SELECT * " +
+                "FROM " + DatabaseHelper.PAK_TABLE_NAME + " " +
+                "WHERE " + DatabaseHelper.PAK_PAK_ID + " = 1;";
 
-        return pak;
+        Sigarettenpak sigarettenpak = null;
+        Cursor res = myDb.rawQuery(query, null);
+
+        if(res.moveToFirst()) {
+            res.moveToFirst();
+
+            sigarettenpak = new Sigarettenpak(res.getDouble(1), res.getString(2), res.getInt(3));
+
+            res.close();
+        }
+
+        return sigarettenpak;
     }
 
     public void insert(DatabaseHelper db) {
@@ -48,6 +62,17 @@ public class Sigarettenpak {
         cvPak.put(DatabaseHelper.PAK_AANTAL_SIGARETTEN, aantalSigaretten);
 
         db.insert(DatabaseHelper.PAK_TABLE_NAME, null, cvPak);
+    }
+
+    public static void update(double prijs, int aantalSigaretten, String merk, DatabaseHelper db) {
+        SQLiteDatabase dbLite = db.getDB();
+        ContentValues cv = new ContentValues();
+
+        cv.put(db.PAK_PRIJS, prijs);
+        cv.put(db.PAK_AANTAL_SIGARETTEN, aantalSigaretten);
+        cv.put(db.PAK_MERK, merk);
+
+        dbLite.update(db.PAK_TABLE_NAME, cv, db.PAK_PAK_ID + " = 1", null);
     }
 
     public double berekenPrijsSigaret() {
@@ -69,4 +94,7 @@ public class Sigarettenpak {
     public int getAantalSigaretten() {
         return aantalSigaretten;
     }
+
+
+
 }
