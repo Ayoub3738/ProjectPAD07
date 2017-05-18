@@ -59,7 +59,6 @@ public class Status {
     }
 
     public static Status getStatus(DatabaseHelper db) {
-        Gezondheid gezondheid = new Gezondheid(1); //hier word gezondheid ook meteen berekend, moet nog worden gemaakt
 
         SQLiteDatabase myDb = db.getDB();
         String query = "SELECT * " +
@@ -73,6 +72,10 @@ public class Status {
             res.moveToFirst();
 
             Sigarettenpak pak = Sigarettenpak.getPak(db);
+
+            Gezondheid gezondheid = new Gezondheid(0);
+            gezondheid.berekenTotaalGezondheid(res.getInt(4), res.getInt(5), db);
+
             status = new Status(res.getInt(0), pak, res.getInt(1), gezondheid, res.getInt(4), res.getInt(5), new Date(res.getLong(7)), res.getInt(6), res.getInt(3));
 
             res.close();
