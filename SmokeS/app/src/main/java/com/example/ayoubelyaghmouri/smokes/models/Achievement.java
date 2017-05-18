@@ -1,5 +1,8 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -32,7 +35,32 @@ public class Achievement {
     }
 
     public static Achievement getAchievement(String naam, DatabaseHelper db) {
-        return new Achievement(true, naam, "");
+
+        SQLiteDatabase myDb = db.getDB();
+        String query = "SELECT * " +
+                "FROM " + db.ACH_TABLE_NAME + " " +
+                "WHERE " + db.ACH_NAAM + " = '" + naam + "';";
+
+        Achievement achievement = null;
+        Cursor res = myDb.rawQuery(query, null);
+
+        if(res.moveToFirst()) {
+            res.moveToFirst();
+
+            boolean behaald = (res.getInt(res.getColumnIndex(db.ACH_BEHAALD)) == 0) ? false : true;
+
+            achievement = new Achievement(
+                    res.getInt(res.getColumnIndex(db.ACH_ACHIEVEMENT_ID)),
+                    res.getInt(res.getColumnIndex(db.ACH_USER_ID)),
+                    behaald,
+                    res.getString(res.getColumnIndex(db.ACH_NAAM)),
+                    res.getString(res.getColumnIndex(db.ACH_BESCHRIJVING))
+            );
+
+            res.close();
+        }
+
+        return achievement;
     }
 
     public static ArrayList<Achievement> getAchievements(DatabaseHelper db) {

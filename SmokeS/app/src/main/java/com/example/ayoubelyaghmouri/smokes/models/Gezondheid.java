@@ -42,7 +42,7 @@ public class Gezondheid {
         organen.add((Orgaan)huid);
 
         for (Orgaan orgaan : organen) {
-            totaalPercentage =+ orgaan.getPercentage();
+            totaalPercentage += orgaan.getPercentage();
         }
 
         totaalGezondheid = (int)Math.round((float)totaalPercentage / TOTAAL_ORGANEN);

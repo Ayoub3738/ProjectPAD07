@@ -15,7 +15,7 @@ public class Huid extends Orgaan {
 
     @Override
     public void berekenPercentage(int nietGerookteSigaretten, int aantalMeldingen, DatabaseHelper db) {
-        final float BEGIN_PERCENTAGE = 85;
+        final double BEGIN_PERCENTAGE = 85;
         final int MAXIMALE_PERCENTAGE = 100;
 
         final double PROCENT_OMHOOG = 0.4;

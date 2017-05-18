@@ -201,4 +201,24 @@ public class Status {
     public Date getLaatstGerookt() {
         return laatstGerookt;
     }
+
+    public int getStatusID() {
+        return statusID;
+    }
+
+    public Sigarettenpak getPak() {
+        return pak;
+    }
+
+    public int getCharacterID() {
+        return characterID;
+    }
+
+    public Gezondheid getGezondheid() {
+        return gezondheid;
+    }
+
+    public int getRecordStreak() {
+        return recordStreak;
+    }
 }
