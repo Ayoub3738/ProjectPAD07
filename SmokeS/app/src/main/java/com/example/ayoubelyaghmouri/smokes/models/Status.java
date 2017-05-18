@@ -59,7 +59,7 @@ public class Status {
     }
 
     public static Status getStatus(DatabaseHelper db) {
-        Gezondheid gezondheid = new Gezondheid(1); //hier word gezondheid ook meteen berekend
+        Gezondheid gezondheid = new Gezondheid(1); //hier word gezondheid ook meteen berekend, moet nog worden gemaakt
 
         SQLiteDatabase myDb = db.getDB();
         String query = "SELECT * " +
@@ -135,8 +135,27 @@ public class Status {
         return pak.berekenPrijsSigaret() * nietGerookteSigaretten;
     }
 
-    public Date berekenTijdNietGerookt() {
-        return laatstGerookt; //date.now - laatstgerookt;
+    public String berekenTijdNietGerookt() {
+        //deze berekening komt van: http://stackoverflow.com/questions/21285161/android-difference-between-two-dates
+        Date datumNu = new Date();
+
+        //milliseconds
+        long different = datumNu.getTime() - laatstGerookt.getTime();
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+
+        return String.format("%d:%02d:%02d", elapsedDays, elapsedHours, elapsedMinutes);
     }
 
     public int getNietGerookteSigaretten() {

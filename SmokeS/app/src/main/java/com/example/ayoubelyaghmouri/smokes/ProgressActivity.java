@@ -8,6 +8,7 @@ import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProgressActivity extends AppCompatActivity {
 
@@ -44,8 +45,6 @@ public class ProgressActivity extends AppCompatActivity {
         txtBespaard.setText(String.format("€ %.2f", status.berekenBesparingenPak()));
         txtAantalNietGerookteSigaretten.setText(status.getNietGerookteSigaretten() + "");
         txtStreak.setText(status.getStreak() + " Sigaretten");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd:HH:mm");
-        txtRookvrij.setText(sdf.format(status.getLaatstGerookt()));
+        txtRookvrij.setText(status.berekenTijdNietGerookt());
     }
 }
