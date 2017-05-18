@@ -74,9 +74,22 @@ public class Status {
             Sigarettenpak pak = Sigarettenpak.getPak(db);
 
             Gezondheid gezondheid = new Gezondheid(0);
-            gezondheid.berekenTotaalGezondheid(res.getInt(4), res.getInt(5), db);
+            gezondheid.berekenTotaalGezondheid(
+                    res.getInt(res.getColumnIndex(db.USER_NIET_GEROOKTE_SIGARETTEN)),
+                    res.getInt(res.getColumnIndex(db.USER_AANTAL_MELDINGEN)),
+                    db
+            );
 
-            status = new Status(res.getInt(0), pak, res.getInt(1), gezondheid, res.getInt(4), res.getInt(5), new Date(res.getLong(7)), res.getInt(6), res.getInt(3));
+            status = new Status(
+                    res.getInt(res.getColumnIndex(db.USER_USER_ID)),
+                    pak, res.getInt(res.getColumnIndex(db.USER_CHARACTER_ID)),
+                    gezondheid,
+                    res.getInt(res.getColumnIndex(db.USER_NIET_GEROOKTE_SIGARETTEN)),
+                    res.getInt(res.getColumnIndex(db.USER_AANTAL_MELDINGEN)),
+                    new Date(res.getLong(res.getColumnIndex(db.USER_LAATST_GEROOKT))),
+                    res.getInt(res.getColumnIndex(db.USER_RECORD_STREAK)),
+                    res.getInt(res.getColumnIndex(db.USER_STREAK))
+            );
 
             res.close();
         }
