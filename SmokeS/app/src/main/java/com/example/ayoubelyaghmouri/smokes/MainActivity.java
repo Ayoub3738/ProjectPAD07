@@ -95,11 +95,9 @@ public class MainActivity extends AppCompatActivity
         Animation animIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
         Animation animOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
 
-        AvatarTest avatarTest = new AvatarTest();
-
         imageSwitcher.setInAnimation(animIn);
         imageSwitcher.setOutAnimation(animOut);
-        imageSwitcher.setImageResource(avatarTest.getImages(avatarTest.getJ()));
+        imageSwitcher.setImageResource(spriteSarah);
         tGebruiker.setAnimation(animIn);
         tGebruiker.setText("Hey " + gebruikersNaam + " !");
         

@@ -33,10 +33,10 @@ public class AvatarTest extends AppCompatActivity {
     private Integer[] imagesEyes = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
                                     R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
     private Integer[] images = imagesHair;
-    private int spriteSarah  = R.drawable.womancartooncharacterfullbrownblue;
+    private int spriteSarah  = imagesHair[1];
 
 
-    private int j = 0;
+    private int j = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
