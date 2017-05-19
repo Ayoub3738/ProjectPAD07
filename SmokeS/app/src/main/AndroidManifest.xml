@@ -41,7 +41,11 @@
                 <action android:name= "com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <receiver android:name=".services.NotificationReciever"/>
+        <receiver android:name=".services.NotificationReciever">
+            <intent-filter>
+                <action android:name="com.example.ayoubelyaghmouri.smokes.services" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

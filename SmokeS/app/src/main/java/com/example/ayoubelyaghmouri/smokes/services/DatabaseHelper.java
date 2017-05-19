@@ -204,39 +204,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
     }
 
-    public void insertTijd(int uren, int minuten) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues cv = new ContentValues();
-        cv.put(TIME_USER_ID, 1);
-        cv.put(TIME_HOUR, uren);
-        cv.put(TIME_MINUTE, minuten);
-
-        db.insert(TIME_TABLE_NAME, null, cv);
-    }
-
-
-    public ArrayList<Tijd> getTijden(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " +
-                TIME_HOUR + ", " +
-                TIME_MINUTE + " " +
-                "FROM " + TIME_TABLE_NAME + " " +
-                "WHERE " + TIME_USER_ID + " = 1;";
-
-        Cursor res = db.rawQuery(query, null);
-        ArrayList<Tijd> uren = new ArrayList<>();
-
-        if (res.moveToFirst()) {
-            do {
-                Tijd t = new Tijd(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE)));
-                uren.add(t);
-            } while (res.moveToNext());
-        }
-
-        return uren;
-    }
-
     public SQLiteDatabase getDB() {
         return this.getWritableDatabase();
     }

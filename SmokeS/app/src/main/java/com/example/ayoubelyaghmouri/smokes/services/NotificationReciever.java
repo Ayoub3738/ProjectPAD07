@@ -25,8 +25,8 @@ public class NotificationReciever extends BroadcastReceiver {
 
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_statusbar_smokeless_sarah)
-                .setContentTitle("test")
-                .setContentText("test")
+                .setContentTitle("Sarah wilt roken")
+                .setContentText("Help Sarah met haar rookkeuze. "+ intent.getStringExtra("time"))
                 .addAction(0, "Help Sarah", pendingIntent)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
