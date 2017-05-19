@@ -104,4 +104,11 @@ public class Character {
         return kleurOgen;
     }
 
+    public void setHaarKleur(String haarKleur) {
+        this.haarKleur = haarKleur;
+    }
+
+    public void setKleurOgen(String kleurOgen) {
+        this.kleurOgen = kleurOgen;
+    }
 }

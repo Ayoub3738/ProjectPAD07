@@ -22,11 +22,13 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.example.ayoubelyaghmouri.smokes.models.AvatarTest;
 import com.example.ayoubelyaghmouri.smokes.models.Character;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
@@ -45,7 +47,8 @@ public class MainActivity extends AppCompatActivity
     public boolean jaNeeKeuze = false;
     private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad};
     private int i = 0;
-    private ImageSwitcher imageSwitcher;
+    public static ImageSwitcher imageSwitcher;
+    public int spriteSarah = R.drawable.womancartooncharacterfull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity
         Character character = Character.getCharacter(myDb);
         gebruikersNaam = character.getUserNaam();
 
+
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -91,12 +95,14 @@ public class MainActivity extends AppCompatActivity
         Animation animIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
         Animation animOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
 
+        AvatarTest avatarTest = new AvatarTest();
+
         imageSwitcher.setInAnimation(animIn);
         imageSwitcher.setOutAnimation(animOut);
-        imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
+        imageSwitcher.setImageResource(avatarTest.getImages(avatarTest.getJ()));
         tGebruiker.setAnimation(animIn);
         tGebruiker.setText("Hey " + gebruikersNaam + " !");
-
+        
         tvNavBarNaam.setText(gebruikersNaam);
         tvNavBarMail.setText(gebruikersNaam + "@hva.nl");
 
@@ -110,8 +116,9 @@ public class MainActivity extends AppCompatActivity
                 showAlert();
 //
         }
-
     }
+
+
 
     @Override
     public void onBackPressed() {
