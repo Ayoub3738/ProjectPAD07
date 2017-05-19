@@ -24,7 +24,7 @@ import java.util.Date;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 13;
+    public static final int DB_VERSION = 17;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + ACH_TABLE_NAME + " (" +
                 ACH_ACHIEVEMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ACH_USER_ID + " INTEGER, " +
-                ACH_BEHAALD + " NUMERIC, " +
+                ACH_BEHAALD + " INTEGER, " +
                 ACH_NAAM + " TEXT, " +
                 ACH_BESCHRIJVING + " TEXT, " +
                 "FOREIGN KEY (" + ACH_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
@@ -159,63 +159,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    /**
-     *
-     * @return user uit database
-     */
-    public Status getUser() {
-        //is je connectionstring van je database/pakt de beschikbare database
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " +
-                "u." + USER_NIET_GEROOKTE_SIGARETTEN + ", " + //0
-                "u." + USER_AANTAL_MELDINGEN + ", " + //1
-                "u." + USER_STREAK + ", " + //2
-                "p." + PAK_PAK_ID + ", " + //3
-                "p." + PAK_PRIJS + ", " + //4
-                "p." + PAK_MERK + ", " + //5
-                "p." + PAK_AANTAL_SIGARETTEN + " " + //6
-                "FROM " + USER_TABLE_NAME + " u INNER JOIN " + PAK_TABLE_NAME + " p " +
-                "ON u.pakID = p.pakID;";
-
-        Status status = null;
-        Cursor res = db.rawQuery(query, null);
-
-        if(res.moveToFirst()) {
-            res.moveToFirst();
-
-            Sigarettenpak pak = new Sigarettenpak(res.getInt(3), res.getDouble(4), res.getString(5), res.getInt(6));
-            status = new Status(res.getInt(0), res.getInt(1), res.getInt(2), null, pak);
-
-            res.close();
-        }
-
-        return status;
-    }
-
-    public void updateNaMelding(Status status) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "";
-
-        ContentValues cv = new ContentValues();
-        cv.put(USER_STREAK, status.getStreak());
-        cv.put(USER_AANTAL_MELDINGEN, status.getAantalMeldingen());
-        cv.put(USER_NIET_GEROOKTE_SIGARETTEN, status.getNietGerookteSigaretten());
-
-        db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
-    }
-
-    public void insertTijd(int uren, int minuten) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues cv = new ContentValues();
-        cv.put(TIME_USER_ID, 1);
-        cv.put(TIME_HOUR, uren);
-        cv.put(TIME_MINUTE, minuten);
-
-        db.insert(TIME_TABLE_NAME, null, cv);
-    }
-
-
     public ArrayList<Tijd> getTijden(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " +
@@ -239,22 +182,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public SQLiteDatabase getDB() {
         return this.getWritableDatabase();
-    }
-
-    //update query test <<<TEST!!!
-    public void updateStreak(int streak) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-
-        //updaten kan op 2 manieren
-
-        //manier 1 - deze is het best en het netst
-        ContentValues cv = new ContentValues();
-        cv.put(USER_STREAK, streak);
-
-        db.update(USER_TABLE_NAME, cv, PAK_PAK_ID + " = 1", null);
-
-        //manier 2 - deze is wat slordiger, maar lijkt wel meer op normaal SQL
-        //db.execSQL("UPDATE " + USER_TABLE_NAME + " SET " + USER_STREAK + " = " + streak + " WHERE " + USER_USER_ID + " = 1");
     }
 }
