@@ -15,7 +15,7 @@ import com.example.ayoubelyaghmouri.smokes.R;
 
 public class Avatar extends MainActivity {
 
-    private ImageSwitcher imageSwitcher;
+    private ImageSwitcher imageSwitcherAvatar;
     private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad};
     private int j = 0;
 
@@ -24,33 +24,33 @@ public class Avatar extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar);
 
-        imageSwitcher = (ImageSwitcher) findViewById(R.id.imageSwitcherAvatar);
-        imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView imageView = new ImageView(getApplicationContext());
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
-                return imageView;
-            }
-        });
-
-        Animation animIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
-        Animation animOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
-
-        imageSwitcher.setInAnimation(animIn);
-        imageSwitcher.setOutAnimation(animOut);
-        imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
+//        imageSwitcherAvatar = (ImageSwitcher) findViewById(R.id.imageSwitcherAvatar);
+//        imageSwitcherAvatar.setFactory(new ViewSwitcher.ViewFactory() {
+//            @Override
+//            public View makeView() {
+//                ImageView imageView = new ImageView(getApplicationContext());
+//                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(
+//                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+//                return imageView;
+//            }
+//        });
+//
+//        Animation animIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
+//        Animation animOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
+//
+//        imageSwitcherAvatar.setInAnimation(animIn);
+//        imageSwitcherAvatar.setOutAnimation(animOut);
+//        imageSwitcherAvatar.setImageResource(R.drawable.womancartooncharacterfull);
     }
 
-    protected void prevImage(){
-        j -= 1;
-        imageSwitcher.setImageResource(images[j]);
-    }
-
-    protected void nextImage(){
-        j += 1;
-        imageSwitcher.setImageResource(images[j]);
-    }
+//    protected void prevImage(){
+//        j -= 1;
+//        imageSwitcherAvatar.setImageResource(images[j]);
+//    }
+//
+//    protected void nextImage(){
+//        j += 1;
+//        imageSwitcherAvatar.setImageResource(images[j]);
+//    }
 }

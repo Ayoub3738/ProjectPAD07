@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
     public boolean jaNeeKeuze = false;
-    private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacter};
+    private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad};
     private int i = 0;
     private ImageSwitcher imageSwitcher;
 

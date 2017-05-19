@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.ayoubelyaghmouri.smokes.models.Avatar;
+import com.example.ayoubelyaghmouri.smokes.models.AvatarTest;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -17,11 +18,11 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        onBtnSlectTimeClick();
+        onBtnSelectTimeClick();
         onBtnAvatarCustomisationClick();
     }
 
-    public void onBtnSlectTimeClick() {
+    public void onBtnSelectTimeClick() {
         btnSelectTime = (Button) findViewById(R.id.btnSelectTime);
         btnSelectTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(SettingsActivity.this, Avatar.class);
+                Intent intent = new Intent(SettingsActivity.this, AvatarTest.class);
                 startActivity(intent);
             }
         });

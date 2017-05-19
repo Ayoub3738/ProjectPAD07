@@ -36,13 +36,14 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name=".services.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".Avatar"></activity>
+        <activity android:name=".models.Avatar" />
+        <activity android:name=".models.AvatarTest"></activity>
     </application>
 
 </manifest>
