@@ -21,8 +21,17 @@ public class AvatarTest extends AppCompatActivity {
 
     private ImageButton btnNextImage;
     private ImageButton btnPrevImage;
+    private Button btnHaarkleur;
+    private Button btnOogkleur;
     private ImageSwitcher imageSwitcherAvatar;
-    private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad, R.drawable.womancartooncharacter};
+    private Integer[] imagesHair = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
+                                    R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
+    private Integer[] imagesEyes = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
+                                    R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
+    private Integer[] images = imagesHair;
+
+    private int spriteSarah = R.drawable.womancartooncharacterfull;
+
     private int j = 0;
 
     @Override
@@ -32,6 +41,8 @@ public class AvatarTest extends AppCompatActivity {
 
         onBtnNext();
         onBtnPrev();
+        onBtnHair();
+        onBtnEyes();
 
         imageSwitcherAvatar = (ImageSwitcher) findViewById(R.id.imageSwitcherAvatar);
 
@@ -46,25 +57,117 @@ public class AvatarTest extends AppCompatActivity {
             }
         });
 
-        imageSwitcherAvatar.setImageResource(R.drawable.womancartooncharacterfull);
+        imageSwitcherAvatar.setImageResource(spriteSarah);
     }
 
 
-    public void prevImage(){
-        j -= 1;
-        if (j < 0){
-            j = 2;
-        }
+    public void prevImageHair(){
+        if (images == imagesHair) {
+            if (j == 0 || j == 3) {
+                j -= 3;
 
-        imageSwitcherAvatar.setImageResource(images[j]);
+                if (j < 0) {
+                    j = 3;
+                }
+
+            }
+
+            if (j == 1 || j == 4) {
+                j -= 3;
+
+                if (j < 1) {
+                    j = 4;
+                }
+            }
+
+            if (j == 2 || j == 5) {
+                j -= 3;
+
+                if (j < 2) {
+                    j = 5;
+                }
+            }
+
+            imageSwitcherAvatar.setImageResource(imagesHair[j]);
+        }
     }
 
-    public void nextImage(){
-        j += 1;
-        if (j > 2){
-            j = 0;
+    public void nextImageHair(){
+
+        if (images == imagesHair) {
+            if (j == 0 || j == 3) {
+                j += 3;
+
+                if (j > 3) {
+                    j = 0;
+                }
+
+            }
+
+            if (j == 1 || j == 4) {
+                j += 3;
+
+                if (j > 4) {
+                    j = 1;
+                }
+            }
+
+            if (j == 2 || j == 5) {
+                j += 3;
+
+                if (j > 5) {
+                    j = 2;
+                }
+            }
+
+            imageSwitcherAvatar.setImageResource(imagesHair[j]);
         }
-        imageSwitcherAvatar.setImageResource(images[j]);
+    }
+
+    public void prevImageEyes(){
+        if (images == imagesEyes) {
+
+            if (j == 0 || j == 1 || j == 2) {
+                j -= 1;
+
+                if (j < 0) {
+                    j = 2;
+                }
+            }
+
+            if (j == 3 || j == 4 || j == 5) {
+                j -= 1;
+
+                if (j < 3) {
+                    j = 5;
+                }
+            }
+
+            imageSwitcherAvatar.setImageResource(imagesEyes[j]);
+        }
+    }
+
+    public void nextImageEyes(){
+
+        if (images == imagesEyes) {
+            if (j == 0 || j == 1 || j == 2) {
+                j += 1;
+
+                if (j > 2) {
+                    j = 0;
+                }
+            }
+
+            if (j == 3 || j == 4 || j == 5) {
+                j += 1;
+
+                if (j > 5) {
+                    j = 3;
+                }
+            }
+
+            imageSwitcherAvatar.setImageResource(imagesEyes[j]);
+        }
     }
 
 
@@ -74,18 +177,52 @@ public class AvatarTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                prevImage();
+                if (images == imagesHair){
+                    nextImageHair();
+                }
+
+                if (images == imagesEyes){
+                    nextImageEyes();
+                }
             }
         });
     }
 
     public void onBtnPrev() {
-        btnNextImage = (ImageButton) findViewById(R.id.btnImagePrev);
-        btnNextImage.setOnClickListener(new View.OnClickListener() {
+        btnPrevImage = (ImageButton) findViewById(R.id.btnImagePrev);
+        btnPrevImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                nextImage();
+                if (images == imagesHair){
+                    prevImageHair();
+                }
+
+                if (images == imagesEyes){
+                    prevImageEyes();
+                }
+            }
+        });
+    }
+
+    public void onBtnHair() {
+        btnHaarkleur = (Button) findViewById(R.id.btnHaarkleur);
+        btnHaarkleur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               images = imagesHair;
+            }
+        });
+    }
+
+    public void onBtnEyes() {
+        btnOogkleur = (Button) findViewById(R.id.btnOogkleur);
+        btnOogkleur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               images = imagesEyes;
             }
         });
     }
