@@ -24,7 +24,7 @@ import java.util.Date;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 13;
+    public static final int DB_VERSION = 17;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
@@ -115,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + ACH_TABLE_NAME + " (" +
                 ACH_ACHIEVEMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 ACH_USER_ID + " INTEGER, " +
-                ACH_BEHAALD + " NUMERIC, " +
+                ACH_BEHAALD + " INTEGER, " +
                 ACH_NAAM + " TEXT, " +
                 ACH_BESCHRIJVING + " TEXT, " +
                 "FOREIGN KEY (" + ACH_USER_ID + ") REFERENCES " + USER_TABLE_NAME + " (" + USER_USER_ID + ")" +
@@ -206,22 +206,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public SQLiteDatabase getDB() {
         return this.getWritableDatabase();
-    }
-
-    //update query test <<<TEST!!!
-    public void updateStreak(int streak) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-
-        //updaten kan op 2 manieren
-
-        //manier 1 - deze is het best en het netst
-        ContentValues cv = new ContentValues();
-        cv.put(USER_STREAK, streak);
-
-        db.update(USER_TABLE_NAME, cv, PAK_PAK_ID + " = 1", null);
-
-        //manier 2 - deze is wat slordiger, maar lijkt wel meer op normaal SQL
-        //db.execSQL("UPDATE " + USER_TABLE_NAME + " SET " + USER_STREAK + " = " + streak + " WHERE " + USER_USER_ID + " = 1");
     }
 }
