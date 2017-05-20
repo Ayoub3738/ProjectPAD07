@@ -102,19 +102,15 @@ public class MainActivity extends AppCompatActivity
         imageSwitcher.setOutAnimation(animOut);
         imageSwitcher.setImageResource(spriteSarah);
         tGebruiker.setAnimation(animIn);
-        tGebruiker.setText("Hey " + gebruikersNaam + " !");
+        tGebruiker.setText("Hey " + gebruikersNaam + "!");
         tvNavBarNaam.setText(gebruikersNaam);
         tvNavBarMail.setText(gebruikersNaam + "@hva.nl");
 
         String signaal = "Ping";
 
         Bundle bundle = getIntent().getExtras();
-
         if (bundle != null) {
-//            String melding = bundle.getString("signaal");
-//            tGebruiker.setText(melding + " " + signaal);
                 showAlert();
-//
         }
     }
 
