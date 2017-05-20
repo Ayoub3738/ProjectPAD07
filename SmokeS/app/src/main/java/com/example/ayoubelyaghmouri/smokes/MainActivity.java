@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -30,6 +32,7 @@ import android.widget.ViewSwitcher;
 
 import com.example.ayoubelyaghmouri.smokes.models.AvatarTest;
 import com.example.ayoubelyaghmouri.smokes.models.Character;
+import com.example.ayoubelyaghmouri.smokes.models.Gezondheid;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
 
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity
     private int i = 0;
     public static ImageSwitcher imageSwitcher;
     public int spriteSarah = R.drawable.womancartooncharacterfull;
+    private Gezondheid gezondheid = new Gezondheid(0);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,8 +207,17 @@ public class MainActivity extends AppCompatActivity
                         //melding oeps
                         tGebruiker.setTextSize(26);
                         tGebruiker.setText("Ik heb spijt dat ik gerookt heb.");
+
                         i = 1;
                         imageSwitcher.setImageResource(images[i]);
+
+//                        if (gezondheid.getTotaalGezondheid() <= 60){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull60healthsad);
+//                        }
+//
+//                        if (gezondheid.getTotaalGezondheid() <= 30){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull30healthsad);
+//                        }
                     }
                 })
                 .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
@@ -226,8 +240,17 @@ public class MainActivity extends AppCompatActivity
 
                         //melding goedzo :D
                         tGebruiker.setText("Ik voel me een stuk beter!");
+
                         i = 0;
                         imageSwitcher.setImageResource(images[i]);
+
+//                        if (gezondheid.getTotaalGezondheid() <= 60){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull60health);
+//                        }
+//
+//                        if (gezondheid.getTotaalGezondheid() <= 30){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull30health);
+//                        }
                     }
                 })
                 .create();
