@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity
     private String gebruikersNaam = " ";
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
-    public boolean jaNeeKeuze = false;
     private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad};
     private int i = 0;
     public static ImageSwitcher imageSwitcher;
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity
         Character character = Character.getCharacter(myDb);
         gebruikersNaam = character.getUserNaam();
 
-
         imageSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -100,7 +98,6 @@ public class MainActivity extends AppCompatActivity
         imageSwitcher.setImageResource(spriteSarah);
         tGebruiker.setAnimation(animIn);
         tGebruiker.setText("Hey " + gebruikersNaam + " !");
-        
         tvNavBarNaam.setText(gebruikersNaam);
         tvNavBarMail.setText(gebruikersNaam + "@hva.nl");
 
@@ -115,8 +112,6 @@ public class MainActivity extends AppCompatActivity
 //
         }
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -209,8 +204,6 @@ public class MainActivity extends AppCompatActivity
                         tGebruiker.setText("Ik heb spijt dat ik gerookt heb.");
                         i = 1;
                         imageSwitcher.setImageResource(images[i]);
-
-                        jaNeeKeuze = true;
                     }
                 })
                 .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
@@ -235,8 +228,6 @@ public class MainActivity extends AppCompatActivity
                         tGebruiker.setText("Ik voel me een stuk beter!");
                         i = 0;
                         imageSwitcher.setImageResource(images[i]);
-
-                        jaNeeKeuze = false;
                     }
                 })
                 .create();
