@@ -13,27 +13,48 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
+import com.example.ayoubelyaghmouri.smokes.MainActivity;
 import com.example.ayoubelyaghmouri.smokes.R;
 import com.example.ayoubelyaghmouri.smokes.SelectTimeActivity;
 import com.example.ayoubelyaghmouri.smokes.SettingsActivity;
+import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
 public class AvatarTest extends AppCompatActivity {
 
+    private DatabaseHelper myDb;
     private ImageButton btnNextImage;
     private ImageButton btnPrevImage;
+    private Button btnHaarkleur;
+    private Button btnOogkleur;
+    private Button btnOpslaan;
     private ImageSwitcher imageSwitcherAvatar;
-    private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad, R.drawable.womancartooncharacter};
-    private int j = 0;
+    private Integer[] imagesHair = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
+                                    R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
+    private Integer[] imagesEyes = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
+                                    R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
+    private Integer[] images = imagesHair;
+    private int j = 1;
+    public int spriteSarah  = getImages(getJ());
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar_test);
+        myDb = new DatabaseHelper(this);
 
         onBtnNext();
         onBtnPrev();
+        onBtnHair();
+        onBtnEyes();
+        onBtnOpslaan();
+
+        Animation animIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
+        Animation animOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
 
         imageSwitcherAvatar = (ImageSwitcher) findViewById(R.id.imageSwitcherAvatar);
+        imageSwitcherAvatar.setInAnimation(animIn);
+        imageSwitcherAvatar.setOutAnimation(animOut);
 
         imageSwitcherAvatar.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -46,25 +67,122 @@ public class AvatarTest extends AppCompatActivity {
             }
         });
 
-        imageSwitcherAvatar.setImageResource(R.drawable.womancartooncharacterfull);
+        spriteSarah  = getImages(getJ());
+        btnOpslaan.setVisibility(View.INVISIBLE);
+        imageSwitcherAvatar.setImageResource(spriteSarah);
     }
 
 
-    public void prevImage(){
-        j -= 1;
-        if (j < 0){
-            j = 2;
-        }
 
-        imageSwitcherAvatar.setImageResource(images[j]);
+    public void prevImageHair(){
+        if (images == imagesHair) {
+            if (j == 0 || j == 3) {
+                j -= 3;
+
+                if (j < 0) {
+                    j = 3;
+                }
+            }
+
+            if (j == 1 || j == 4) {
+                j -= 3;
+
+                if (j < 1) {
+                    j = 4;
+                }
+            }
+
+            if (j == 2 || j == 5) {
+                j -= 3;
+
+                if (j < 2) {
+                    j = 5;
+                }
+            }
+            spriteSarah = imagesHair[j];
+        }
+        imageSwitcherAvatar.setImageResource(imagesHair[j]);
+        Update();
     }
 
-    public void nextImage(){
-        j += 1;
-        if (j > 2){
-            j = 0;
+    public void nextImageHair(){
+
+        if (images == imagesHair) {
+            if (j == 0 || j == 3) {
+                j += 3;
+
+                if (j > 3) {
+                    j = 0;
+                }
+            }
+
+            if (j == 1 || j == 4) {
+                j += 3;
+
+                if (j > 4) {
+                    j = 1;
+                }
+            }
+
+            if (j == 2 || j == 5) {
+                j += 3;
+
+                if (j > 5) {
+                    j = 2;
+                }
+            }
+            spriteSarah = imagesHair[j];
         }
-        imageSwitcherAvatar.setImageResource(images[j]);
+        imageSwitcherAvatar.setImageResource(imagesHair[j]);
+        Update();
+    }
+
+    public void prevImageEyes(){
+        if (images == imagesEyes) {
+
+            if (j == 0 || j == 1 || j == 2) {
+                j -= 1;
+
+                if (j < 0) {
+                    j = 2;
+                }
+            }
+
+            if (j == 3 || j == 4 || j == 5) {
+                j -= 1;
+
+                if (j < 3) {
+                    j = 5;
+                }
+            }
+            spriteSarah = imagesHair[j];
+        }
+        imageSwitcherAvatar.setImageResource(imagesEyes[j]);
+        Update();
+    }
+
+    public void nextImageEyes(){
+
+        if (images == imagesEyes) {
+            if (j == 0 || j == 1 || j == 2) {
+                j += 1;
+
+                if (j > 2) {
+                    j = 0;
+                }
+            }
+
+            if (j == 3 || j == 4 || j == 5) {
+                j += 1;
+
+                if (j > 5) {
+                    j = 3;
+                }
+            }
+            spriteSarah = imagesHair[j];
+        }
+        imageSwitcherAvatar.setImageResource(imagesEyes[j]);
+        Update();
     }
 
 
@@ -74,20 +192,76 @@ public class AvatarTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                prevImage();
+                if (images == imagesHair){
+                    nextImageHair();
+                }
+
+                if (images == imagesEyes){
+                    nextImageEyes();
+                }
             }
         });
     }
 
     public void onBtnPrev() {
-        btnNextImage = (ImageButton) findViewById(R.id.btnImagePrev);
-        btnNextImage.setOnClickListener(new View.OnClickListener() {
+        btnPrevImage = (ImageButton) findViewById(R.id.btnImagePrev);
+        btnPrevImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                nextImage();
+                if (images == imagesHair){
+                    prevImageHair();
+                }
+
+                if (images == imagesEyes){
+                    prevImageEyes();
+                }
             }
         });
     }
 
+    public void onBtnHair() {
+        btnHaarkleur = (Button) findViewById(R.id.btnHaarkleur);
+        btnHaarkleur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               images = imagesHair;
+            }
+        });
+    }
+
+    public void onBtnEyes() {
+        btnOogkleur = (Button) findViewById(R.id.btnOogkleur);
+        btnOogkleur.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               images = imagesEyes;
+            }
+        });
+    }
+
+    public void onBtnOpslaan() {
+        btnOpslaan = (Button) findViewById(R.id.btnSlaAvatarOp);
+        btnOpslaan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.imageSwitcher.setImageResource(getImages(getJ()));
+            }
+        });
+    }
+
+    public void Update(){
+        if (spriteSarah != R.drawable.womancartooncharacterfull){
+            btnOpslaan.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public Integer getImages(int index) {
+        return images[index];
+    }
+
+    public int getJ() {
+        return j;
+    }
 }

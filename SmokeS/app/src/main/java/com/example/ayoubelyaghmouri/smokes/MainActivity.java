@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -22,12 +24,15 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.example.ayoubelyaghmouri.smokes.models.AvatarTest;
 import com.example.ayoubelyaghmouri.smokes.models.Character;
+import com.example.ayoubelyaghmouri.smokes.models.Gezondheid;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import com.example.ayoubelyaghmouri.smokes.models.Status;
 
@@ -42,10 +47,12 @@ public class MainActivity extends AppCompatActivity
     private String gebruikersNaam = " ";
     DatabaseHelper myDb;
     private int aantalSigaretten = 1;
-    public boolean jaNeeKeuze = false;
     private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad};
     private int i = 0;
-    private ImageSwitcher imageSwitcher;
+    public static ImageSwitcher imageSwitcher;
+    public int spriteSarah = R.drawable.womancartooncharacterfull;
+    private Gezondheid gezondheid = new Gezondheid(0);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +100,9 @@ public class MainActivity extends AppCompatActivity
 
         imageSwitcher.setInAnimation(animIn);
         imageSwitcher.setOutAnimation(animOut);
-        imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
+        imageSwitcher.setImageResource(spriteSarah);
         tGebruiker.setAnimation(animIn);
-        tGebruiker.setText("Hey " + gebruikersNaam + "!");
-
+        tGebruiker.setText("Hey " + gebruikersNaam + " !");
         tvNavBarNaam.setText(gebruikersNaam);
         tvNavBarMail.setText(gebruikersNaam + "@hva.nl");
 
@@ -110,7 +116,6 @@ public class MainActivity extends AppCompatActivity
                 showAlert();
 //
         }
-
     }
 
     @Override
@@ -202,10 +207,17 @@ public class MainActivity extends AppCompatActivity
                         //melding oeps
                         tGebruiker.setTextSize(26);
                         tGebruiker.setText("Ik heb spijt dat ik gerookt heb.");
+
                         i = 1;
                         imageSwitcher.setImageResource(images[i]);
 
-                        jaNeeKeuze = true;
+//                        if (gezondheid.getTotaalGezondheid() <= 60){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull60healthsad);
+//                        }
+//
+//                        if (gezondheid.getTotaalGezondheid() <= 30){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull30healthsad);
+//                        }
                     }
                 })
                 .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
@@ -228,10 +240,17 @@ public class MainActivity extends AppCompatActivity
 
                         //melding goedzo :D
                         tGebruiker.setText("Ik voel me een stuk beter!");
+
                         i = 0;
                         imageSwitcher.setImageResource(images[i]);
 
-                        jaNeeKeuze = false;
+//                        if (gezondheid.getTotaalGezondheid() <= 60){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull60health);
+//                        }
+//
+//                        if (gezondheid.getTotaalGezondheid() <= 30){
+//                            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull30health);
+//                        }
                     }
                 })
                 .create();
