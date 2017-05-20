@@ -10,13 +10,13 @@
         android:id="@+id/imageSwitcherAvatar"
         android:layout_width="382dp"
         android:layout_height="500dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="0.514">
+        app:layout_constraintVertical_bias="0.0">
 
     </ImageSwitcher>
 
@@ -24,43 +24,24 @@
         android:id="@+id/btnOogkleur"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="274dp"
-        android:layout_marginTop="537dp"
         android:text="@string/avatar_oog_kleur"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnSlaAvatarOp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Sla op"
-        android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSelectDay"
-        app:layout_constraintVertical_bias="0.034" />
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/btnHaarkleur"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="34dp"
-        android:layout_marginTop="537dp"
         android:text="@string/avatar_haar_kleur"
+        app:layout_constraintRight_toLeftOf="@+id/btnSlaAvatarOp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/btnSlaAvatarOp"
+        android:layout_marginTop="-2dp"
+        app:layout_constraintHorizontal_bias="0.571" />
 
     <ImageButton
         android:id="@+id/btnImagePrev"
@@ -81,5 +62,26 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_media_next" />
+
+    <Button
+        android:id="@+id/btnSlaAvatarOp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="136dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Sla op"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.982"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

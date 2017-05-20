@@ -36,7 +36,6 @@
         <activity
             android:name=".models.AvatarTest"
             android:screenOrientation="portrait"/>
-
         <activity
             android:name=".BesparingenOverzichtActivity"
             android:screenOrientation="portrait"
@@ -56,9 +55,6 @@
                 <action android:name="com.example.ayoubelyaghmouri.smokes.services" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".models.Avatar" />
-        <activity android:name=".models.AvatarTest"></activity>
     </application>
 
 </manifest>
