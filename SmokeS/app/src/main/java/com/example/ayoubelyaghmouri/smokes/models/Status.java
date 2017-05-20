@@ -59,7 +59,6 @@ public class Status {
     }
 
     public static Status getStatus(DatabaseHelper db) {
-        Gezondheid gezondheid = new Gezondheid(1); //hier word gezondheid ook meteen berekend, moet nog worden gemaakt
 
         SQLiteDatabase myDb = db.getDB();
         String query = "SELECT * " +
@@ -73,7 +72,24 @@ public class Status {
             res.moveToFirst();
 
             Sigarettenpak pak = Sigarettenpak.getPak(db);
-            status = new Status(res.getInt(0), pak, res.getInt(1), gezondheid, res.getInt(4), res.getInt(5), new Date(res.getLong(7)), res.getInt(6), res.getInt(3));
+
+            Gezondheid gezondheid = new Gezondheid(0);
+            gezondheid.berekenTotaalGezondheid(
+                    res.getInt(res.getColumnIndex(db.USER_NIET_GEROOKTE_SIGARETTEN)),
+                    res.getInt(res.getColumnIndex(db.USER_AANTAL_MELDINGEN)),
+                    db
+            );
+
+            status = new Status(
+                    res.getInt(res.getColumnIndex(db.USER_USER_ID)),
+                    pak, res.getInt(res.getColumnIndex(db.USER_CHARACTER_ID)),
+                    gezondheid,
+                    res.getInt(res.getColumnIndex(db.USER_NIET_GEROOKTE_SIGARETTEN)),
+                    res.getInt(res.getColumnIndex(db.USER_AANTAL_MELDINGEN)),
+                    new Date(res.getLong(res.getColumnIndex(db.USER_LAATST_GEROOKT))),
+                    res.getInt(res.getColumnIndex(db.USER_RECORD_STREAK)),
+                    res.getInt(res.getColumnIndex(db.USER_STREAK))
+            );
 
             res.close();
         }
@@ -100,11 +116,18 @@ public class Status {
     }
 
     public void update(DatabaseHelper db) {
+        SQLiteDatabase myDb = db.getDB();
 
-    }
+        ContentValues cvUser = new ContentValues();
+        cvUser.put(DatabaseHelper.USER_CHARACTER_ID, 1);
+        cvUser.put(DatabaseHelper.USER_PAK_ID, pak.getPakID());
+        cvUser.put(DatabaseHelper.USER_STREAK, streak);
+        cvUser.put(DatabaseHelper.USER_NIET_GEROOKTE_SIGARETTEN, nietGerookteSigaretten);
+        cvUser.put(DatabaseHelper.USER_AANTAL_MELDINGEN, aantalMeldingen);
+        cvUser.put(DatabaseHelper.USER_RECORD_STREAK, recordStreak);
+        cvUser.put(DatabaseHelper.USER_LAATST_GEROOKT, laatstGerookt.getTime());
 
-    public static void update(Sigarettenpak pak, DatabaseHelper db) {
-
+        myDb.update(db.USER_TABLE_NAME, cvUser, db.USER_USER_ID + " = 1", null);
     }
 
     public static <G> void update(String kolomnaam, G gegeven, DatabaseHelper db) {
@@ -184,5 +207,49 @@ public class Status {
 
     public Date getLaatstGerookt() {
         return laatstGerookt;
+    }
+
+    public int getStatusID() {
+        return statusID;
+    }
+
+    public Sigarettenpak getPak() {
+        return pak;
+    }
+
+    public int getCharacterID() {
+        return characterID;
+    }
+
+    public Gezondheid getGezondheid() {
+        return gezondheid;
+    }
+
+    public int getRecordStreak() {
+        return recordStreak;
+    }
+
+    public void setStatusID(int statusID) {
+        this.statusID = statusID;
+    }
+
+    public void setPak(Sigarettenpak pak) {
+        this.pak = pak;
+    }
+
+    public void setCharacterID(int characterID) {
+        this.characterID = characterID;
+    }
+
+    public void setGezondheid(Gezondheid gezondheid) {
+        this.gezondheid = gezondheid;
+    }
+
+    public void setLaatstGerookt(Date laatstGerookt) {
+        this.laatstGerookt = laatstGerookt;
+    }
+
+    public void setRecordStreak(int recordStreak) {
+        this.recordStreak = recordStreak;
     }
 }

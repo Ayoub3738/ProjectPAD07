@@ -1,5 +1,7 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
+import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
+
 /**
  * Created by jerry on 10-5-2017.
  */
@@ -18,7 +20,7 @@ public abstract class Orgaan {
      * berekent de staat van een orgaan. 100% is goed, 0% is slecht
      * @param nietGerookteSigaretten het aantal sigaretten die je niet gerookt hebt
      */
-    public abstract void berekenPercentage(int nietGerookteSigaretten);
+    public abstract void berekenPercentage(int nietGerookteSigaretten, int aantalMeldingen, DatabaseHelper db);
 
     public String getNaam() {
         return naam;
