@@ -159,25 +159,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public ArrayList<Tijd> getTijden(){
+    /**
+     *
+     * @return user uit database
+     */
+    public Status getUser() {
+        //is je connectionstring van je database/pakt de beschikbare database
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " +
-                TIME_HOUR + ", " +
-                TIME_MINUTE + " " +
-                "FROM " + TIME_TABLE_NAME + " " +
-                "WHERE " + TIME_USER_ID + " = 1;";
+                "u." + USER_NIET_GEROOKTE_SIGARETTEN + ", " + //0
+                "u." + USER_AANTAL_MELDINGEN + ", " + //1
+                "u." + USER_STREAK + ", " + //2
+                "p." + PAK_PAK_ID + ", " + //3
+                "p." + PAK_PRIJS + ", " + //4
+                "p." + PAK_MERK + ", " + //5
+                "p." + PAK_AANTAL_SIGARETTEN + " " + //6
+                "FROM " + USER_TABLE_NAME + " u INNER JOIN " + PAK_TABLE_NAME + " p " +
+                "ON u.pakID = p.pakID;";
 
+        Status status = null;
         Cursor res = db.rawQuery(query, null);
-        ArrayList<Tijd> uren = new ArrayList<>();
 
-        if (res.moveToFirst()) {
-            do {
-                Tijd t = new Tijd(res.getInt(res.getColumnIndex(TIME_HOUR)), res.getInt(res.getColumnIndex(TIME_MINUTE)));
-                uren.add(t);
-            } while (res.moveToNext());
+        if(res.moveToFirst()) {
+            res.moveToFirst();
+
+            Sigarettenpak pak = new Sigarettenpak(res.getInt(3), res.getDouble(4), res.getString(5), res.getInt(6));
+            status = new Status(res.getInt(0), res.getInt(1), res.getInt(2), null, pak);
+
+            res.close();
         }
 
-        return uren;
+        return status;
+    }
+
+    public void updateNaMelding(Status status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "";
+
+        ContentValues cv = new ContentValues();
+        cv.put(USER_STREAK, status.getStreak());
+        cv.put(USER_AANTAL_MELDINGEN, status.getAantalMeldingen());
+        cv.put(USER_NIET_GEROOKTE_SIGARETTEN, status.getNietGerookteSigaretten());
+
+        db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
     }
 
     public SQLiteDatabase getDB() {
