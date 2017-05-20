@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
         imageSwitcher.setOutAnimation(animOut);
         imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
         tGebruiker.setAnimation(animIn);
-        tGebruiker.setText("Hey " + gebruikersNaam + " !");
+        tGebruiker.setText("Hey " + gebruikersNaam + "!");
 
         tvNavBarNaam.setText(gebruikersNaam);
         tvNavBarMail.setText(gebruikersNaam + "@hva.nl");

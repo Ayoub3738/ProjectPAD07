@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -32,6 +33,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -41,7 +43,7 @@ public class SelectTimeActivity extends AppCompatActivity {
     private Button btnSelectTime;
     private Button btnSlaOp;
     private TextView tTime;
-    private int uur, minuten, selectedUur, selectedMinute;
+    private int uur, minuten, selectedUur, selectedMinute, futurealarmtimeInMs;
     private TimeZone timeZone = TimeZone.getTimeZone("Europe/Amsterdam");
     private Calendar calendar = GregorianCalendar.getInstance(timeZone);
     private ArrayList<String> selectedTimesList = new ArrayList<>();
@@ -52,6 +54,7 @@ public class SelectTimeActivity extends AppCompatActivity {
     private Spinner spinDays;
     private ArrayList<Tijd> tijden;
     private AlarmManager alarmManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +82,9 @@ public class SelectTimeActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                calendar = Calendar.getInstance();
-                uur = calendar.get(Calendar.HOUR_OF_DAY);
-                minuten = calendar.get(Calendar.MINUTE);
+                calendar = GregorianCalendar.getInstance();
+                uur = calendar.get(GregorianCalendar.HOUR_OF_DAY);
+                minuten = calendar.get(GregorianCalendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(SelectTimeActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -89,6 +92,12 @@ public class SelectTimeActivity extends AppCompatActivity {
                         tTime.setText(hourOfDay + " : " + minute);
                         selectedUur = hourOfDay;
                         selectedMinute = minute;
+//                        Calendar c = GregorianCalendar.getInstance(timeZone);
+//                        long msNow = c.getTimeInMillis();
+//                        c.set(Calendar.HOUR, hourOfDay);x
+//                        c.set(Calendar.MINUTE, minute);
+
+//                        futurealarmtimeInMs = (int) (c.getTimeInMillis() - msNow);//calendar.getTimeInMillis());
                         setButtonEnabled();
 
                     }
@@ -110,8 +119,22 @@ public class SelectTimeActivity extends AppCompatActivity {
 
                 switch (selectedDay){
                     case 0:
-//                        registerAlarm();
-                        registerAlarm(selectedUur, selectedMinute);
+                        calendar.getInstance();
+                        calendar.set(GregorianCalendar.HOUR_OF_DAY, uur);
+                        calendar.set(GregorianCalendar.MINUTE, minuten);
+
+                        AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        Intent intent = new Intent(SelectTimeActivity.this, NotificationReciever.class);
+                        intent.putExtra("time", uur + ":" + minuten);
+
+                        PendingIntent alarmIntent = PendingIntent.getBroadcast(SelectTimeActivity.this, 0, intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP,
+                                calendar.getTimeInMillis(), (24 * 1000 * 60 * 60),
+                                alarmIntent); //every 24 hours
+
+                        Toast.makeText(SelectTimeActivity.this, "Alarm gestart " + calendar.getTimeInMillis(), Toast.LENGTH_LONG).show();
                         Tijd insertTijd = new Tijd(selectedUur, selectedMinute);
                         insertTijd.insert(myDb);
                         break;
@@ -127,47 +150,29 @@ public class SelectTimeActivity extends AppCompatActivity {
         arrayList.add("Dagelijks");
     }
 
-    // Register the alarm and set it at 7am everyday (repeating mode)
-    public void registerAlarm(int uur, int minuten) {
-        Intent myIntent = new Intent(this, NotificationReciever.class);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
-
-    // Set the alarm to start at approximately 2:00 p.m.
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
-        cal.set(Calendar.HOUR_OF_DAY, uur);
-        cal.set(Calendar.MINUTE, minuten);
-        cal.set(Calendar.SECOND, 0);
-
-    // With setInexactRepeating(), you have to use one of the AlarmManager interval
-    // constants--in this case, AlarmManager.INTERVAL_DAY.
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
-
-        Toast.makeText(SelectTimeActivity.this, "Alarm gestart ", Toast.LENGTH_LONG).show();
-    }
-
     private void handleNotification(int uur, int minuten) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, uur);
-        cal.set(Calendar.MINUTE, minuten);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        calendar.getInstance();
+        calendar.set(GregorianCalendar.HOUR_OF_DAY, uur);
+        calendar.set(GregorianCalendar.MINUTE, minuten);
 
-        Intent alarmIntent = new Intent(this, NotificationReciever.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                cal.getTimeInMillis(), alarmManager.INTERVAL_DAY, pendingIntent);
+        AlarmManager alarmMgr = (AlarmManager) this
+                .getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReciever.class);
+        intent.putExtra("time", uur + ":" + minuten);
 
-        Toast.makeText(SelectTimeActivity.this, "Alarm gestart ", Toast.LENGTH_LONG).show();
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(), (24 * 1000 * 60 * 60),
+                alarmIntent); //every 24 hours
+
+        Toast.makeText(SelectTimeActivity.this, "Alarm gestart " + calendar.getTimeInMillis(), Toast.LENGTH_LONG).show();
 
     }
 
     public void haalTijdenOp(){
-        tijden = myDb.getTijden();
+        tijden = Tijd.getTijden(myDb);
         List<String> test = new ArrayList<>();
 
         for (Tijd tijd : tijden) {
@@ -186,6 +191,8 @@ public class SelectTimeActivity extends AppCompatActivity {
                 deleteTimeFromList(tijden.get(position));
             }
         });
+
+
     }
 
 
