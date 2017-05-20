@@ -1,5 +1,7 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
+import com.example.ayoubelyaghmouri.smokes.MainActivity;
+import com.example.ayoubelyaghmouri.smokes.R;
 import com.example.ayoubelyaghmouri.smokes.models.Orgaan;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 
 public class Gezondheid {
 
-    private int totaalGezondheid;
+    public int totaalGezondheid;
     private ArrayList<Orgaan> organen;
 
     public Gezondheid(int totaalGezondheid) {
@@ -46,6 +48,16 @@ public class Gezondheid {
         }
 
         totaalGezondheid = (int)Math.round((float)totaalPercentage / TOTAAL_ORGANEN);
+
+        MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull);
+
+        if (totaalGezondheid <= 60){
+            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull60health);
+        }
+
+        if (totaalGezondheid <= 30){
+            MainActivity.imageSwitcher.setImageResource(R.drawable.womancartooncharacterfull30health);
+        }
     }
 
     public int getTotaalGezondheid() {
