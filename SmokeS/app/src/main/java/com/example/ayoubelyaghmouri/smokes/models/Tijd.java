@@ -1,17 +1,20 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by jerry on 16-5-2017.
  */
 
-public class Tijd {
+public class Tijd implements Comparable<Tijd> {
 
     private int tijdID;
     private int statusID;
@@ -32,7 +35,26 @@ public class Tijd {
     }
 
     public static ArrayList<Tijd> getTijden(DatabaseHelper db) {
-        return new ArrayList<>();
+        SQLiteDatabase myDb = db.getDB();
+        String query = "SELECT " +
+                db.TIME_HOUR + ", " +
+                db.TIME_MINUTE + " " +
+                "FROM " + db.TIME_TABLE_NAME + " " +
+                "WHERE " + db.TIME_USER_ID + " = 1;";
+
+        Cursor res = myDb.rawQuery(query, null);
+        ArrayList<Tijd> uren = new ArrayList<>();
+
+        if (res.moveToFirst()) {
+            do {
+                Tijd t = new Tijd(res.getInt(res.getColumnIndex(db.TIME_HOUR)), res.getInt(res.getColumnIndex(db.TIME_MINUTE)));
+                uren.add(t);
+            } while (res.moveToNext());
+        }
+
+        Collections.sort(uren);
+
+        return uren;
     }
 
     public void insert(DatabaseHelper db) {
@@ -60,5 +82,14 @@ public class Tijd {
 
     public int getMinuten() {
         return minuten;
+    }
+
+    @Override
+    public int compareTo(@NonNull Tijd o) {
+        if(uur - o.getUur() != 0){
+            return uur - o.getUur();
+        } else {
+            return minuten - o.getMinuten();
+        }
     }
 }
