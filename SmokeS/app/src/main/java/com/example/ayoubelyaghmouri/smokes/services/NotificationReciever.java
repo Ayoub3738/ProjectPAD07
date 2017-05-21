@@ -15,6 +15,11 @@ import com.example.ayoubelyaghmouri.smokes.R;
  */
 
 public class NotificationReciever extends BroadcastReceiver {
+
+    /**
+     * Deze methode zorgt ervoor dat wanneer er lokaal een notificatiesignaal komt, de notificatie
+     * wordt getriggert.
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent notificationIntent = new Intent(context, MainActivity.class);

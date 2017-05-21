@@ -14,6 +14,9 @@ import static android.content.ContentValues.TAG;
 public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     private static final String REG_TOKEN = "REG_TOKEN";
 
+    /**
+     * Dit haalt de speciale code op voor de app voor de firebase service.
+     */
     @Override
     public void onTokenRefresh() {
         String recentToken = FirebaseInstanceId.getInstance().getToken();
