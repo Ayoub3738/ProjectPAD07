@@ -38,6 +38,10 @@ import com.example.ayoubelyaghmouri.smokes.models.Status;
 
 import java.util.Date;
 
+/**
+ * Dit is de main activitie, het eerste scherm waar je op komt als je de app opstart
+ */
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //dit is standaard van android studio en maakt een heel mooi menutje aan
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
 
+        //wijst db helper toe
         myDb = new DatabaseHelper(this);
 
         tGebruiker = (TextView)findViewById(R.id.tGebruiker);
@@ -114,6 +120,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * standaard van android studio (is van het menu aan de zijkant)
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -124,6 +133,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * is van menu
+     */
     public void makeFloatButtons(){
         Animation animInFloatDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_float_down);
         Animation animInFloatCenterLeft = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_float_center_left);
@@ -181,17 +193,21 @@ public class MainActivity extends AppCompatActivity
         btnFloatNotification.setAnimation(animInFloatCenterRight);
     }
 
+    /**
+     * Dit is een melding of sarah mag roken of niet
+     */
     public void showAlert(){
+        //maakt melding of sarah mag roken
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Rookmelding!")
                 .setMessage("Wilt u Sarah een sigaret laten roken?")
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //haalt gegevens van user uit database
+                        //zo ja dan haalt ie gegevens van status/user uit database
                         Status newStatus = Status.getStatus(myDb);
 
-                        //reset streak, voegt 1 toe bij aantalmeldingen
+                        //reset streak, voegt 1 toe bij aantalmeldingen en slaat de datum en tijd van nu op
                         newStatus.setStreak(0);
                         newStatus.setAantalMeldingen(newStatus.getAantalMeldingen() +1);
                         Date datumNu = new Date();
@@ -204,6 +220,7 @@ public class MainActivity extends AppCompatActivity
                         tGebruiker.setTextSize(26);
                         tGebruiker.setText("Ik heb spijt dat ik gerookt heb.");
 
+                        //sarah die niet blij is
                         i = 1;
                         imageSwitcher.setImageResource(images[i]);
 
@@ -237,6 +254,7 @@ public class MainActivity extends AppCompatActivity
                         //melding goedzo :D
                         tGebruiker.setText("Ik voel me een stuk beter!");
 
+                        //sarah die wel blij is
                         i = 0;
                         imageSwitcher.setImageResource(images[i]);
 
@@ -253,10 +271,17 @@ public class MainActivity extends AppCompatActivity
         alert.show();
     }
 
+    /**
+     * is de onclick van show alert knop
+     * @param v
+     */
     public void showAlertBtn(View v) {
         showAlert();
     }
 
+    /**
+     * laat notificatie zien
+     */
     public void showNotification(){
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         //Beiden triggeren, zowel alert als notificatie.
@@ -276,6 +301,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * is van android studio voor menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -283,6 +313,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * is van android studio voor menu
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -298,6 +333,11 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * ook deze is van android studio om het menu te maken
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -307,12 +347,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action 
         } else if (id == R.id.nav_status) {
+            //switched over naar Statusscherm
             Intent statusIntent = new Intent(MainActivity.this, ProgressActivity.class);
             startActivity(statusIntent);
         } else if (id == R.id.nav_achievements) {
+            //switched over naar Achievementscherm
             Intent achievementIntent = new Intent(MainActivity.this, AchievementActivity.class);
             startActivity(achievementIntent);
         } else if (id == R.id.nav_settings) {
+            //switched over naar Instellingenscherm
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);
         } else if (id == R.id.nav_share) {

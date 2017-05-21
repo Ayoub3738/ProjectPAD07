@@ -8,6 +8,7 @@ import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import java.util.ArrayList;
 
 /**
+ * met deze class berekent de applicatie hoe gezond je bezig bent
  * Created by jerry on 10-5-2017.
  */
 
@@ -16,6 +17,10 @@ public class Gezondheid {
     public int totaalGezondheid;
     private ArrayList<Orgaan> organen;
 
+    /**
+     * constructor
+     * @param totaalGezondheid hoe gezond je hart, longen en huid zijn (een gemiddelde)
+     */
     public Gezondheid(int totaalGezondheid) {
         this.totaalGezondheid = totaalGezondheid;
         organen = new ArrayList<>();

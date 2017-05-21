@@ -8,6 +8,7 @@ import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import java.util.ArrayList;
 
 /**
+ * Een achievement is een bepaald doel waarvoor je kan gaan in het spel, het is de bedoeling dat je deze achievements behaald om het spel uit te spelen
  * Created by jerry on 16-5-2017.
  */
 
@@ -19,6 +20,14 @@ public class Achievement {
     private String naam;
     private String beschrijving;
 
+    /**
+     * Constructor met alle gegevens van een achievement
+     * @param achievementID Een uniek id voor een achievement (word automatisch gegenereerd)
+     * @param statusID Een uniek id voor een status (want een achievement hoort bij een status van een persoon)
+     * @param behaald Heb je de achievement behaald ja of nee
+     * @param naam De naam van een achievement
+     * @param beschrijving De beschrijving van een achievement
+     */
     public Achievement(int achievementID, int statusID, boolean behaald, String naam, String beschrijving) {
         this.achievementID = achievementID;
         this.statusID = statusID;
@@ -27,6 +36,12 @@ public class Achievement {
         this.beschrijving = beschrijving;
     }
 
+    /**
+     * Constructor die eigenlijk alleen word gebruikt bij het inserten van een achievement in de database
+     * @param behaald Heb je de achievement behaald ja of nee
+     * @param naam De naam van een achievement
+     * @param beschrijving De beschrijving van een achievement
+     */
     public Achievement(boolean behaald, String naam, String beschrijving) {
         this.statusID = 1;
         this.behaald = behaald;

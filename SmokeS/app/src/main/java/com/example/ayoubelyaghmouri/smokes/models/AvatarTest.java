@@ -19,15 +19,23 @@ import com.example.ayoubelyaghmouri.smokes.SelectTimeActivity;
 import com.example.ayoubelyaghmouri.smokes.SettingsActivity;
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
+/**
+ * Dit is een test klasse/activity om te kijken of het switchen van een image op de character werkt (en deze wijzigingen op te slaan)
+ */
 public class AvatarTest extends AppCompatActivity {
 
+    //de database
     private DatabaseHelper myDb;
+
+    //de knoppen voor veranderen en opslaan
     private ImageButton btnNextImage;
     private ImageButton btnPrevImage;
     private Button btnHaarkleur;
     private Button btnOogkleur;
     private Button btnOpslaan;
+    //image switcher
     private ImageSwitcher imageSwitcherAvatar;
+    //de plaatjes opgeslagen in een integer
     private Integer[] imagesHair = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
                                     R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
     private Integer[] imagesEyes = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
@@ -36,22 +44,30 @@ public class AvatarTest extends AppCompatActivity {
     private int j = 1;
     public int spriteSarah  = getImages(getJ());
 
-
+    /**
+     * dit is de init
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avatar_test);
+
+        //database toewijzen
         myDb = new DatabaseHelper(this);
 
+        //listeners/handlers knoppen
         onBtnNext();
         onBtnPrev();
         onBtnHair();
         onBtnEyes();
         onBtnOpslaan();
 
+        //supercoolle animaties
         Animation animIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in);
         Animation animOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.out);
 
+        //toewijzen imageswitcher en animaties
         imageSwitcherAvatar = (ImageSwitcher) findViewById(R.id.imageSwitcherAvatar);
         imageSwitcherAvatar.setInAnimation(animIn);
         imageSwitcherAvatar.setOutAnimation(animOut);
@@ -73,7 +89,9 @@ public class AvatarTest extends AppCompatActivity {
     }
 
 
-
+    /**
+     * veranderd naar vorige haar in de lijst
+     */
     public void prevImageHair(){
         if (images == imagesHair) {
             if (j == 0 || j == 3) {
@@ -105,6 +123,9 @@ public class AvatarTest extends AppCompatActivity {
         Update();
     }
 
+    /**
+     * veranderd naar volgende haar in de lijst
+     */
     public void nextImageHair(){
 
         if (images == imagesHair) {
@@ -137,6 +158,9 @@ public class AvatarTest extends AppCompatActivity {
         Update();
     }
 
+    /**
+     * veranderd naar vorige ogen in de lijst
+     */
     public void prevImageEyes(){
         if (images == imagesEyes) {
 
@@ -161,6 +185,9 @@ public class AvatarTest extends AppCompatActivity {
         Update();
     }
 
+    /**
+     * veranderd naar volgende ogen in de lijst
+     */
     public void nextImageEyes(){
 
         if (images == imagesEyes) {
@@ -185,7 +212,9 @@ public class AvatarTest extends AppCompatActivity {
         Update();
     }
 
-
+    /**
+     * als je op deze knop klikt veranderd ie haar en ogen (deze is vooruit in de lijst)
+     */
     public void onBtnNext() {
         btnNextImage = (ImageButton) findViewById(R.id.btnImageNext);
         btnNextImage.setOnClickListener(new View.OnClickListener() {
@@ -203,6 +232,9 @@ public class AvatarTest extends AppCompatActivity {
         });
     }
 
+    /**
+     * ook bij deze knop, als je erop klikt veranderd hij het haar en de ogen (deze is achteruit in de lijst)
+     */
     public void onBtnPrev() {
         btnPrevImage = (ImageButton) findViewById(R.id.btnImagePrev);
         btnPrevImage.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +252,9 @@ public class AvatarTest extends AppCompatActivity {
         });
     }
 
+    /**
+     * deze veranderd de haarkleur
+     */
     public void onBtnHair() {
         btnHaarkleur = (Button) findViewById(R.id.btnHaarkleur);
         btnHaarkleur.setOnClickListener(new View.OnClickListener() {
@@ -230,6 +265,9 @@ public class AvatarTest extends AppCompatActivity {
         });
     }
 
+    /**
+     * deze veranderd de ogen
+     */
     public void onBtnEyes() {
         btnOogkleur = (Button) findViewById(R.id.btnOogkleur);
         btnOogkleur.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +279,9 @@ public class AvatarTest extends AppCompatActivity {
         });
     }
 
+    /**
+     * dit is een knop die alles opslaat
+     */
     public void onBtnOpslaan() {
         btnOpslaan = (Button) findViewById(R.id.btnSlaAvatarOp);
         btnOpslaan.setOnClickListener(new View.OnClickListener() {
@@ -251,6 +292,9 @@ public class AvatarTest extends AppCompatActivity {
         });
     }
 
+    /**
+     * dit is een knop die alles update
+     */
     public void Update(){
         if (spriteSarah != R.drawable.womancartooncharacterfull){
             btnOpslaan.setVisibility(View.VISIBLE);
