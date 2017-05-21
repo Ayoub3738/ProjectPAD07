@@ -24,7 +24,7 @@ import java.util.Date;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 17;
+    public static final int DB_VERSION = 18;
 
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
