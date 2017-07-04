@@ -44,7 +44,7 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
     private Sigarettenpak sigarettenPak;
     private DatabaseHelper myDb;
     //gebruikersnaam, prijs van een pakje, hoeveelheid in een pakje en merk van een pakje
-    private String gebruikersNaam = "";
+    public static String gebruikersNaam = "";
     private double prijs = 0;
     private int inhoud = 0;
     private String merk = "";

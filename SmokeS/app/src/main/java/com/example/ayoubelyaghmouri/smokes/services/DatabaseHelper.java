@@ -41,6 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CHAR_USER_NAAM = "userNaam";
     public static final String CHAR_HAAR_KLEUR = "haarKleur";
     public static final String CHAR_KLEUR_OGEN = "kleurOgen";
+    public static final int CHAR_SPRITE_SARAH = 0;
 
     //tabelnaam en kollommen van tabel User/Status
     public static final String USER_TABLE_NAME = "user_table";
@@ -95,7 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 CHAR_CHARACTER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 CHAR_USER_NAAM + " TEXT, " +
                 CHAR_HAAR_KLEUR + " TEXT, " +
-                CHAR_KLEUR_OGEN + " TEXT" +
+                CHAR_KLEUR_OGEN + " TEXT," +
+                CHAR_SPRITE_SARAH + " INTEGER" +
                 ");");
 
         //maakt tabel user_table aan

@@ -1,6 +1,8 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
 
+import com.example.ayoubelyaghmouri.smokes.BesparingenOverzichtActivity;
 import com.example.ayoubelyaghmouri.smokes.MainActivity;
 import com.example.ayoubelyaghmouri.smokes.R;
 import com.example.ayoubelyaghmouri.smokes.SelectTimeActivity;
@@ -33,16 +36,21 @@ public class AvatarTest extends AppCompatActivity {
     private Button btnHaarkleur;
     private Button btnOogkleur;
     private Button btnOpslaan;
+    private Character character;
+
     //image switcher
     private ImageSwitcher imageSwitcherAvatar;
-    //de plaatjes opgeslagen in een integer
-    private Integer[] imagesHair = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
-                                    R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
-    private Integer[] imagesEyes = {R.drawable.womancartooncharacterfullbrownblue,R.drawable.womancartooncharacterfullbrownbrown,R.drawable.womancartooncharacterfullbrowngreen,
-                                    R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
-    private Integer[] images = imagesHair;
-    private int j = 1;
-    public int spriteSarah;
+
+    //de variabelen die worden gebruikt voor het instellen van de sprite van Sarah
+    public static int spriteSarah;
+    private boolean aanpassenHaarKleur = true, aanpassenOogKleur = false;
+
+    private int hoeveelheidHaarKleuren = 2;
+    private int hoeveelheidOogKleuren = 3;
+
+    private int haarKleuren = 0;
+    private int oogKleuren = 0;
+    private Integer[][] sarahSprite = new Integer[hoeveelheidHaarKleuren][hoeveelheidOogKleuren];
 
     /**
      * dit is de init
@@ -55,6 +63,7 @@ public class AvatarTest extends AppCompatActivity {
 
         //database toewijzen
         myDb = new DatabaseHelper(this);
+        character = Character.getCharacter(myDb);
 
         //listeners/handlers knoppen
         onBtnNext();
@@ -83,7 +92,17 @@ public class AvatarTest extends AppCompatActivity {
             }
         });
 
-        spriteSarah  = getImages(getJ());
+        //het toevoegen van de sprites van Sarah aan de 2d array
+        sarahSprite[0][0] = R.drawable.womancartooncharacterfullbrownbrown;
+        sarahSprite[0][1] = R.drawable.womancartooncharacterfullbrownblue;
+        sarahSprite[0][2] = R.drawable.womancartooncharacterfullbrowngreen;
+
+        sarahSprite[1][0] = R.drawable.womancartooncharacterfullblondbrown;
+        sarahSprite[1][1] = R.drawable.womancartooncharacterfullblondblue;
+        sarahSprite[1][2] = R.drawable.womancartooncharacterfullblondgreen;
+
+
+        spriteSarah = sarahSprite[getHaarKleuren()][getOogKleuren()];
         btnOpslaan.setVisibility(View.INVISIBLE);
         imageSwitcherAvatar.setImageResource(spriteSarah);
     }
@@ -94,31 +113,12 @@ public class AvatarTest extends AppCompatActivity {
      */
     public void prevImageHair(){
 
-            if (j == 0 || j == 3) {
-                j -= 3;
+        haarKleuren--;
+        if (haarKleuren < 0){
+            haarKleuren = (hoeveelheidHaarKleuren - 1);
+        }
 
-                if (j < 0) {
-                    j = 3;
-                }
-            }
-
-            if (j == 1 || j == 4) {
-                j -= 3;
-
-                if (j < 1) {
-                    j = 4;
-                }
-            }
-
-            if (j == 2 || j == 5) {
-                j -= 3;
-
-                if (j < 2) {
-                    j = 5;
-                }
-            }
-
-        spriteSarah = imagesHair[j];
+        spriteSarah = sarahSprite[haarKleuren][oogKleuren];
         imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
@@ -128,31 +128,12 @@ public class AvatarTest extends AppCompatActivity {
      */
     public void nextImageHair(){
 
-            if (j == 0 || j == 3) {
-                j += 3;
+        haarKleuren++;
+        if (haarKleuren > (hoeveelheidHaarKleuren - 1)){
+            haarKleuren = 0;
+        }
 
-                if (j > 3) {
-                    j = 0;
-                }
-            }
-
-            if (j == 1 || j == 4) {
-                j += 3;
-
-                if (j > 4) {
-                    j = 1;
-                }
-            }
-
-            if (j == 2 || j == 5) {
-                j += 3;
-
-                if (j > 5) {
-                    j = 2;
-                }
-            }
-
-        spriteSarah = imagesHair[j];
+        spriteSarah = sarahSprite[haarKleuren][oogKleuren];
         imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
@@ -162,23 +143,12 @@ public class AvatarTest extends AppCompatActivity {
      */
     public void prevImageEyes(){
 
-            if (j == 0 || j == 1 || j == 2) {
-                j -= 1;
+        oogKleuren--;
+        if (oogKleuren < 0){
+            oogKleuren = (hoeveelheidOogKleuren - 1);
+        }
 
-                if (j < 0) {
-                    j = 2;
-                }
-            }
-
-            if (j == 3 || j == 4 || j == 5) {
-                j -= 1;
-
-                if (j < 3) {
-                    j = 5;
-                }
-            }
-
-        spriteSarah = imagesEyes[j];
+        spriteSarah = sarahSprite[haarKleuren][oogKleuren];
         imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
@@ -188,23 +158,12 @@ public class AvatarTest extends AppCompatActivity {
      */
     public void nextImageEyes(){
 
-            if (j == 0 || j == 1 || j == 2) {
-                j += 1;
+        oogKleuren++;
+        if (oogKleuren > (hoeveelheidOogKleuren - 1)){
+            oogKleuren = 0;
+        }
 
-                if (j > 2) {
-                    j = 0;
-                }
-            }
-
-            if (j == 3 || j == 4 || j == 5) {
-                j += 1;
-
-                if (j > 5) {
-                    j = 3;
-                }
-            }
-
-        spriteSarah = imagesEyes[j];
+        spriteSarah = sarahSprite[haarKleuren][oogKleuren];
         imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
@@ -218,11 +177,11 @@ public class AvatarTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (images == imagesHair){
+                if (aanpassenHaarKleur){
                     nextImageHair();
                 }
 
-                if (images == imagesEyes){
+                if (aanpassenOogKleur){
                     nextImageEyes();
                 }
             }
@@ -238,11 +197,11 @@ public class AvatarTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (images == imagesHair){
+                if (aanpassenHaarKleur){
                     prevImageHair();
                 }
 
-                if (images == imagesEyes){
+                if (aanpassenOogKleur){
                     prevImageEyes();
                 }
             }
@@ -258,7 +217,8 @@ public class AvatarTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               images = imagesHair;
+                aanpassenHaarKleur = true;
+                aanpassenOogKleur = false;
             }
         });
     }
@@ -272,7 +232,8 @@ public class AvatarTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               images = imagesEyes;
+                aanpassenHaarKleur = false;
+                aanpassenOogKleur = true;
             }
         });
     }
@@ -285,13 +246,41 @@ public class AvatarTest extends AppCompatActivity {
         btnOpslaan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.imageSwitcher.setImageResource(getImages(getJ()));
+
+                //met deze pop up alert word er om een bevestiging van de aanpassingen gevraagd
+                AlertDialog.Builder alert = new AlertDialog.Builder(AvatarTest.this);
+                alert.setTitle("Weet u zeker dat u de aanpassingen wilt opslaan?")
+
+                        //als er ja word geselecteerd dan word de sprite van Sarah op het startscherm aangepast
+                        .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+
+                                //character.update(BesparingenOverzichtActivity.gebruikersNaam, myDb, sarahSprite[getHaarKleuren()][getOogKleuren()]);
+                                //MainActivity.imageSwitcher.setImageResource(sarahSprite[getHaarKleuren()][getOogKleuren()]);
+                                //MainActivity.spriteSarah = sarahSprite[getHaarKleuren()][getOogKleuren()];
+
+                                //gaat terug naar het startscherm van de app
+                                Intent restartIntent = new Intent(AvatarTest.this, MainActivity.class);
+                                startActivity(restartIntent);
+                            }
+                        })
+                        //als er nee word geselecteerd dan sluit het pop up alert en word er niks opgeslagen
+                        .setNegativeButton("Nee", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .create();
+                alert.show();
             }
         });
     }
 
     /**
-     * dit is een knop die alles update
+     * dit is een knop die de staat van de opslaan knop op visible zet
      */
     public void Update(){
         if (spriteSarah != R.drawable.womancartooncharacterfull){
@@ -299,11 +288,15 @@ public class AvatarTest extends AppCompatActivity {
         }
     }
 
-    public Integer getImages(int index) {
-        return images[index];
+    public Integer getHuidigeSprite(int indexHaarKleur, int indexOogKleur) {
+        return sarahSprite[indexHaarKleur][indexOogKleur];
     }
 
-    public int getJ() {
-        return j;
+    public int getHaarKleuren() {
+        return haarKleuren;
+    }
+
+    public int getOogKleuren() {
+        return oogKleuren;
     }
 }

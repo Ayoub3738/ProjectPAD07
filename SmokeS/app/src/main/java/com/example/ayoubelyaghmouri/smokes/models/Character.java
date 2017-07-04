@@ -1,11 +1,13 @@
 package com.example.ayoubelyaghmouri.smokes.models;
 
 import android.content.ContentValues;
+import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 
+import java.security.PrivateKey;
 import java.util.Date;
 
 /**
@@ -19,6 +21,7 @@ public class Character {
     private String userNaam = "";
     private String haarKleur = "";
     private String kleurOgen = "";
+    private int spriteSarah = 0;
 
     /**
      * constructor
@@ -32,6 +35,7 @@ public class Character {
         this.userNaam = userNaam;
         this.haarKleur = haarKleur;
         this.kleurOgen = kleurOgen;
+        this.spriteSarah = spriteSarah;
     }
 
     /**
@@ -118,7 +122,7 @@ public class Character {
      * @param oogKleur kleur van je avatar haar ogen
      * @param db database waar hij het in opslaat
      */
-    public static void update(String haarKleur, String oogKleur, DatabaseHelper db) {
+    public static void update(String haarKleur, String oogKleur, DatabaseHelper db, int spriteSarah) {
         SQLiteDatabase dbLite = db.getDB();
         ContentValues cv = new ContentValues();
 
