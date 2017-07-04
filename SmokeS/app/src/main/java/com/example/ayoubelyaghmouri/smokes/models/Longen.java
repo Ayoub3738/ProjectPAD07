@@ -6,15 +6,27 @@ import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import java.util.ArrayList;
 
 /**
+ * Longen is een orgaan zoals huid en hart
  * Created by jerry on 10-5-2017.
  */
 
 public class Longen extends Orgaan {
 
+    /**
+     * constructor
+     * @param naam naam van het orgaan
+     * @param percentage gezondheids percentage in % van een orgaan (hoe gezond zijn je longen?)
+     */
     public Longen(String naam, int percentage) {
         super(naam, percentage);
     }
 
+    /**
+     * Berekent je gezondheid van je longen (Helaas is ook deze berekening niet realistisch, komt omdat het 5 jaar duurt voordat er wat gebeurt met de realistische berekening)
+     * @param nietGerookteSigaretten het aantal sigaretten die je niet gerookt hebt
+     * @param aantalMeldingen Het totaal aantal meldingen die je hebt ontvangen
+     * @param db De database, voor als de berekening wat nodig heeft uit de database (haalde eerst tijden op)
+     */
     @Override
     public void berekenPercentage(int nietGerookteSigaretten, int aantalMeldingen, DatabaseHelper db) {
 

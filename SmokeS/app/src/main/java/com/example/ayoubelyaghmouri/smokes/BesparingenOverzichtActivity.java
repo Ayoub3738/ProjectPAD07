@@ -29,17 +29,21 @@ import com.example.ayoubelyaghmouri.smokes.services.DatabaseHelper;
 import java.util.Date;
 
 /**
+ * Vreemd genoeg heet deze activitie besparingenoverzicht. Het moet eigenlijk Algemene Instellingen zijn. hier zitten alle algemene instellingen
  * Created by Ginger on 25-4-2017.
  */
 
 
 public class BesparingenOverzichtActivity extends AppCompatActivity {
 
+    //textboxen + saveknop
     private EditText etPrijsSigarettenPak, etSigarettenPakInhoud, etGebruikersNaam, etSigarettenPakMerk;
     private Button saveBtn;
+    //objecten voor character, sigarettenpak en dbhelper
     private Character character;
     private Sigarettenpak sigarettenPak;
     private DatabaseHelper myDb;
+    //gebruikersnaam, prijs van een pakje, hoeveelheid in een pakje en merk van een pakje
     private String gebruikersNaam = "";
     private double prijs = 0;
     private int inhoud = 0;
@@ -53,17 +57,19 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
         setContentView(R.layout.activity_besparingen_overzicht);
         geefUitslag();
 
-
+        //haalt de gegevens van een character en een pak op uit de database
         myDb = new DatabaseHelper(this);
         character = Character.getCharacter(myDb);
         sigarettenPak = Sigarettenpak.getPak(myDb);
         saveBtn.setText("Opslaan");
 
+        //vult de boxen op het scherm met de huidige gegevens uit de db
         etGebruikersNaam.setText(character.getUserNaam());
         etPrijsSigarettenPak.setText(sigarettenPak.getPrijs() + "");
         etSigarettenPakInhoud.setText(sigarettenPak.getAantalSigaretten() + "");
         etSigarettenPakMerk.setText(sigarettenPak.getMerk());
 
+        //als je op save drukt dan...
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
             @TargetApi(Build.VERSION_CODES.M)
@@ -71,12 +77,15 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //komt er een alert met "weet je zeker dat je je gegevens wil opslaan?"
                 AlertDialog.Builder alert = new AlertDialog.Builder(BesparingenOverzichtActivity.this);
                 alert.setTitle("Weet u zeker dat u de gegevens wilt opslaan?")
                         .setMessage("De app zal opnieuw opgestart worden.")
                         .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
+                                //als je op ja drukt dan controlleert de app of alles goed is ingevuld
                                 String prijsStr = etPrijsSigarettenPak.getText().toString();
                                 if(prijsStr == null || prijsStr.isEmpty()){
                                     return;
@@ -105,9 +114,11 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
                                     gebruikersNaam = etGebruikersNaam.getText().toString();
                                 }
 
+                                //slaat de nieuwe gegevens op
                                 character.update(gebruikersNaam, myDb);
                                 sigarettenPak.update(prijs, inhoud, merk, myDb);
 
+                                //gaat terug naar het startscherm van de app
                                 Intent restartIntent = new Intent(BesparingenOverzichtActivity.this, MainActivity.class);
                                 startActivity(restartIntent);
                             }
@@ -115,7 +126,7 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
                         .setNegativeButton("Annuleer", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                //als je op annuleer drukt gebeurt er niks
                             }
                         })
                         .create();
@@ -126,6 +137,9 @@ public class BesparingenOverzichtActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * wijst alle elementen van het scherm toe
+     */
     public void geefUitslag() {
 
         etPrijsSigarettenPak = (EditText) findViewById(R.id.etPrijsSigarettenPak);

@@ -17,6 +17,10 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    /**
+     * Deze methode zorgt ervoor dat wanneer online er een notificatiesignaal komt, de notificatie
+     * wordt getriggert.
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Intent notificationIntent = new Intent(this, MainActivity.class);

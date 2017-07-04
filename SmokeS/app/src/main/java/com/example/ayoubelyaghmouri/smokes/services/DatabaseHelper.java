@@ -18,26 +18,31 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
+ * De database helper is een klasse die helpt om een database aan te maken, te updaten en te kunnen praten met de database
  * Created by jerry on 25-4-2017.
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    //naam en versie van de database
     public static final String DATABASE_NAME = "smokes.db";
-    public static final int DB_VERSION = 17;
+    public static final int DB_VERSION = 18;
 
+    //tabelnaam en kollommen van tabel Sigarettenpak
     public static final String PAK_TABLE_NAME = "sigarettenpak_table";
     public static final String PAK_PAK_ID = "pakID";
     public static final String PAK_PRIJS = "prijs";
     public static final String PAK_MERK = "merk";
     public static final String PAK_AANTAL_SIGARETTEN = "aantalSigaretten";
 
+    //tabelnaam en kollommen van tabel Character
     public static final String CHAR_TABLE_NAME = "character_table";
     public static final String CHAR_CHARACTER_ID = "characterID";
     public static final String CHAR_USER_NAAM = "userNaam";
     public static final String CHAR_HAAR_KLEUR = "haarKleur";
     public static final String CHAR_KLEUR_OGEN = "kleurOgen";
 
+    //tabelnaam en kollommen van tabel User/Status
     public static final String USER_TABLE_NAME = "user_table";
     public static final String USER_USER_ID = "userID";
     public static final String USER_CHARACTER_ID = "characterID";
@@ -48,12 +53,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_RECORD_STREAK = "recordStreak";
     public static final String USER_LAATST_GEROOKT = "laatstGerookt";
 
+    //tabelnaam en kollommen van tabel Rooktijd
     public static final String TIME_TABLE_NAME = "rooktijd_table";
     public static final String TIME_TIME_ID = "timeID";
     public static final String TIME_USER_ID = "userID";
     public static final String TIME_HOUR = "uur";
     public static final String TIME_MINUTE = "minuut";
 
+    //tabelnaam en kollommen van tabel Achievement
     public static final String ACH_TABLE_NAME = "achievement_table";
     public static final String ACH_ACHIEVEMENT_ID = "achievementID";
     public static final String ACH_USER_ID = "userID";
@@ -61,7 +68,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String ACH_NAAM = "naam";
     public static final String ACH_BESCHRIJVING = "beschrijving";
 
-
+    /**
+     * Constructor
+     * @param context het scherm waar je op zit
+     */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DB_VERSION);
     }
@@ -97,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " + //4
                 USER_AANTAL_MELDINGEN + " INTEGER, " + //5
                 USER_RECORD_STREAK + " INTEGER, " + //6
-                USER_LAATST_GEROOKT + " INTEGER, " + //7, om een of andere reden stored sqlite datums in INTEGER
+                USER_LAATST_GEROOKT + " INTEGER, " + //7, om een of andere reden stored sqlite datums in INTEGER (hij slaat miliseconden op)
                 "FOREIGN KEY (" + USER_CHARACTER_ID + ") REFERENCES " + CHAR_TABLE_NAME + " (" + CHAR_CHARACTER_ID + "), " +
                 "FOREIGN KEY (" + USER_PAK_ID + ") REFERENCES " + PAK_TABLE_NAME + " (" + PAK_PAK_ID + ")" +
                 ");");
@@ -150,8 +160,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Selecteert alles uit user_table
-     * @return alles uit de tabel user_table
+     * Selecteert alles uit een tabel
+     * @param tableName tabelnaam waarvan je alles wil hebben
+     * @return gegevens van een tabel
      */
     public Cursor selectAll(String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -160,50 +171,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
-     * @return user uit database
+     * Geeft de database zelf mee
+     * @return de database
      */
-    public Status getUser() {
-        //is je connectionstring van je database/pakt de beschikbare database
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " +
-                "u." + USER_NIET_GEROOKTE_SIGARETTEN + ", " + //0
-                "u." + USER_AANTAL_MELDINGEN + ", " + //1
-                "u." + USER_STREAK + ", " + //2
-                "p." + PAK_PAK_ID + ", " + //3
-                "p." + PAK_PRIJS + ", " + //4
-                "p." + PAK_MERK + ", " + //5
-                "p." + PAK_AANTAL_SIGARETTEN + " " + //6
-                "FROM " + USER_TABLE_NAME + " u INNER JOIN " + PAK_TABLE_NAME + " p " +
-                "ON u.pakID = p.pakID;";
-
-        Status status = null;
-        Cursor res = db.rawQuery(query, null);
-
-        if(res.moveToFirst()) {
-            res.moveToFirst();
-
-            Sigarettenpak pak = new Sigarettenpak(res.getInt(3), res.getDouble(4), res.getString(5), res.getInt(6));
-            status = new Status(res.getInt(0), res.getInt(1), res.getInt(2), null, pak);
-
-            res.close();
-        }
-
-        return status;
-    }
-
-    public void updateNaMelding(Status status) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "";
-
-        ContentValues cv = new ContentValues();
-        cv.put(USER_STREAK, status.getStreak());
-        cv.put(USER_AANTAL_MELDINGEN, status.getAantalMeldingen());
-        cv.put(USER_NIET_GEROOKTE_SIGARETTEN, status.getNietGerookteSigaretten());
-
-        db.update(USER_TABLE_NAME, cv, USER_USER_ID + " = 1", null);
-    }
-
     public SQLiteDatabase getDB() {
         return this.getWritableDatabase();
     }

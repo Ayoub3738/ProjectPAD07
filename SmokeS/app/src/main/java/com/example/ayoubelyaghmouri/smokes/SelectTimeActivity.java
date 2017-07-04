@@ -56,19 +56,27 @@ public class SelectTimeActivity extends AppCompatActivity {
     private AlarmManager alarmManager;
 
 
+    /**
+     * init van select time activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_time);
 
+        //wijst dbhelper toe
         myDb = new DatabaseHelper(this);
 
+        //haalt uren en minuten van de calender
         int currHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currMin = calendar.get(Calendar.MINUTE);
 
+        //variabelen voor uren en minuten getrimt op 2 decimalen
         String stringCurrHour = String.format("%02d", currHour);
         String stringCurrMin = String.format("%02d", currMin);
 
+        //wijst lijst met tijden, opslaanknoppen en label/textview toe
         listViewTimes = (ListView) findViewById(R.id.lGeselecteerdeTijden);
 
         btnSlaOp = (Button) findViewById(R.id.btnSlaOp);
@@ -76,19 +84,23 @@ public class SelectTimeActivity extends AppCompatActivity {
         tTime = (TextView) findViewById(R.id.tTime);
 
         tTime.setText(stringCurrHour + " : " + stringCurrMin);
-        setButtonDisabled();
+        setButtonDisabled(); //disabled opslaanknop
 
+        //als je op selecttime knop drukt dan...
         btnSelectTime.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+                //maakt ie een calender en haalt ie uren en minuten op
                 calendar = GregorianCalendar.getInstance();
                 uur = calendar.get(GregorianCalendar.HOUR_OF_DAY);
                 minuten = calendar.get(GregorianCalendar.MINUTE);
 
+                //als je iets selecteerd op de timepicker dan..
                 TimePickerDialog timePickerDialog = new TimePickerDialog(SelectTimeActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //weergeeft ie de tijd in een textview weer
                         tTime.setText(hourOfDay + " : " + minute);
                         selectedUur = hourOfDay;
                         selectedMinute = minute;
@@ -98,6 +110,7 @@ public class SelectTimeActivity extends AppCompatActivity {
 //                        c.set(Calendar.MINUTE, minute);
 
 //                        futurealarmtimeInMs = (int) (c.getTimeInMillis() - msNow);//calendar.getTimeInMillis());
+                        //enabled opslaan knop
                         setButtonEnabled();
 
                     }
@@ -111,12 +124,15 @@ public class SelectTimeActivity extends AppCompatActivity {
         adapterDays = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, weekdays);
         spinDays.setAdapter(adapterDays);
 
+        //als je op opslaan drukt dan...
         btnSlaOp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //voegt ie de tijd aan een lijst toe
                 selectedTimesList.add(tTime.getText().toString());
                 int selectedDay = (int) spinDays.getSelectedItemId();
 
+                //deze switch was er eerst om een bepaalde dag zoals ma, di, wo op te slaan en ze te onderscheiden...
                 switch (selectedDay){
                     case 0:
                         calendar.getInstance();
@@ -139,17 +155,29 @@ public class SelectTimeActivity extends AppCompatActivity {
                         insertTijd.insert(myDb);
                         break;
                 }
+                //gooit de knop weer op disabled
                 setButtonDisabled();
                 haalTijdenOp();
             }
         });
+
+        //haalt de tijden op en stopt ze in listview
         haalTijdenOp();
     }
 
+    /**
+     * deze word gebruikt om een dropdown te vullen
+     * @param arrayList de values van de dropdown
+     */
     public void fillArrayWeekDays(ArrayList<String> arrayList){
         arrayList.add("Dagelijks");
     }
 
+    /**
+     * Een method om de notificatie te sturen op de bepaalde tijd die is ingevoerd
+     * @param uur uren
+     * @param minuten minuten
+     */
     private void handleNotification(int uur, int minuten) {
         calendar.getInstance();
         calendar.set(GregorianCalendar.HOUR_OF_DAY, uur);
@@ -171,20 +199,27 @@ public class SelectTimeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * haalt de tijden op en toont ze gesorteerd op het scherm (stopt ze in een listview)
+     */
     public void haalTijdenOp(){
+        //haalt de tijden op uit de database
         tijden = Tijd.getTijden(myDb);
         List<String> test = new ArrayList<>();
 
+        //haalt voor elke tijd de uren en minuten en gooit ze in een lijst
         for (Tijd tijd : tijden) {
             uur = tijd.getUur();
             minuten = tijd.getMinuten();
             test.add(uur + " : " + minuten);
         }
 
+        //zegt dat de listview deze lijst moet gebruiken
         listViewTimes.setAdapter(
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, test)
         );
 
+        //als je op een item uit de listview klikt, verwijder hem dan
         listViewTimes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -195,14 +230,19 @@ public class SelectTimeActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * verwijdert een tijd
+     * @param tijd de tijd die je wil verwijderen
+     */
     public void deleteTimeFromList(final Tijd tijd){
+        //toont een melding of je zeker weet of je deze tijd wil verwijderen
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Verwijderen")
                 .setMessage("Weet u zeker dat u " + tijd.getUur() + " : " + tijd.getMinuten() + " wilt verwijderen?")
                 .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //verwijdert de tijd en herlaad de lijst met tijden
                         tijd.delete(myDb);
                         haalTijdenOp();
                     }
@@ -210,6 +250,7 @@ public class SelectTimeActivity extends AppCompatActivity {
                 .setNegativeButton("Annuleer", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //herlaad de lijst met tijden
                         haalTijdenOp();
                     }
                 })
@@ -217,12 +258,18 @@ public class SelectTimeActivity extends AppCompatActivity {
         alert.show();
     }
 
+    /**
+     * disabled opslaan knop
+     */
     public void setButtonDisabled(){
         btnSlaOp.setEnabled(false);
         btnSlaOp.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled)));
 
     }
 
+    /**
+     * enabled opslaan knop
+     */
     public void setButtonEnabled(){
         btnSlaOp.setEnabled(true);
         btnSlaOp.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));

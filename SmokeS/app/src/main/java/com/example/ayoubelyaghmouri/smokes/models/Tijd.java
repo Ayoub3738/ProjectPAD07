@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * Dit is een klasse voor tijd, deze bestaat uit uren en minuten
  * Created by jerry on 16-5-2017.
  */
 
@@ -21,6 +22,13 @@ public class Tijd implements Comparable<Tijd> {
     private int uur;
     private int minuten;
 
+    /**
+     * constructor
+     * @param tijdID uniek id voor een tijd
+     * @param statusID bij wie hoort deze tijd? (bij het persoon van wie deze status is)
+     * @param uur de uren
+     * @param minuten de minuten
+     */
     public Tijd(int tijdID, int statusID, int uur, int minuten) {
         this.tijdID = tijdID;
         this.statusID = statusID;
@@ -28,12 +36,22 @@ public class Tijd implements Comparable<Tijd> {
         this.minuten = minuten;
     }
 
+    /**
+     * constructor voor inserts
+     * @param uur uren
+     * @param minuten minuten
+     */
     public Tijd(int uur, int minuten) {
         this.statusID = 1;
         this.uur = uur;
         this.minuten = minuten;
     }
 
+    /**
+     * Haalt een lijst op van alle tijden uit de db
+     * @param db database
+     * @return lijst met tijden
+     */
     public static ArrayList<Tijd> getTijden(DatabaseHelper db) {
         SQLiteDatabase myDb = db.getDB();
         String query = "SELECT " +
@@ -57,6 +75,10 @@ public class Tijd implements Comparable<Tijd> {
         return uren;
     }
 
+    /**
+     * insert een tijd in de database
+     * @param db database
+     */
     public void insert(DatabaseHelper db) {
         SQLiteDatabase myDB = db.getDB();
 
@@ -69,6 +91,10 @@ public class Tijd implements Comparable<Tijd> {
 
     }
 
+    /**
+     * verwijderd een tijd uit de database
+     * @param db database
+     */
     public void delete(DatabaseHelper db) {
         SQLiteDatabase myDb = db.getDB();
         myDb.execSQL("DELETE FROM " + db.TIME_TABLE_NAME +
@@ -84,6 +110,11 @@ public class Tijd implements Comparable<Tijd> {
         return minuten;
     }
 
+    /**
+     * sorteert de tijden heel netjes op uren en dan op minuten
+     * @param o tijd waarmee hij de huidige tijd mee moet vergelijken
+     * @return een getal waarmee hij de lijst op volgorde sorteerd
+     */
     @Override
     public int compareTo(@NonNull Tijd o) {
         if(uur - o.getUur() != 0){
