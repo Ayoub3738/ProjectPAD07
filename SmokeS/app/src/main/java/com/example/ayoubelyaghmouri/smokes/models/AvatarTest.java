@@ -43,7 +43,7 @@ public class AvatarTest extends AppCompatActivity {
 
     //de variabelen die worden gebruikt voor het instellen van de sprite van Sarah
     public static int spriteSarah;
-    private boolean aanpassenHaarKleur = true, aanpassenOogKleur = false;
+    private boolean aanpassenHaarKleur = true;
 
     private int hoeveelheidHaarKleuren = 2;
     private int hoeveelheidOogKleuren = 3;
@@ -100,7 +100,6 @@ public class AvatarTest extends AppCompatActivity {
         sarahSprite[1][0] = R.drawable.womancartooncharacterfullblondbrown;
         sarahSprite[1][1] = R.drawable.womancartooncharacterfullblondblue;
         sarahSprite[1][2] = R.drawable.womancartooncharacterfullblondgreen;
-
 
         spriteSarah = sarahSprite[getHaarKleuren()][getOogKleuren()];
         btnOpslaan.setVisibility(View.INVISIBLE);
@@ -180,8 +179,7 @@ public class AvatarTest extends AppCompatActivity {
                 if (aanpassenHaarKleur){
                     nextImageHair();
                 }
-
-                if (aanpassenOogKleur){
+                else{
                     nextImageEyes();
                 }
             }
@@ -200,8 +198,7 @@ public class AvatarTest extends AppCompatActivity {
                 if (aanpassenHaarKleur){
                     prevImageHair();
                 }
-
-                if (aanpassenOogKleur){
+                else{
                     prevImageEyes();
                 }
             }
@@ -218,7 +215,6 @@ public class AvatarTest extends AppCompatActivity {
             public void onClick(View v) {
 
                 aanpassenHaarKleur = true;
-                aanpassenOogKleur = false;
             }
         });
     }
@@ -233,7 +229,6 @@ public class AvatarTest extends AppCompatActivity {
             public void onClick(View v) {
 
                 aanpassenHaarKleur = false;
-                aanpassenOogKleur = true;
             }
         });
     }
@@ -256,11 +251,9 @@ public class AvatarTest extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-
-
                                 //character.update(BesparingenOverzichtActivity.gebruikersNaam, myDb, sarahSprite[getHaarKleuren()][getOogKleuren()]);
                                 //MainActivity.imageSwitcher.setImageResource(sarahSprite[getHaarKleuren()][getOogKleuren()]);
-                                //MainActivity.spriteSarah = sarahSprite[getHaarKleuren()][getOogKleuren()];
+                                MainActivity.spriteSarah = sarahSprite[getHaarKleuren()][getOogKleuren()];
 
                                 //gaat terug naar het startscherm van de app
                                 Intent restartIntent = new Intent(AvatarTest.this, MainActivity.class);

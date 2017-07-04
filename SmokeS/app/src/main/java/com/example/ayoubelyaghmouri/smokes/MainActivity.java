@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     private Integer[] images = {R.drawable.womancartooncharacterfull, R.drawable.womancartooncharacterfullsad};
     private int i = 0;
     public static ImageSwitcher imageSwitcher;
-    public static int spriteSarah = R.drawable.womancartooncharacterfull;
+    public static int spriteSarah; //= R.drawable.womancartooncharacterfull;
     private Gezondheid gezondheid = new Gezondheid(0);
 
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity
 
         imageSwitcher.setInAnimation(animIn);
         imageSwitcher.setOutAnimation(animOut);
-        imageSwitcher.setImageResource(myDb.CHAR_SPRITE_SARAH);
+        imageSwitcher.setImageResource(spriteSarah);
         tGebruiker.setAnimation(animIn);
         tGebruiker.setText("Hey " + gebruikersNaam + "!");
         tvNavBarNaam.setText(gebruikersNaam);
