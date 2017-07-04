@@ -107,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 USER_NIET_GEROOKTE_SIGARETTEN + " INTEGER, " + //4
                 USER_AANTAL_MELDINGEN + " INTEGER, " + //5
                 USER_RECORD_STREAK + " INTEGER, " + //6
-                USER_LAATST_GEROOKT + " INTEGER, " + //7, om een of andere reden stored sqlite datums in INTEGER
+                USER_LAATST_GEROOKT + " INTEGER, " + //7, om een of andere reden stored sqlite datums in INTEGER (hij slaat miliseconden op)
                 "FOREIGN KEY (" + USER_CHARACTER_ID + ") REFERENCES " + CHAR_TABLE_NAME + " (" + CHAR_CHARACTER_ID + "), " +
                 "FOREIGN KEY (" + USER_PAK_ID + ") REFERENCES " + PAK_TABLE_NAME + " (" + PAK_PAK_ID + ")" +
                 ");");

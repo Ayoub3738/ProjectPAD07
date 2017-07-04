@@ -42,7 +42,7 @@ public class AvatarTest extends AppCompatActivity {
                                     R.drawable.womancartooncharacterfullblondblue, R.drawable.womancartooncharacterfullblondbrown, R.drawable.womancartooncharacterfullblondgreen};
     private Integer[] images = imagesHair;
     private int j = 1;
-    public int spriteSarah  = getImages(getJ());
+    public int spriteSarah;
 
     /**
      * dit is de init
@@ -93,7 +93,7 @@ public class AvatarTest extends AppCompatActivity {
      * veranderd naar vorige haar in de lijst
      */
     public void prevImageHair(){
-        if (images == imagesHair) {
+
             if (j == 0 || j == 3) {
                 j -= 3;
 
@@ -117,9 +117,9 @@ public class AvatarTest extends AppCompatActivity {
                     j = 5;
                 }
             }
-            spriteSarah = imagesHair[j];
-        }
-        imageSwitcherAvatar.setImageResource(imagesHair[j]);
+
+        spriteSarah = imagesHair[j];
+        imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
 
@@ -128,7 +128,6 @@ public class AvatarTest extends AppCompatActivity {
      */
     public void nextImageHair(){
 
-        if (images == imagesHair) {
             if (j == 0 || j == 3) {
                 j += 3;
 
@@ -152,9 +151,9 @@ public class AvatarTest extends AppCompatActivity {
                     j = 2;
                 }
             }
-            spriteSarah = imagesHair[j];
-        }
-        imageSwitcherAvatar.setImageResource(imagesHair[j]);
+
+        spriteSarah = imagesHair[j];
+        imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
 
@@ -162,7 +161,6 @@ public class AvatarTest extends AppCompatActivity {
      * veranderd naar vorige ogen in de lijst
      */
     public void prevImageEyes(){
-        if (images == imagesEyes) {
 
             if (j == 0 || j == 1 || j == 2) {
                 j -= 1;
@@ -179,9 +177,9 @@ public class AvatarTest extends AppCompatActivity {
                     j = 5;
                 }
             }
-            spriteSarah = imagesHair[j];
-        }
-        imageSwitcherAvatar.setImageResource(imagesEyes[j]);
+
+        spriteSarah = imagesEyes[j];
+        imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
 
@@ -190,7 +188,6 @@ public class AvatarTest extends AppCompatActivity {
      */
     public void nextImageEyes(){
 
-        if (images == imagesEyes) {
             if (j == 0 || j == 1 || j == 2) {
                 j += 1;
 
@@ -206,9 +203,9 @@ public class AvatarTest extends AppCompatActivity {
                     j = 3;
                 }
             }
-            spriteSarah = imagesHair[j];
-        }
-        imageSwitcherAvatar.setImageResource(imagesEyes[j]);
+
+        spriteSarah = imagesEyes[j];
+        imageSwitcherAvatar.setImageResource(spriteSarah);
         Update();
     }
 
@@ -260,6 +257,7 @@ public class AvatarTest extends AppCompatActivity {
         btnHaarkleur.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                images = imagesHair;
             }
         });

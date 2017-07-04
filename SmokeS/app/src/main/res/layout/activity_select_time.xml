@@ -88,7 +88,7 @@
         android:animationCache="true"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@+id/lGeselecteerdeTijden"
-        app:layout_constraintHorizontal_bias="0.585"
+        app:layout_constraintHorizontal_bias="0.723"
         app:layout_constraintLeft_toRightOf="@+id/btnSelectDay"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tTime"
@@ -128,23 +128,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSlaOp"
         app:layout_constraintVertical_bias="0.537" />
-
-    <ListView
-        android:id="@+id/lGeselecteerdeTijden"
-        style="@style/Widget.AppCompat.ListView"
-        android:layout_width="329dp"
-        android:layout_height="180dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:animateLayoutChanges="true"
-        android:animationCache="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/tTime"
@@ -195,5 +178,22 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ListView
+        android:id="@+id/lGeselecteerdeTijden"
+        style="@style/Widget.AppCompat.ListView"
+        android:layout_width="329dp"
+        android:layout_height="180dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
